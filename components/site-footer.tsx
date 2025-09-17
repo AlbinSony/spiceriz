@@ -11,9 +11,9 @@ export function SiteFooter() {
               className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white"
               style={{ backgroundColor: "var(--color-primary)" }}
             >
-              <span className="text-sm font-bold">SR</span>
+              <span className="text-sm font-bold">IS</span>
             </span>
-            <span className="font-serif text-xl font-semibold text-[var(--color-primary)]">spiceriz</span>
+            <span className="font-serif text-xl font-semibold text-[var(--color-primary)]">Idukki Spices</span>
           </div>
           <p className="text-sm text-foreground/80">
             Premium Idukki cardamom and Kerala spices. From our farms to your home and business.
@@ -58,7 +58,7 @@ export function SiteFooter() {
               <Phone className="h-4 w-4" /> <a href="tel:+911234567890">+91 12345 67890</a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4" /> <a href="mailto:hello@spiceriz.com">hello@spiceriz.com</a>
+              <Mail className="h-4 w-4" /> <a href="mailto:hello@idukkispices.com">hello@idukkispices.com</a>
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="h-4 w-4" /> Idukki, Kerala, India
@@ -89,7 +89,7 @@ export function SiteFooter() {
 
       <div className="border-t">
         <div className="container py-4 text-center text-xs text-foreground/70">
-          © 2025 Spiceriz. All Rights Reserved.
+          © 2025 Idukki Spices. All Rights Reserved.
         </div>
       </div>
     </footer>

@@ -21,14 +21,14 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="Spiceriz Home">
+        <Link href="/" className="flex items-center gap-2" aria-label="Idukki Spices Home">
           <span
             className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
-            <span className="text-sm font-bold">SR</span>
+            <span className="text-sm font-bold">IS</span>
           </span>
-          <span className="font-serif text-xl font-semibold text-[var(--color-primary)]">spiceriz</span>
+          <span className="font-serif text-xl font-semibold text-[var(--color-primary)]">Idukki Spices</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -42,7 +42,7 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center gap-3">
           <LanguageSwitcher />
           <Button asChild className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90">
-            <a href="tel:+911234567890" aria-label="Call or WhatsApp Spiceriz">
+            <a href="tel:+911234567890" aria-label="Call or WhatsApp Idukki Spices">
               <Phone className="mr-2 h-4 w-4" /> Call / WhatsApp
             </a>
           </Button>
