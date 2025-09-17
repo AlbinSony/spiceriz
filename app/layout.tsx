@@ -18,7 +18,7 @@ const lato = Lato({
 })
 
 export const metadata: Metadata = {
-  title: "Spiceriz | Pure Idukki Cardamom & Kerala Spices",
+  title: "Puttady Spices | Pure Idukki Cardamom & Kerala Spices",
   description:
     "Premium Idukki cardamom and Kerala spices. Direct from farms. Export-ready with certifications. Wholesale (B2B) and retail (B2C).",
   keywords: [
@@ -29,16 +29,16 @@ export const metadata: Metadata = {
     "Kerala spice export",
   ],
   openGraph: {
-    title: "Spiceriz | Pure Idukki Cardamom & Kerala Spices",
+    title: "Puttady Spices | Pure Idukki Cardamom & Kerala Spices",
     description:
       "Premium Idukki cardamom and Kerala spices for B2B & B2C. Export-ready, certified quality from Kerala.",
-    url: "https://spiceriz.example.com",
-    siteName: "Spiceriz",
+    url: "https://puttadyspices.example.com",
+    siteName: "Puttady Spices",
     images: [{ url: "/idukki-cardamom-farms.png" }],
     locale: "en_IN",
     type: "website",
   },
-  alternates: { canonical: "https://spiceriz.example.com" },
+  alternates: { canonical: "https://puttadyspices.example.com" },
     generator: 'v0.app'
 }
 

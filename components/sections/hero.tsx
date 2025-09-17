@@ -7,7 +7,7 @@ export function Hero() {
       <div className="group relative h-[60vh] w-full overflow-hidden bg-[var(--color-primary)] sm:h-[72vh]">
         <img
           src="/images/hero-idukki-misty.png"
-          alt="Misty cardamom plantations in Idukki, Kerala"
+          alt="Misty cardamom plantations in Puttady, Kerala"
           className="h-full w-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105"
         />
         {/* Blended overlay with deep green tone */}
@@ -17,10 +17,10 @@ export function Hero() {
             <div className="max-w-2xl space-y-4 text-white animate-in fade-in-50 slide-in-from-bottom-4 duration-700">
               {/* Bold serif headline per spec */}
               <h1 className="h-display text-3xl font-semibold sm:text-5xl md:font-bold">
-                Pure Idukki Cardamom – From Our Farms to Your Home
+                Pure Puttady Cardamom – From Our Farms to Your Home
               </h1>
               <p className="text-pretty text-white/90">
-                Premium, authentic spices grown in Kerala’s Idukki hills. Export-ready quality, trusted by global buyers
+                Premium, authentic spices grown in Kerala’s Puttady hills. Export-ready quality, trusted by global buyers
                 and loved by homes.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">

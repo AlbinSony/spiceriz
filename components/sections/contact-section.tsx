@@ -12,7 +12,7 @@ export function ContactSection() {
           <div className="mt-4 overflow-hidden rounded-md bg-white">
             <img
               src="/images/contact-idukki-map.png"
-              alt="Idukki, Kerala"
+              alt="Puttady, Idukki, Kerala"
               className="h-full w-full object-contain p-2"
             />
           </div>
@@ -25,8 +25,8 @@ export function ContactSection() {
             </li>
             <li>
               Email:{" "}
-              <a className="underline" href="mailto:hello@spiceriz.com">
-                hello@spiceriz.com
+              <a className="underline" href="mailto:hello@puttadyspices.com">
+                hello@puttadyspices.com
               </a>
             </li>
           </ul>

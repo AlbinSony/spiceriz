@@ -2,8 +2,8 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 
 export const metadata = {
-  title: "Wholesale & Export Inquiry | Spiceriz",
-  description: "Request a wholesale/export quote for Idukki cardamom and Kerala spices from Spiceriz.",
+  title: "Wholesale & Export Inquiry | Puttady Spices",
+  description: "Request a wholesale/export quote for Idukki cardamom and Kerala spices from Puttady Spices.",
 }
 
 export default function WholesalePage() {
