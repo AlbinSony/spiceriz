@@ -26,7 +26,7 @@ const features = [
 export function WhyChooseUs() {
   return (
     <section
-      id="why-choose-us"
+      id="about"
       className="relative isolate overflow-hidden bg-[#fbf8f2] pb-14 pt-12 sm:pb-16 sm:pt-14 lg:pb-20 lg:pt-16"
     >
       <div className="container relative z-10">
