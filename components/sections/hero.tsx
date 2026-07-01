@@ -36,13 +36,22 @@ export function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_47%,rgba(251,248,242,0.86)_0%,rgba(251,248,242,0.5)_24%,rgba(251,248,242,0)_52%)]" />
       <div className="absolute inset-x-0 bottom-0 h-20 bg-[#fbf8f2] [clip-path:polygon(0_60%,8%_56%,17%_64%,27%_48%,39%_58%,50%_44%,61%_52%,73%_38%,84%_47%,93%_34%,100%_42%,100%_100%,0_100%)] sm:h-24 md:h-28" />
 
-      <div className="container relative z-10 flex min-h-[620px] items-center pb-20 pt-12 sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]">
-        <Reveal className="w-full max-w-[430px] sm:max-w-[500px] lg:max-w-[560px]" y={28}>
+      <div className="container relative z-10 flex min-h-[620px] items-center pb-24 pt-12 sm:min-h-[650px] md:min-h-[560px] md:pb-20 lg:min-h-[610px] xl:min-h-[660px]">
+        <Reveal className="w-full max-w-[430px] sm:max-w-[500px] lg:max-w-[520px]" y={28}>
           <span className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-[#5b8c2f] sm:text-[13px]">
             NATURAL&nbsp;&nbsp;+&nbsp;&nbsp;PREMIUM&nbsp;&nbsp;+&nbsp;&nbsp;TRUSTED
           </span>
 
-          <h1 className="mt-3 font-serif text-[clamp(2.45rem,9vw,4.15rem)] font-bold leading-[0.98] text-[#173f23] sm:text-[clamp(3.7rem,7vw,5rem)] md:text-[clamp(3.45rem,5.4vw,5.3rem)]">
+          <h1 className="mt-3 font-serif text-[clamp(2.75rem,11.4vw,3.8rem)] font-bold leading-[0.98] text-[#173f23] sm:hidden">
+            Pure Indian
+            <br />
+            Spices
+            <br />
+            From Our Farms
+            <br />
+            to <span className="text-[#5b8c2f]">Your Home</span>
+          </h1>
+          <h1 className="mt-3 hidden font-serif text-[clamp(3.25rem,6.6vw,4.45rem)] font-bold leading-[0.98] text-[#173f23] sm:block md:text-[clamp(3.25rem,4.8vw,4.25rem)] xl:text-[4.55rem]">
             Pure Indian Spices
             <br />
             From Our Farms
