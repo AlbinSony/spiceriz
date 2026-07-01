@@ -19,7 +19,7 @@ export function FloatingActions() {
 
       <a
         href="tel:+911234567890"
-        aria-label="Call Idukki Spices"
+        aria-label="Call Spizespices Pvt Ltd"
         className="hover-lift inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary)] px-4 py-2.5 text-sm text-[var(--color-primary-foreground)] shadow-[0_12px_24px_rgba(35,79,44,0.2)] hover:bg-[var(--color-secondary)]"
       >
         <Phone className="h-5 w-5" />

@@ -58,7 +58,7 @@ export function SiteFooter() {
               <Phone className="h-4 w-4" /> <a href="tel:+911234567890">+91 12345 67890</a>
             </li>
             <li className="flex items-center gap-2 text-foreground/85">
-              <Mail className="h-4 w-4" /> <a href="mailto:hello@idukkispices.com">hello@idukkispices.com</a>
+              <Mail className="h-4 w-4" /> <a href="mailto:hello@spizespicespvtltd.com">hello@spizespicespvtltd.com</a>
             </li>
             <li className="flex items-center gap-2 text-foreground/85">
               <MapPin className="h-4 w-4" /> Idukki, Kerala, India
@@ -85,7 +85,7 @@ export function SiteFooter() {
 
       <div className="border-t border-[var(--color-border)]">
         <div className="container py-4 text-center text-xs text-foreground/70">
-          © 2025 Idukki Spices. All Rights Reserved.
+          © 2025 Spizespices Pvt Ltd. All Rights Reserved.
         </div>
       </div>
     </footer>

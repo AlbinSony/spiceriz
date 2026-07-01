@@ -1,31 +1,291 @@
+"use client"
+
+import React, { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import { Sun, Check } from "lucide-react"
+
+// Custom SVG Icons matching the image design
+const SourcingIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Sprout / Leaves */}
+    <path d="M12 12c0-3 1.5-5 4-5s4 2 4 5-1.5 5-4 5" />
+    <path d="M16 7c0-2-1-4-3-4s-3 2-3 4" />
+    <path d="M12 21v-9" />
+    {/* Hand holding the sprout */}
+    <path d="M4 16c2.5 0 5-1 7-2 2-1 4.5-1 6.5 0 1.5.8 2 2.2.5 3-1.5.8-3.5 1-5 1H6.5" />
+  </svg>
+)
+
+const SieveIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Sieve rim */}
+    <ellipse cx="12" cy="9" rx="8" ry="3.5" />
+    {/* Mesh dots */}
+    <circle cx="8" cy="8.5" r="0.5" fill="currentColor" />
+    <circle cx="10" cy="9" r="0.5" fill="currentColor" />
+    <circle cx="12" cy="8.5" r="0.5" fill="currentColor" />
+    <circle cx="14" cy="9" r="0.5" fill="currentColor" />
+    <circle cx="16" cy="8.5" r="0.5" fill="currentColor" />
+    <circle cx="9" cy="10" r="0.5" fill="currentColor" />
+    <circle cx="12" cy="10" r="0.5" fill="currentColor" />
+    <circle cx="15" cy="10" r="0.5" fill="currentColor" />
+    {/* Sieve body */}
+    <path d="M4 9v4c0 1.9 3.6 3.5 8 3.5s8-1.6 8-3.5V9" />
+    {/* Small handle */}
+    <path d="M20 11h2.5v2H20v-2z" />
+    {/* Falling particles/spice dust */}
+    <circle cx="9" cy="18" r="0.55" fill="currentColor" />
+    <circle cx="12" cy="19.5" r="0.55" fill="currentColor" />
+    <circle cx="15" cy="18.5" r="0.55" fill="currentColor" />
+    <circle cx="10.5" cy="21" r="0.55" fill="currentColor" />
+    <circle cx="13.5" cy="20.5" r="0.55" fill="currentColor" />
+  </svg>
+)
+
+const MortarIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Bowl base */}
+    <path d="M6 10h12a1 1 0 0 1 1 1c0 3.3-2.7 6-6 6s-6-2.7-6-6a1 1 0 0 1 1-1z" />
+    {/* Rim line */}
+    <path d="M5 10h14" />
+    {/* Foot/stand */}
+    <path d="M9 17h6" />
+    <path d="M10 17l-1 2.5A0.5 0.5 0 0 0 9.5 20h5a0.5 0.5 0 0 0 .5-.5L14 17" />
+    {/* Pestle */}
+    <path d="M16.5 4.5l-6 6" strokeWidth="2.2" />
+    <path d="M15 3l3.5 3.5" />
+  </svg>
+)
+
+const PackagingIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Stand up pouch design */}
+    <path d="M6 3h12a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
+    <path d="M5 7v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7" />
+    <path d="M12 11c1.5 0 2.5 1 2.5 2.5S13.5 16 12 16s-2.5-1-2.5-2.5S10.5 11 12 11z" />
+    <circle cx="12" cy="13.5" r="0.8" fill="currentColor" />
+  </svg>
+)
+
+const DeliveryIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Globe outline and longitudinal lines */}
+    <circle cx="12" cy="9" r="7" />
+    <path d="M12 2a14 14 0 0 1 3 7 14 14 0 0 1-3 7 14 14 0 0 1-3-7 14 14 0 0 1 3-7z" />
+    <path d="M5 9h14" />
+    {/* Cargo Truck shape at bottom */}
+    <path d="M2 17h14l1.5 2h5v1.5a0.5 0.5 0 0 1-0.5.5H3a1 1 0 0 1-1-1v-3z" />
+    <rect x="4" y="14" width="9" height="3" rx="0.5" />
+    <path d="M15 14h5l2 3h-7v-3z" />
+    <circle cx="6" cy="20" r="1.5" />
+    <circle cx="18" cy="20" r="1.5" />
+  </svg>
+)
 
 const steps = [
   {
-    img: "/images/handpicked.png",
-    title: "Handpicked",
+    num: "01",
+    title: "Sourcing",
+    desc: "We source the finest spices directly from trusted farms.",
+    icon: SourcingIcon,
   },
   {
-    img: "/images/drying.png",
-    title: "Sun Dried",
+    num: "02",
+    title: "Sun Drying",
+    desc: "Natural sun drying locks in aroma, color and nutrients.",
+    icon: Sun,
   },
   {
-    img: "/images/cleaning.png",
-    title: "Cleaned & Sorted",
+    num: "03",
+    title: "Cleaning & Sorting",
+    desc: "Carefully cleaned and sorted to ensure pure, premium quality.",
+    icon: SieveIcon,
   },
   {
-    img: "/images/grinding.png",
-    title: "Ground",
+    num: "04",
+    title: "Grinding",
+    desc: "Ground to perfection in modern facilities to retain natural oils.",
+    icon: MortarIcon,
   },
   {
-    img: "/images/export.png",
-    title: "Packed",
+    num: "05",
+    title: "Packaging",
+    desc: "Hygienically packed to preserve freshness and extend shelf life.",
+    icon: PackagingIcon,
+  },
+  {
+    num: "06",
+    title: "Delivery",
+    desc: "Delivered worldwide with care, on time, every time.",
+    icon: DeliveryIcon,
   },
 ]
 
 export function ProcessingTimeline() {
+  const mobileContainerRef = useRef<HTMLDivElement>(null)
+  const progressLineRef = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false])
+  const [activeIndex, setActiveIndex] = useState<number>(-1)
+
+  const revealedRef = useRef<boolean[]>([false, false, false, false, false, false])
+  const activeIndexRef = useRef<number>(-1)
+
+  useEffect(() => {
+    // Check user preference for reduced motion
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    if (mediaQuery.matches) {
+      setRevealed([true, true, true, true, true, true])
+      setActiveIndex(5)
+      if (progressLineRef.current) {
+        progressLineRef.current.style.transform = "scaleY(1)"
+      }
+      return
+    }
+
+    const container = mobileContainerRef.current
+    if (!container) return
+
+    let animationFrameId: number
+    let isIntersecting = false
+    let currentProgress = 0
+
+    const handleScroll = () => {
+      if (!isIntersecting || !container) return
+
+      const rect = container.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      const triggerY = viewportHeight * 0.6 // Activate when element passes 60% of viewport height
+
+      const lineStart = rect.top + 32
+      const lineLength = rect.height - 64
+
+      const scrolled = triggerY - lineStart
+      let targetProgress = scrolled / lineLength
+      targetProgress = Math.max(0, Math.min(1, targetProgress))
+
+      // Linear interpolation for smooth progress line growth
+      currentProgress += (targetProgress - currentProgress) * 0.15
+
+      if (progressLineRef.current) {
+        progressLineRef.current.style.transform = `scaleY(${currentProgress})`
+      }
+
+      // Check node triggers
+      let newActiveIndex = -1
+      let changed = false
+      const nextRevealed = [...revealedRef.current]
+
+      itemRefs.current.forEach((item, index) => {
+        if (!item) return
+        const itemRect = item.getBoundingClientRect()
+        const circleCenterY = itemRect.top + 32
+
+        if (circleCenterY <= triggerY) {
+          newActiveIndex = index
+          if (!nextRevealed[index]) {
+            nextRevealed[index] = true
+            changed = true
+          }
+        }
+      })
+
+      if (newActiveIndex !== activeIndexRef.current) {
+        activeIndexRef.current = newActiveIndex
+        setActiveIndex(newActiveIndex)
+      }
+
+      if (changed) {
+        revealedRef.current = nextRevealed
+        setRevealed(nextRevealed)
+      }
+
+      animationFrameId = requestAnimationFrame(handleScroll)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        isIntersecting = entry.isIntersecting
+        if (isIntersecting) {
+          animationFrameId = requestAnimationFrame(handleScroll)
+        } else {
+          cancelAnimationFrame(animationFrameId)
+        }
+      },
+      { threshold: 0.05 }
+    )
+
+    observer.observe(container)
+
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(animationFrameId)
+    }
+  }, [])
+
   return (
-    <section id="processing" className="relative isolate overflow-hidden bg-[#fbf8f2] pb-16 pt-8 sm:pb-20 sm:pt-6">
+    <section id="processing" className="relative isolate overflow-hidden bg-[#FAF8F2] py-16 md:py-24 lg:py-28">
+      {/* Self-contained style block for pulse and entry transitions */}
+      <style>{`
+        @keyframes timeline-glow-pulse {
+          0% {
+            box-shadow: 0 0 0 0 rgba(94, 141, 58, 0.45);
+          }
+          70% {
+            box-shadow: 0 0 0 14px rgba(94, 141, 58, 0);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(94, 141, 58, 0);
+          }
+        }
+        .timeline-pulse-active {
+          animation: timeline-glow-pulse 2s infinite cubic-bezier(0.25, 0, 0, 1);
+        }
+      `}</style>
+
+      {/* Decorative background leaves */}
       <Image
         src="/images/left-leaf.png"
         alt=""
@@ -41,53 +301,131 @@ export function ProcessingTimeline() {
         className="pointer-events-none absolute -right-5 top-8 z-0 w-[110px] object-contain opacity-75 sm:right-0 sm:top-12 sm:w-[150px] sm:opacity-100 lg:w-[250px]"
       />
 
-      <span
-        aria-hidden="true"
-        className="absolute bottom-[116px] left-[28px] z-0 hidden h-3 w-3 rounded-full bg-[#3b2a1d] shadow-[32px_10px_0_#5a3d28,calc(100vw-70px)_110px_0_#5a3d28,calc(100vw-40px)_88px_0_#33251b] md:block"
-      />
-
       <div className="container relative z-10">
-        <div className="mx-auto max-w-[1060px] rounded-[16px] bg-[#f3f2de] px-5 py-10 shadow-[0_18px_50px_rgba(49,39,23,0.06)] sm:rounded-[18px] sm:px-8 sm:py-11 lg:px-12">
-          <div className="mx-auto max-w-xl text-center">
-            <h2 className="font-serif text-[clamp(2rem,5vw,2.85rem)] font-semibold leading-tight text-[#173f23]">
-              Spice Processing
-            </h2>
-            <span className="mx-auto mt-3 block h-[3px] w-10 rounded-full bg-[#d64b2a]" />
-            <p className="mx-auto mt-4 max-w-[470px] text-[13px] font-medium leading-7 text-[#26352b]/85 sm:text-sm">
-              From farm to finish - carefully cleaned, sorted,
-              <br className="hidden sm:block" />
-              ground and packed to lock in freshness.
-            </p>
+        {/* Header */}
+        <div className="mx-auto max-w-xl text-center mb-16 md:mb-20">
+          <span className="text-xs font-bold tracking-[0.2em] text-[#5b8c51] uppercase">
+            Step by Step Process
+          </span>
+          <span className="mx-auto mt-2 block h-[2px] w-8 bg-[#d64b2a]" />
+          <h2 className="mt-5 font-serif text-3xl md:text-5xl font-normal leading-tight text-[#173f23]">
+            We Complete every <span className="font-semibold text-[#173f23]">Step Carefully</span>
+          </h2>
+        </div>
+
+        <div className="mx-auto max-w-[1060px]">
+          {/* Desktop/Tablet Horizontal Timeline (md and up) */}
+          <div className="hidden md:block relative w-full">
+            {/* Horizontal Connecting Lines */}
+            <div className="absolute left-[16.67%] right-[16.67%] top-[40px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
+            <div className="absolute left-[16.67%] right-[16.67%] top-[198px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
+            <div className="absolute left-[16.67%] right-[16.67%] top-[356px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
+            
+            {/* Right/Left curve line paths */}
+            <div className="absolute left-[83.33%] top-[40px] w-[79px] h-[158px] border-r-[1.5px] border-t-[1.5px] border-b-[1.5px] border-[#9cb075] rounded-r-full -z-10" />
+            <div className="absolute right-[83.33%] top-[198px] w-[79px] h-[158px] border-l-[1.5px] border-t-[1.5px] border-b-[1.5px] border-[#9cb075] rounded-l-full -z-10" />
+
+            <div className="grid grid-cols-3 gap-x-12 gap-y-24 w-full">
+              {steps.map((step) => (
+                <div key={step.num} className="flex flex-col items-center text-center h-[220px]">
+                  {/* Circle Container */}
+                  <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-[#f0f4e3] border border-[#9cb075] text-[#234f2c] z-10 shadow-[0_2px_8px_rgba(35,79,44,0.04)] hover:scale-105 transition-transform duration-300">
+                    <step.icon className="w-8 h-8 text-[#234f2c]" />
+                  </div>
+
+                  {/* Step Info */}
+                  <span className="mt-5 text-sm font-semibold tracking-wider text-[#5b8c51]">
+                    {step.num}
+                  </span>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-[#14281c]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[#203020]/75 leading-relaxed max-w-[240px]">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-10 grid gap-5 sm:mt-12 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr] md:items-end md:gap-4">
-            {steps.map((step, index) => (
-              <Step key={step.title} {...step} showArrow={index < steps.length - 1} />
-            ))}
+          {/* Mobile Scroll-driven Timeline (below md) */}
+          <div ref={mobileContainerRef} className="md:hidden relative pl-4 max-w-[400px] mx-auto">
+            {/* Background static line */}
+            <div className="absolute left-[32px] top-[32px] bottom-[32px] w-[2px] bg-[#D7D7D7] -translate-x-1/2" />
+            
+            {/* Animated scale active line */}
+            <div
+              ref={progressLineRef}
+              className="absolute left-[32px] top-[32px] bottom-[32px] w-[2px] bg-[#5E8D3A] -translate-x-1/2 origin-top scale-y-0"
+              style={{ willChange: "transform" }}
+            />
+
+            <div className="flex flex-col gap-20">
+              {steps.map((step, index) => {
+                const isCompleted = index < activeIndex
+                const isActive = index === activeIndex
+                const isRevealed = revealed[index]
+
+                return (
+                  <div
+                    key={step.num}
+                    ref={(el) => {
+                      itemRefs.current[index] = el
+                    }}
+                    className={`relative flex items-start gap-6 transition-all duration-[450ms] ease-[cubic-bezier(.22,.61,.36,1)] ${
+                      isRevealed
+                        ? "opacity-100 translate-y-0 scale-100"
+                        : "opacity-0 translate-y-5 scale-[0.85] pointer-events-none"
+                    }`}
+                  >
+                    {/* Circle Node */}
+                    <div
+                      className={`flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center relative z-10 transition-all duration-300 ${
+                        isCompleted
+                          ? "bg-[#5E8D3A] border-[#5E8D3A] text-white"
+                          : isActive
+                          ? "bg-[#FAF8F2] border-[#5E8D3A] text-[#5E8D3A] timeline-pulse-active"
+                          : "bg-[#FAF8F2] border-[#D7D7D7] text-[#203020]/40"
+                      }`}
+                    >
+                      {isCompleted ? (
+                        <Check className="w-6 h-6 text-white stroke-[2.5]" />
+                      ) : (
+                        <step.icon className="w-6 h-6 transition-colors duration-300" />
+                      )}
+                    </div>
+
+                    {/* Step Info Content */}
+                    <div className="flex-1 pt-2">
+                      <span
+                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${
+                          isCompleted || isActive ? "text-[#5E8D3A]" : "text-[#203020]/40"
+                        }`}
+                      >
+                        {step.num}
+                      </span>
+                      <h3
+                        className={`font-serif text-lg font-bold mt-0.5 transition-colors duration-300 ${
+                          isCompleted || isActive ? "text-[#14281c]" : "text-[#203020]/60"
+                        }`}
+                      >
+                        {step.title}
+                      </h3>
+                      <p
+                        className={`text-sm mt-1 max-w-[280px] leading-relaxed transition-colors duration-300 ${
+                          isCompleted || isActive ? "text-[#203020]/75" : "text-[#203020]/50"
+                        }`}
+                      >
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
-
-function Step({ img, title, showArrow }: { img: string; title: string; showArrow: boolean }) {
-  return (
-    <>
-      <div className="flex flex-col items-center text-center">
-        <div className="relative h-[78px] w-[84px] sm:h-[78px] sm:w-[86px]">
-          <Image src={img} alt="" fill className="object-contain" sizes="90px" />
-        </div>
-        <h3 className="mt-3 max-w-[120px] text-[14px] font-extrabold leading-tight text-[#14281c] sm:max-w-none">
-          {title}
-        </h3>
-      </div>
-      {showArrow && (
-        <div className="hidden pb-9 text-center text-[22px] leading-none text-[#9daf70] md:block" aria-hidden="true">
-          --
-          <span className="ml-1">&gt;</span>
-        </div>
-      )}
-    </>
   )
 }

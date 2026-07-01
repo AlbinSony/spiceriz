@@ -5,7 +5,7 @@ export function AboutSection() {
     <section className="py-12" style={{ backgroundColor: "#FAF9F6" }}>
       <div className="container grid gap-8 md:grid-cols-2 items-center">
         <div className="order-2 md:order-1">
-          <h2 className="h-display text-2xl sm:text-3xl text-[#1B4332]">About Idukki Spices</h2>
+          <h2 className="h-display text-2xl sm:text-3xl text-[#1B4332]">About Spizespices Pvt Ltd</h2>
           <div className="mt-2 h-1 w-12 rounded" style={{ backgroundColor: "#C89B3C" }} />
           <p className="mt-4 text-[#2B2B2B]">
             From Idukki's lush plantations, we deliver premium cardamom and Kerala spices with uncompromising quality

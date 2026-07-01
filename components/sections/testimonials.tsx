@@ -6,7 +6,7 @@ import { Reveal } from "@/components/ui/reveal"
 
 const testimonials = [
   {
-    quote: "The cardamom quality from Idukki Spices is superb—fresh aroma and consistent grading. Our customers love it.",
+    quote: "The cardamom quality from Spizespices Pvt Ltd is superb—fresh aroma and consistent grading. Our customers love it.",
     name: "Ayesha K.",
     role: "Retailer, UAE",
   },
