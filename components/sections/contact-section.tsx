@@ -1,22 +1,27 @@
 "use client"
 
+import Image from "next/image"
+import { Reveal } from "@/components/ui/reveal"
+
 export function ContactSection() {
   return (
-    <section id="contact" className="py-12" style={{ backgroundColor: "#F3F7F5" }}>
-      <div className="container grid gap-8 md:grid-cols-2">
-        <div className="bg-[#E6F9E6]">
-          <h2 className="h-display text-2xl sm:text-3xl text-[#1B4332]">Get in Touch</h2>
-          <p className="mt-2 text-[#2B2B2B]">
-            Questions about wholesale, exports, or retail orders? We’re here to help.
-          </p>
-          <div className="mt-4 overflow-hidden rounded-md bg-white">
-            <img
+    <section id="contact" className="section-shell bg-[rgba(242,239,230,0.75)]">
+      <div className="container grid gap-8 lg:grid-cols-[1fr_1.08fr] lg:gap-12">
+        <Reveal className="card bg-[rgba(247,244,236,0.9)] p-7 sm:p-8">
+          <span className="premium-chip">Contact Spizespices</span>
+          <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">Get in Touch</h2>
+          <p className="mt-4 text-foreground/80">Questions about wholesale, exports, or retail orders? We’re here to help.</p>
+          <div className="mt-6 relative h-64 overflow-hidden rounded-[18px] bg-[var(--color-background)]">
+            <Image
               src="/images/contact-idukki-map.png"
               alt="Idukki, Kerala"
-              className="h-full w-full object-contain p-2"
+              fill
+              className="object-contain p-3"
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 40vw"
             />
           </div>
-          <ul className="mt-4 text-sm text-[#2B2B2B]">
+          <ul className="mt-5 space-y-1 text-sm text-foreground/85">
             <li>
               Phone:{" "}
               <a className="underline" href="tel:+911234567890">
@@ -30,53 +35,41 @@ export function ContactSection() {
               </a>
             </li>
           </ul>
-        </div>
+        </Reveal>
 
-        <div className="rounded-xl bg-white p-5 shadow-sm border" style={{ borderColor: "#40916C" }}>
-          <h3 className="font-serif text-lg text-[#1B4332]">Contact Form</h3>
+        <Reveal delay={0.1}>
+          <div className="card bg-[rgba(247,244,236,0.95)] p-6 sm:p-8">
+            <h3 className="text-2xl font-semibold text-[var(--color-primary)]">Contact Form</h3>
           <form action="/api/contact" method="post" className="mt-4 grid gap-3">
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="name"
               placeholder="Name"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="email"
               type="email"
               placeholder="Email"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="phone"
               placeholder="Phone"
-              style={{ borderColor: "#40916C" }}
             />
             <textarea
-              className="min-h-28 rounded-md border px-3 py-2 text-sm bg-white"
+              className="min-h-28 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="message"
               placeholder="Message"
-              style={{ borderColor: "#40916C" }}
             />
-            <button
-              type="submit"
-              className="mt-2 w-fit rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
-              style={{ backgroundColor: "#1B4332" }}
-              onMouseOver={(e) => (
-                (e.currentTarget.style.backgroundColor = "#C89B3C"), (e.currentTarget.style.color = "#1B4332")
-              )}
-              onMouseOut={(e) => (
-                (e.currentTarget.style.backgroundColor = "#1B4332"), (e.currentTarget.style.color = "#FFFFFF")
-              )}
-            >
+            <button type="submit" className="premium-button mt-3 w-fit">
               Send Message
             </button>
           </form>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

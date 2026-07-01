@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 const testimonials = [
   {
@@ -28,23 +29,36 @@ export function Testimonials() {
   const t = testimonials[idx]
 
   return (
-    <section className="container py-12">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="h-display text-2xl sm:text-3xl">What Buyers Say</h2>
-        <div className="card mt-6 p-6">
-          <blockquote className="text-pretty text-lg">&ldquo;{t.quote}&rdquo;</blockquote>
-          <div className="mt-3 text-sm text-foreground/80">
-            — {t.name}, {t.role}
+    <section className="section-shell">
+      <div className="container">
+        <Reveal className="section-intro">
+          <span className="premium-chip">Global Trust</span>
+          <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">What Buyers Say</h2>
+        </Reveal>
+        <Reveal delay={0.1} className="mx-auto mt-8 max-w-4xl">
+          <div className="card bg-[rgba(247,244,236,0.95)] p-7 text-center sm:p-10">
+            <blockquote className="text-pretty text-2xl font-medium leading-relaxed text-[var(--color-primary)]">&ldquo;{t.quote}&rdquo;</blockquote>
+            <div className="mt-5 text-sm text-foreground/80">
+              - {t.name}, {t.role}
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <button
+                aria-label="Previous testimonial"
+                onClick={prev}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-primary)]"
+              >
+                <ChevronLeft />
+              </button>
+              <button
+                aria-label="Next testimonial"
+                onClick={next}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-primary)]"
+              >
+                <ChevronRight />
+              </button>
+            </div>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <button aria-label="Previous testimonial" onClick={prev} className="rounded-md border px-3 py-1">
-              <ChevronLeft />
-            </button>
-            <button aria-label="Next testimonial" onClick={next} className="rounded-md border px-3 py-1">
-              <ChevronRight />
-            </button>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

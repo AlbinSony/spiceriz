@@ -1,93 +1,83 @@
 import Link from "next/link"
 import { BadgeCheck, FileCheck, Globe } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 export function B2BExport() {
   return (
-    <section id="b2b" className="py-12" style={{ backgroundColor: "#FAF9F6" }}>
-      <div className="container grid gap-8 md:grid-cols-2">
-        <div>
-          <h2 className="h-display text-2xl sm:text-3xl text-[#1B4332]">Supplying to the World</h2>
-          <p className="mt-3 text-[#2B2B2B]">
+    <section id="b2b" className="section-shell bg-[rgba(245,242,232,0.75)]">
+      <div className="container grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+        <Reveal>
+          <span className="premium-chip">B2B Export Desk</span>
+          <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">Supplying to the World</h2>
+          <p className="mt-4 max-w-2xl text-foreground/80">
             We export premium cardamom and Kerala spices globally with rigorous quality control. Certifications include
             Spices Board India, FSSAI, ISO, and Organic options.
           </p>
-          <ul className="mt-4 space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <BadgeCheck className="h-4 w-4" color="#40916C" /> Spices Board India
+          <ul className="mt-6 space-y-3 text-sm text-foreground/90">
+            <li className="flex items-center gap-3">
+              <BadgeCheck className="h-4 w-4 text-[var(--color-secondary)]" /> Spices Board India
             </li>
-            <li className="flex items-center gap-2">
-              <FileCheck className="h-4 w-4" color="#40916C" /> FSSAI & ISO
+            <li className="flex items-center gap-3">
+              <FileCheck className="h-4 w-4 text-[var(--color-secondary)]" /> FSSAI & ISO
             </li>
-            <li className="flex items-center gap-2">
-              <Globe className="h-4 w-4" color="#40916C" /> Organic certification (on request)
+            <li className="flex items-center gap-3">
+              <Globe className="h-4 w-4 text-[var(--color-secondary)]" /> Organic certification (on request)
             </li>
           </ul>
-          <div className="mt-5">
-            <Link
-              href="/wholesale"
-              className="rounded-md px-4 py-2 text-sm font-semibold"
-              style={{ backgroundColor: "#C89B3C", color: "#FFFFFF" }}
-            >
+          <div className="mt-7">
+            <Link href="/wholesale" className="premium-button">
               Request a Quote
             </Link>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="rounded-xl bg-white p-5 shadow-sm border" style={{ borderColor: "#EAEAEA" }}>
-          <h3 className="font-serif text-lg text-[#1B4332]">Wholesale / Export Inquiry</h3>
+        <Reveal delay={0.12}>
+          <div className="card bg-[rgba(247,244,236,0.95)] p-6 sm:p-8">
+            <h3 className="text-2xl font-semibold text-[var(--color-primary)]">Wholesale / Export Inquiry</h3>
           <form action="/api/wholesale" method="post" className="mt-4 grid gap-3">
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="name"
               placeholder="Name"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="company"
               placeholder="Company"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="country"
               placeholder="Country"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="quantity"
               placeholder="Required Quantity"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="email"
               type="email"
               placeholder="Email"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="whatsapp"
               placeholder="WhatsApp"
               required
-              style={{ borderColor: "#40916C" }}
             />
-            <button
-              type="submit"
-              className="mt-2 rounded-md px-4 py-2 text-sm font-semibold"
-              style={{ backgroundColor: "#C89B3C", color: "#1B4332" }}
-            >
+            <button type="submit" className="premium-button mt-3 w-fit">
               Send Inquiry
             </button>
           </form>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

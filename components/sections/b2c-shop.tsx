@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
+import { Reveal } from "@/components/ui/reveal"
 
 type Item = { id: string; name: string; price: number; pack: string }
 
@@ -30,80 +32,85 @@ export function B2CShop() {
   }, 0)
 
   return (
-    <section id="shop" className="container py-12">
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="h-display text-2xl sm:text-3xl">Shop Cardamom</h2>
-        <p className="mt-2 text-foreground/80">
-          Small packs for home use. UPI/Razorpay (IN) & PayPal/Stripe (Intl) coming soon.
-        </p>
-      </div>
+    <section id="shop" className="section-shell">
+      <div className="container">
+        <Reveal className="section-intro">
+          <span className="premium-chip">Retail Experience</span>
+          <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">Shop Cardamom</h2>
+          <p className="mt-4 text-foreground/80">Small packs for home use. UPI/Razorpay (IN) & PayPal/Stripe (Intl) coming soon.</p>
+        </Reveal>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it) => (
-          <div key={it.id} className="card p-5">
-            <div className="aspect-[4/3] w-full overflow-hidden rounded-md">
-              <img
-                src={`/abstract-geometric-shapes.png?height=400&width=600&query=${encodeURIComponent("premium cardamom retail pack")}`}
-                alt={it.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <h3 className="mt-3 font-medium">{it.name}</h3>
-            <p className="text-sm text-foreground/80">Pack: {it.pack}</p>
-            <div className="mt-3 flex items-center justify-between">
-              <span className="font-semibold">₹{it.price}</span>
-              <div className="flex items-center gap-2">
-                <button onClick={() => remove(it.id)} className="rounded-md border px-2 py-1 text-sm">
-                  -
-                </button>
-                <span className="min-w-6 text-center text-sm">{cart[it.id] || 0}</span>
-                <button
-                  onClick={() => add(it.id)}
-                  className="rounded-md px-2 py-1 text-sm text-white"
-                  style={{ backgroundColor: "var(--color-primary)" }}
-                >
-                  +
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((it, index) => (
+            <Reveal key={it.id} delay={index * 0.06}>
+              <div className="card bg-[rgba(247,244,236,0.95)] p-6">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[18px]">
+                  <Image
+                    src={`/abstract-geometric-shapes.png?height=400&width=600&query=${encodeURIComponent("premium cardamom retail pack")}`}
+                    alt={it.name}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                  />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-[var(--color-primary)]">{it.name}</h3>
+                <p className="text-sm text-foreground/80">Pack: {it.pack}</p>
+                <div className="mt-4 flex items-center justify-between">
+                  <span className="font-semibold text-[var(--color-primary)]">₹{it.price}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => remove(it.id)}
+                      className="rounded-full border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-1 text-sm"
+                    >
+                      -
+                    </button>
+                    <span className="min-w-6 text-center text-sm">{cart[it.id] || 0}</span>
+                    <button
+                      onClick={() => add(it.id)}
+                      className="rounded-full bg-[var(--color-primary)] px-3 py-1 text-sm text-[var(--color-primary-foreground)]"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <button onClick={() => add(it.id)} className="premium-button mt-4 w-full">
+                  Add to Cart
                 </button>
               </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.16} className="mx-auto mt-8 max-w-3xl">
+          <div className="card bg-[rgba(247,244,236,0.95)] p-6 sm:p-8">
+            <div className="flex items-center justify-between">
+              <span className="text-base font-medium">Cart Total</span>
+              <span className="text-2xl font-semibold text-[var(--color-primary)]">₹{total}</span>
             </div>
-            <button
-              onClick={() => add(it.id)}
-              className="mt-3 w-full rounded-md px-4 py-2 text-sm font-medium text-white"
-              style={{ backgroundColor: "var(--color-secondary)" }}
-            >
-              Add to Cart
-            </button>
+
+            <label className="mt-4 flex items-center gap-2 text-sm text-foreground/90">
+              <input type="checkbox" checked={subscribe} onChange={(e) => setSubscribe(e.target.checked)} />
+              Subscribe monthly (auto-delivery)
+            </label>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a href="#contact" className="premium-button-ghost" aria-label="Contact us to checkout">
+                Contact to Checkout
+              </a>
+              <button
+                className="premium-button"
+                onClick={() =>
+                  alert(
+                    "Checkout integrations (Razorpay/UPI/Stripe/PayPal) can be connected here. Subscriptions supported when enabled.",
+                  )
+                }
+              >
+                Checkout (Coming Soon)
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
-
-      <div className="mx-auto mt-6 max-w-2xl rounded-md border bg-white p-5">
-        <div className="flex items-center justify-between">
-          <span className="font-medium">Cart Total</span>
-          <span className="text-lg font-semibold">₹{total}</span>
-        </div>
-
-        <label className="mt-3 flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={subscribe} onChange={(e) => setSubscribe(e.target.checked)} />
-          Subscribe monthly (auto-delivery)
-        </label>
-
-        <div className="mt-3 flex flex-wrap gap-3">
-          <a href="#contact" className="rounded-md border px-4 py-2 text-sm" aria-label="Contact us to checkout">
-            Contact to Checkout
-          </a>
-          <button
-            className="rounded-md px-4 py-2 text-sm text-white"
-            style={{ backgroundColor: "var(--color-primary)" }}
-            onClick={() =>
-              alert(
-                "Checkout integrations (Razorpay/UPI/Stripe/PayPal) can be connected here. Subscriptions supported when enabled.",
-              )
-            }
-          >
-            Checkout (Coming Soon)
-          </button>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

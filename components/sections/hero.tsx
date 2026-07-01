@@ -1,48 +1,76 @@
 import Link from "next/link"
+import Image from "next/image"
+import { ArrowRight } from "lucide-react"
+import { Parallax, Reveal } from "@/components/ui/reveal"
 
-// Added subtle fade-in animations and hover scale on background image while preserving existing color scheme.
 export function Hero() {
   return (
-    <section id="hero" className="relative mt-6">
-      <div className="group relative h-[60vh] w-full overflow-hidden bg-[var(--color-primary)] sm:h-[72vh]">
-        <img
-          src="/images/hero-idukki-misty.png"
-          alt="Misty cardamom plantations in Idukki, Kerala"
-          className="h-full w-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105"
-        />
-        {/* Blended overlay with deep green tone */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(27,67,50,0.80)] via-[rgba(27,67,50,0.35)] to-transparent" />
-        <div className="absolute inset-0 flex items-end sm:items-center">
-          <div className="container pb-10 sm:pb-0">
-            <div className="max-w-2xl space-y-4 text-white animate-in fade-in-50 slide-in-from-bottom-4 duration-700">
-              {/* Bold serif headline per spec */}
-              <h1 className="h-display text-3xl font-semibold sm:text-5xl md:font-bold">
-                Pure Idukki Cardamom – From Our Farms to Your Home
-              </h1>
-              <p className="text-pretty text-white/90">
-                Premium, authentic spices grown in Kerala’s Idukki hills. Export-ready quality, trusted by global buyers
-                and loved by homes.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                {/* Primary CTA: green accent button for strong contrast and brand consistency */}
-                <Link
-                  href="#products"
-                  className="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
-                  style={{ backgroundColor: "#1B4332" }}
-                >
-                  Explore Products
-                </Link>
-                {/* Secondary CTA: outline on dark hero for visual hierarchy */}
-                <Link
-                  href="/wholesale"
-                  className="rounded-md border border-white/50 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10"
-                >
-                  Get Wholesale Quote
-                </Link>
-              </div>
-            </div>
-          </div>
+    <section
+      id="hero"
+      className="relative isolate min-h-[620px] overflow-hidden bg-[#fbf8f2] sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]"
+    >
+      <Parallax className="absolute -inset-x-0 -inset-y-8" strength={22}>
+        <div className="absolute inset-0 hidden md:block">
+          <Image
+            src="/images/herobgdesktop.png"
+            alt="Premium Indian spices presentation"
+            fill
+            priority
+            className="object-cover object-[58%_50%]"
+            sizes="100vw"
+          />
         </div>
+        <div className="absolute inset-0 md:hidden">
+          <Image
+            src="/images/herobgmobile.png"
+            alt="Premium Indian spices presentation"
+            fill
+            priority
+            className="object-cover object-[62%_50%]"
+            sizes="100vw"
+          />
+        </div>
+      </Parallax>
+
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(251,248,242,0.94)_0%,rgba(251,248,242,0.78)_31%,rgba(251,248,242,0.2)_58%,rgba(251,248,242,0)_100%)] md:bg-[linear-gradient(90deg,rgba(251,248,242,0.92)_0%,rgba(251,248,242,0.7)_31%,rgba(251,248,242,0.12)_55%,rgba(251,248,242,0)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_47%,rgba(251,248,242,0.86)_0%,rgba(251,248,242,0.5)_24%,rgba(251,248,242,0)_52%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-[#fbf8f2] [clip-path:polygon(0_60%,8%_56%,17%_64%,27%_48%,39%_58%,50%_44%,61%_52%,73%_38%,84%_47%,93%_34%,100%_42%,100%_100%,0_100%)] sm:h-24 md:h-28" />
+
+      <div className="container relative z-10 flex min-h-[620px] items-center pb-20 pt-12 sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]">
+        <Reveal className="w-full max-w-[430px] sm:max-w-[500px] lg:max-w-[560px]" y={28}>
+          <span className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-[#5b8c2f] sm:text-[13px]">
+            NATURAL&nbsp;&nbsp;+&nbsp;&nbsp;PREMIUM&nbsp;&nbsp;+&nbsp;&nbsp;TRUSTED
+          </span>
+
+          <h1 className="mt-3 font-serif text-[clamp(2.45rem,9vw,4.15rem)] font-bold leading-[0.98] text-[#173f23] sm:text-[clamp(3.7rem,7vw,5rem)] md:text-[clamp(3.45rem,5.4vw,5.3rem)]">
+            Pure Indian Spices
+            <br />
+            From Our Farms
+            <br />
+            to <span className="text-[#5b8c2f]">Your Home</span>
+          </h1>
+
+          <p className="mt-5 max-w-[310px] text-[14px] font-medium leading-[1.75] text-[#213629]/85 sm:max-w-[370px] sm:text-[15px]">
+            From the lap of nature to your kitchen - experience the purity, aroma, and taste of India's finest spices.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-4">
+            <Link
+              href="#products"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-[5px] bg-[#123d26] px-5 text-[13px] font-bold text-[#fff8ec] shadow-[0_16px_30px_rgba(18,61,38,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#5b8c2f]"
+            >
+              Explore Products
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="#why-choose-us"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-[5px] border border-[#d6dccf] bg-[rgba(251,248,242,0.82)] px-5 text-[13px] font-bold text-[#173f23] shadow-[0_14px_28px_rgba(35,79,44,0.1)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#173f23] hover:bg-[#fffaf0]"
+            >
+              Learn More
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

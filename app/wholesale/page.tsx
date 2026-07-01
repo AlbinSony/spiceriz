@@ -10,75 +10,67 @@ export default function WholesalePage() {
   return (
     <main>
       <SiteHeader />
-      <section className="w-full" style={{ backgroundColor: "#1B4332", color: "#FFFFFF" }}>
-        <div className="container py-8">
-          <h1 className="h-display text-3xl">Wholesale & Export Inquiry</h1>
-          <p className="mt-2 max-w-2xl">
+      <section className="section-shell pb-12 pt-12">
+        <div className="container">
+          <span className="premium-chip">Global Supply Program</span>
+          <h1 className="h-display mt-5 text-5xl text-[var(--color-primary)] sm:text-6xl">Wholesale & Export Inquiry</h1>
+          <p className="mt-4 max-w-2xl text-foreground/80">
             Share your requirements and we’ll get back with best pricing, certifications, and logistics details.
           </p>
         </div>
       </section>
 
-      <section className="container py-10" style={{ backgroundColor: "#FFFFFF" }}>
-        <div className="rounded-xl bg-white p-6 shadow-sm border" style={{ borderColor: "#EAEAEA" }}>
+      <section className="pb-20">
+        <div className="container">
+          <div className="card bg-[rgba(247,244,236,0.95)] p-6 sm:p-8">
           <form action="/api/wholesale" method="post" className="grid gap-3 md:grid-cols-2">
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="name"
               placeholder="Name"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="company"
               placeholder="Company"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="country"
               placeholder="Country"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="quantity"
               placeholder="Required Quantity"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="email"
               type="email"
               placeholder="Email"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <input
-              className="rounded-md border px-3 py-2 text-sm bg-white"
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm"
               name="whatsapp"
               placeholder="WhatsApp"
               required
-              style={{ borderColor: "#40916C" }}
             />
             <textarea
-              className="min-h-28 rounded-md border px-3 py-2 text-sm bg-white md:col-span-2"
+              className="min-h-28 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm md:col-span-2"
               name="message"
               placeholder="Additional details"
-              style={{ borderColor: "#40916C" }}
             />
-            <button
-              type="submit"
-              className="mt-2 w-fit rounded-md px-5 py-2 text-sm font-semibold transition-colors"
-              style={{ backgroundColor: "#C89B3C", color: "#1B4332" }}
-            >
+            <button type="submit" className="premium-button mt-3 w-fit">
               Submit
             </button>
           </form>
+          </div>
         </div>
       </section>
       <SiteFooter />

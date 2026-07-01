@@ -1,4 +1,6 @@
 import Link from "next/link"
+import Image from "next/image"
+import { Reveal } from "@/components/ui/reveal"
 
 const products = [
   {
@@ -15,41 +17,41 @@ const products = [
 
 export function ProductGrid() {
   return (
-    <section id="products" className="container py-12">
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="h-display text-2xl sm:text-3xl">Our Product Range</h2>
-        <p className="mt-2 text-foreground/80">From whole spices to custom blends, responsibly sourced in Kerala.</p>
-      </div>
+    <section id="products" className="section-shell">
+      <div className="container">
+        <Reveal className="section-intro">
+          <span className="premium-chip">Curated Portfolio</span>
+          <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">Our Product Range</h2>
+          <p className="mt-4 text-foreground/80">From whole spices to custom blends, responsibly sourced in Kerala.</p>
+        </Reveal>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((p) => (
-          <article
-            key={p.name}
-            className="overflow-hidden rounded-xl bg-white shadow-sm border border-transparent transition-colors hover:border-[#40916C]"
-          >
-            <div className="aspect-[4/3] w-full">
-              {/* Real studio shots instead of abstract generator */}
-              <img
-                src={p.imgPath || "/placeholder.svg"}
-                alt={p.name}
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-              />
-            </div>
-            <div className="p-5">
-              <h3 className="font-medium text-[#1B4332]">{p.name}</h3>
-              <p className="mt-1 text-sm text-[#2B2B2B]">{p.desc}</p>
-              <div className="mt-4">
-                <Link
-                  href={`/products#${encodeURIComponent(p.name.toLowerCase())}`}
-                  className="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-white"
-                  style={{ backgroundColor: "#1B4332" }}
-                >
-                  View Details
-                </Link>
-              </div>
-            </div>
-          </article>
-        ))}
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((p, index) => (
+            <Reveal key={p.name} delay={index * 0.06}>
+              <article className="card hover-lift overflow-hidden border-[var(--color-border)] bg-[rgba(247,244,236,0.95)]">
+                <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-b-none rounded-t-[24px]">
+                  <Image
+                    src={p.imgPath || "/placeholder.svg"}
+                    alt={p.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 50vw, 30vw"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[var(--color-primary)]">{p.name}</h3>
+                  <p className="mt-2 text-sm text-foreground/80">{p.desc}</p>
+                  <div className="mt-5">
+                    <Link href={`/products#${encodeURIComponent(p.name.toLowerCase())}`} className="premium-button">
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )
