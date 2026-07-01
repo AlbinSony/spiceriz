@@ -162,16 +162,35 @@ const steps = [
 ]
 
 export function ProcessingTimeline() {
+  const desktopContainerRef = useRef<HTMLDivElement>(null)
   const mobileContainerRef = useRef<HTMLDivElement>(null)
   const progressLineRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false])
   const [activeIndex, setActiveIndex] = useState<number>(-1)
+  const [desktopWidth, setDesktopWidth] = useState<number>(1000)
 
   const revealedRef = useRef<boolean[]>([false, false, false, false, false, false])
   const activeIndexRef = useRef<number>(-1)
 
+  // Track width of the desktop grid container for precise layout geometry
+  useEffect(() => {
+    const container = desktopContainerRef.current
+    if (!container) return
+
+    const observer = new ResizeObserver((entries) => {
+      const [entry] = entries
+      if (entry) {
+        setDesktopWidth(entry.contentRect.width)
+      }
+    })
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  // Mobile scroll animation logic
   useEffect(() => {
     // Check user preference for reduced motion
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -196,7 +215,7 @@ export function ProcessingTimeline() {
 
       const rect = container.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const triggerY = viewportHeight * 0.6 // Activate when element passes 60% of viewport height
+      const triggerY = viewportHeight * 0.6
 
       const lineStart = rect.top + 32
       const lineLength = rect.height - 64
@@ -265,6 +284,27 @@ export function ProcessingTimeline() {
     }
   }, [])
 
+  // Geometry calculations for desktop "racetrack" layout path
+  const x1 = desktopWidth * 0.1667
+  const x3 = desktopWidth * 0.8333
+  const x4 = desktopWidth * 0.1667
+  const x6 = desktopWidth * 0.8333
+  
+  const y1 = 40
+  const y4 = 464
+  const ymid = 252
+  const R = 106 // Radius of the 180-degree bends
+  const offset = 100 // Extension distance (80-120px) beyond columns
+
+  // Racetrack Path coordinates:
+  // 1. Starts at Circle 01 center (x1, y1)
+  // 2. Extends through Circle 02 and Circle 03, continuing by 'offset' (x3 + offset, y1)
+  // 3. Clockwise 180° arc on right to ymid (x3 + offset, ymid)
+  // 4. Straight horizontal return line to left past Column 1 by 'offset' (x4 - offset, ymid)
+  // 5. Counter-clockwise 180° arc on left to y4 (x4 - offset, y4)
+  // 6. Straight horizontal line through Circle 04, Circle 05, to Circle 06 center (x6, y4)
+  const racetrackPath = `M ${x1} ${y1} L ${x3 + offset} ${y1} A ${R} ${R} 0 0 1 ${x3 + offset} ${ymid} L ${x4 - offset} ${ymid} A ${R} ${R} 0 0 0 ${x4 - offset} ${y4} L ${x6} ${y4}`
+
   return (
     <section id="processing" className="relative isolate overflow-hidden bg-[#FAF8F2] py-16 md:py-24 lg:py-28">
       {/* Self-contained style block for pulse and entry transitions */}
@@ -313,21 +353,29 @@ export function ProcessingTimeline() {
           </h2>
         </div>
 
-        <div className="mx-auto max-w-[1060px]">
+        <div className="mx-auto max-w-[1060px] px-8 lg:px-12">
           {/* Desktop/Tablet Horizontal Timeline (md and up) */}
-          <div className="hidden md:block relative w-full">
-            {/* Horizontal Connecting Lines */}
-            <div className="absolute left-[16.67%] right-[16.67%] top-[40px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
-            <div className="absolute left-[16.67%] right-[16.67%] top-[198px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
-            <div className="absolute left-[16.67%] right-[16.67%] top-[356px] h-[1.5px] bg-[#9cb075] -translate-y-1/2 -z-10" />
+          <div ref={desktopContainerRef} className="hidden md:block relative w-full">
             
-            {/* Right/Left curve line paths */}
-            <div className="absolute left-[83.33%] top-[40px] w-[79px] h-[158px] border-r-[1.5px] border-t-[1.5px] border-b-[1.5px] border-[#9cb075] rounded-r-full -z-10" />
-            <div className="absolute right-[83.33%] top-[198px] w-[79px] h-[158px] border-l-[1.5px] border-t-[1.5px] border-b-[1.5px] border-[#9cb075] rounded-l-full -z-10" />
+            {/* Racetrack SVG Connector Overlay */}
+            <svg
+              className="absolute inset-0 w-full h-[500px] pointer-events-none -z-10 overflow-visible"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d={racetrackPath}
+                fill="none"
+                stroke="#9cb075"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
 
-            <div className="grid grid-cols-3 gap-x-12 gap-y-24 w-full">
+            {/* Grid layout with vertical spacing (gap-y-56 = 224px) for premium Apple/Aesop style whitespace */}
+            <div className="grid grid-cols-3 gap-x-12 gap-y-56 w-full">
               {steps.map((step) => (
-                <div key={step.num} className="flex flex-col items-center text-center h-[220px]">
+                <div key={step.num} className="flex flex-col items-center text-center h-[200px]">
                   {/* Circle Container */}
                   <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-[#f0f4e3] border border-[#9cb075] text-[#234f2c] z-10 shadow-[0_2px_8px_rgba(35,79,44,0.04)] hover:scale-105 transition-transform duration-300">
                     <step.icon className="w-8 h-8 text-[#234f2c]" />
@@ -372,21 +420,19 @@ export function ProcessingTimeline() {
                     ref={(el) => {
                       itemRefs.current[index] = el
                     }}
-                    className={`relative flex items-start gap-6 transition-all duration-[450ms] ease-[cubic-bezier(.22,.61,.36,1)] ${
-                      isRevealed
+                    className={`relative flex items-start gap-6 transition-all duration-[450ms] ease-[cubic-bezier(.22,.61,.36,1)] ${isRevealed
                         ? "opacity-100 translate-y-0 scale-100"
                         : "opacity-0 translate-y-5 scale-[0.85] pointer-events-none"
-                    }`}
+                      }`}
                   >
                     {/* Circle Node */}
                     <div
-                      className={`flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center relative z-10 transition-all duration-300 ${
-                        isCompleted
+                      className={`flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center relative z-10 transition-all duration-300 ${isCompleted
                           ? "bg-[#5E8D3A] border-[#5E8D3A] text-white"
                           : isActive
-                          ? "bg-[#FAF8F2] border-[#5E8D3A] text-[#5E8D3A] timeline-pulse-active"
-                          : "bg-[#FAF8F2] border-[#D7D7D7] text-[#203020]/40"
-                      }`}
+                            ? "bg-[#FAF8F2] border-[#5E8D3A] text-[#5E8D3A] timeline-pulse-active"
+                            : "bg-[#FAF8F2] border-[#D7D7D7] text-[#203020]/40"
+                        }`}
                     >
                       {isCompleted ? (
                         <Check className="w-6 h-6 text-white stroke-[2.5]" />
@@ -398,23 +444,20 @@ export function ProcessingTimeline() {
                     {/* Step Info Content */}
                     <div className="flex-1 pt-2">
                       <span
-                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${
-                          isCompleted || isActive ? "text-[#5E8D3A]" : "text-[#203020]/40"
-                        }`}
+                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${isCompleted || isActive ? "text-[#5E8D3A]" : "text-[#203020]/40"
+                          }`}
                       >
                         {step.num}
                       </span>
                       <h3
-                        className={`font-serif text-lg font-bold mt-0.5 transition-colors duration-300 ${
-                          isCompleted || isActive ? "text-[#14281c]" : "text-[#203020]/60"
-                        }`}
+                        className={`font-serif text-lg font-bold mt-0.5 transition-colors duration-300 ${isCompleted || isActive ? "text-[#14281c]" : "text-[#203020]/60"
+                          }`}
                       >
                         {step.title}
                       </h3>
                       <p
-                        className={`text-sm mt-1 max-w-[280px] leading-relaxed transition-colors duration-300 ${
-                          isCompleted || isActive ? "text-[#203020]/75" : "text-[#203020]/50"
-                        }`}
+                        className={`text-sm mt-1 max-w-[280px] leading-relaxed transition-colors duration-300 ${isCompleted || isActive ? "text-[#203020]/75" : "text-[#203020]/50"
+                          }`}
                       >
                         {step.desc}
                       </p>

@@ -98,7 +98,7 @@ export function SiteHeader() {
 
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 z-50 md:hidden flex">
+          <div className="fixed inset-0 z-50 md:hidden flex h-[100dvh]">
             {/* Backdrop overlay */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -114,7 +114,7 @@ export function SiteHeader() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 26, stiffness: 220 }}
-              className="relative z-50 flex h-full w-[85vw] max-w-[360px] flex-col bg-[var(--color-primary)] px-6 pb-8 pt-6 shadow-[10px_0_50px_rgba(0,0,0,0.3)] text-[#fbf8f2] overflow-y-auto"
+              className="relative z-50 flex h-[100dvh] w-[85vw] max-w-[360px] flex-col bg-[var(--color-primary)] px-6 pb-8 pt-6 shadow-[10px_0_50px_rgba(0,0,0,0.3)] text-[#fbf8f2] overflow-y-auto"
             >
               <div className="flex items-center justify-between">
                 <div className="bg-white/95 rounded-xl p-2 px-3 inline-flex items-center justify-center">
