@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
+import { CldImage } from "next-cloudinary"
 import { Reveal } from "@/components/ui/reveal"
 import { ArrowRight } from "lucide-react"
 
@@ -9,32 +9,32 @@ const products = [
   {
     name: "Cardamom",
     desc: "Cardamom is a highly prized aromatic spice known as the 'Queen of Spices.' It features a complex, sweet, and herbal flavor profile with citrusy undertones, making it a staple in both traditional Indian desserts and savory masala blends.",
-    imgPath: "/images/products-cardamom-pods.png",
+    imgPath: "products-cardamom-pods_h4ukyj",
   },
   {
     name: "Black Pepper",
     desc: "Black Pepper is the 'King of Spices,' revered for its sharp, pungent heat and deep woody notes. Harvested from mature pepper vines, it delivers a fresh, bold kick that enhances flavor and aids digestion in culinary preparations worldwide.",
-    imgPath: "/images/products-black-pepper.png",
+    imgPath: "products-black-pepper_e9ubjc",
   },
   {
     name: "Cloves",
     desc: "Clove is a pungent, warm spice that consists of intense flavor and aroma. Its sweet and spicy taste makes it one of the most used spices in India and the world. They are used in a variety of traditional Indian dish preparation.",
-    imgPath: "/images/products-clove.png",
+    imgPath: "products-clove_g1oexv",
   },
   {
     name: "Cinnamon",
     desc: "Cinnamon is a sweet, woody spice harvested from the inner bark of evergreen trees. Renowned for its warm, comforting fragrance and delicate sweet taste, it adds a refined flavor to baked goods, curries, and spiced teas.",
-    imgPath: "/images/products-cinnamon.png",
+    imgPath: "products-cinnamon_lajfu3",
   },
   {
     name: "Nutmeg",
     desc: "Nutmeg is a warm, sweet spice derived from the seed of the tropical nutmeg tree. It features a rich, nutty, and slightly sweet flavor, widely used to add warmth to hot beverages, creamy sauces, and festive holiday desserts.",
-    imgPath: "/images/products-nutmeg.png",
+    imgPath: "products-nutmeg_xwntos",
   },
   {
     name: "Spice Blends",
     desc: "Our Artisanal Spice Blends are carefully crafted recipes that bring together the perfect ratios of whole spices. Ground to lock in freshness, they deliver a balanced, authentic flavor profile that simplifies premium Indian cooking.",
-    imgPath: "/images/products-blends.png",
+    imgPath: "products-blends_uno4c4",
   },
 ]
 
@@ -66,8 +66,8 @@ export function ProductGrid() {
                 
                 {/* Framed Image Container */}
                 <div className="relative aspect-[1.12] w-full overflow-hidden rounded-[20px] bg-[rgba(35,79,44,0.02)] border border-[rgba(35,79,44,0.04)]">
-                  <Image
-                    src={p.imgPath || "/placeholder.svg"}
+                  <CldImage
+                    src={p.imgPath}
                     alt={p.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"

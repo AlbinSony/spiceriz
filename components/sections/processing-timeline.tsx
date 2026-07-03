@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import Image from "next/image"
+import { CldImage } from "next-cloudinary"
 import { Sun, Check } from "lucide-react"
 
 // Custom SVG Icons matching the image design
@@ -326,15 +326,15 @@ export function ProcessingTimeline() {
       `}</style>
 
       {/* Decorative background leaves */}
-      <Image
-        src="/images/left-leaf.png"
+      <CldImage
+        src="left-leaf_ug8owj"
         alt=""
         width={260}
         height={260}
         className="pointer-events-none absolute -left-6 bottom-0 z-0 w-[120px] object-contain opacity-75 sm:left-0 sm:w-[170px] sm:opacity-100 lg:w-[260px]"
       />
-      <Image
-        src="/images/right-leaf.png"
+      <CldImage
+        src="right-leaf_br1adr"
         alt=""
         width={260}
         height={260}

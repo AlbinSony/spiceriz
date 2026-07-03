@@ -1,5 +1,7 @@
+"use client"
+
 import Link from "next/link"
-import Image from "next/image"
+import { CldImage } from "next-cloudinary"
 import { ArrowRight, Leaf, Sparkles, ShieldCheck } from "lucide-react"
 import { Parallax, Reveal } from "@/components/ui/reveal"
 
@@ -7,12 +9,12 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate min-h-[calc(100dvh-4rem)] overflow-hidden bg-[#fbf8f2] sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]"
+      className="relative isolate min-h-[calc(100vh-4rem)] overflow-hidden bg-[#fbf8f2] sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]"
     >
       <Parallax className="absolute -inset-x-0 -inset-y-8" strength={22}>
         <div className="absolute inset-0 hidden md:block">
-          <Image
-            src="/images/herobgdesktop.png"
+          <CldImage
+            src="herobgdesktop_h8rng6"
             alt="Premium Indian spices presentation"
             fill
             priority
@@ -21,8 +23,8 @@ export function Hero() {
           />
         </div>
         <div className="absolute inset-0 md:hidden">
-          <Image
-            src="/images/herobgmobile.png"
+          <CldImage
+            src="herobgmobile_ttalhc"
             alt="Premium Indian spices presentation"
             fill
             priority
@@ -36,7 +38,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_47%,rgba(251,248,242,0.86)_0%,rgba(251,248,242,0.5)_24%,rgba(251,248,242,0)_52%)]" />
       <div className="absolute inset-x-0 bottom-0 h-20 bg-[#fbf8f2] [clip-path:polygon(0_60%,8%_56%,17%_64%,27%_48%,39%_58%,50%_44%,61%_52%,73%_38%,84%_47%,93%_34%,100%_42%,100%_100%,0_100%)] sm:h-24 md:h-28" />
 
-      <div className="container relative z-10 flex min-h-[calc(100dvh-4rem)] items-center pb-24 pt-16 sm:min-h-[650px] sm:pt-12 md:min-h-[560px] md:pb-20 lg:min-h-[610px] xl:min-h-[660px]">
+      <div className="container relative z-10 flex min-h-[calc(100vh-4rem)] items-center pb-24 pt-16 sm:min-h-[650px] sm:pt-12 md:min-h-[560px] md:pb-20 lg:min-h-[610px] xl:min-h-[660px]">
         <Reveal className="w-full max-w-[430px] sm:max-w-[500px] lg:max-w-[520px]" y={28}>
           <div className="inline-flex items-center gap-3.5 rounded-lg border border-[#e8dfd3] bg-[#fffaf4]/80 px-3.5 py-1.5 shadow-[0_2px_12px_rgba(23,63,35,0.03)] backdrop-blur-[2px] sm:gap-4 sm:px-4">
             <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#173f23] sm:text-[12px]">

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
+import { CldImage } from "next-cloudinary"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { Phone, Menu, X, Facebook, Instagram, Youtube } from "lucide-react"
@@ -53,8 +53,8 @@ export function SiteHeader() {
     >
       <div className="container flex h-full items-center justify-between gap-3 md:grid md:grid-cols-[auto_1fr_auto] md:justify-start">
         <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="Spizespices Home">
-          <Image
-            src="/images/spizespiceslogo.jpg"
+          <CldImage
+            src="spizespiceslogo_nficgo"
             alt="Spizespices"
             width={166}
             height={48}
@@ -118,8 +118,8 @@ export function SiteHeader() {
             >
               <div className="flex items-center justify-between">
                 <div className="bg-white/95 rounded-xl p-2 px-3 inline-flex items-center justify-center">
-                  <Image
-                    src="/images/spizespiceslogo.jpg"
+                  <CldImage
+                    src="spizespiceslogo_nficgo"
                     alt="Spizespices"
                     width={130}
                     height={36}

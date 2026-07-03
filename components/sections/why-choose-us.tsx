@@ -1,4 +1,6 @@
-import Image from "next/image"
+"use client"
+
+import { CldImage } from "next-cloudinary"
 
 const features = [
   {
@@ -64,8 +66,8 @@ export function WhyChooseUs() {
 
           {/* Right Column: Image */}
           <div className="relative aspect-square lg:aspect-[4/5] w-full max-w-[420px] lg:justify-self-end overflow-hidden rounded-[24px] border border-[rgba(35,79,44,0.08)] shadow-[0_15px_40px_rgba(35,79,44,0.06)] min-h-[350px] sm:min-h-[450px] lg:min-h-[500px] lg:sticky lg:top-24">
-            <Image
-              src="/images/why-choose-us.png"
+            <CldImage
+              src="why-choose-us_lzix4l"
               alt="Assorted spices on a dark slate background"
               fill
               className="object-cover"
