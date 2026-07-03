@@ -43,6 +43,30 @@ export function SiteHeader() {
     }
   }, [open])
 
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const isHomePage = window.location.pathname === "/"
+    const isAnchor = href.startsWith("/#") || href.startsWith("#")
+    
+    if (isHomePage && isAnchor) {
+      e.preventDefault()
+      setOpen(false)
+      
+      const hash = href.split("#")[1]
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash)
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" })
+            window.history.pushState(null, "", `#${hash}`)
+            setActiveHash(`#${hash}`)
+          }
+        }, 320)
+      }
+    } else {
+      setOpen(false)
+    }
+  }
+
   return (
     <header
       className={`sticky top-0 z-50 h-16 md:h-20 transition-all duration-500 ${
@@ -104,7 +128,7 @@ export function SiteHeader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               onClick={() => setOpen(false)}
             />
@@ -113,7 +137,7 @@ export function SiteHeader() {
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 26, stiffness: 220 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="relative z-50 flex h-[100dvh] w-[85vw] max-w-[360px] flex-col bg-[var(--color-primary)] px-6 pb-8 pt-6 shadow-[10px_0_50px_rgba(0,0,0,0.3)] text-[#fbf8f2] overflow-y-auto"
             >
               <div className="flex items-center justify-between">
@@ -149,7 +173,7 @@ export function SiteHeader() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => handleNavLinkClick(e, item.href)}
                       className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${
                         isActive
                           ? "bg-white/10 text-white"

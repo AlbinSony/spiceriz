@@ -1,6 +1,7 @@
 "use client"
 
 import { CldImage } from "next-cloudinary"
+import { Reveal } from "@/components/ui/reveal"
 
 const features = [
   {
@@ -36,7 +37,7 @@ export function WhyChooseUs() {
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16 items-start">
           {/* Left Column: Text Content and Features Grid */}
           <div className="flex flex-col justify-center">
-            <div>
+            <Reveal>
               <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#234f2c]">
                 Why Choose Us
               </h2>
@@ -44,22 +45,28 @@ export function WhyChooseUs() {
                 Pure spices. Honest process.<br />
                 Trusted by people worldwide.
               </p>
-            </div>
+            </Reveal>
 
             {/* Mobile: stacking column layout | Desktop: 2x2 grid */}
             <div className="flex flex-col gap-6 mt-12 lg:grid lg:grid-cols-2 lg:gap-6 lg:mt-14">
-              {features.map((item) => (
-                <div
+              {features.map((item, index) => (
+                <Reveal
                   key={item.num}
-                  className={`sticky ${item.stickyTop} lg:relative lg:top-auto bg-[#f7f4ec] border border-[rgba(35,79,44,0.08)] rounded-[20px] p-6 shadow-[0_10px_25px_rgba(35,79,44,0.03)] transition-all duration-300 hover:shadow-[0_15px_35px_rgba(35,79,44,0.06)]`}
+                  delay={index * 0.08}
+                  y={20}
+                  className={`sticky ${item.stickyTop} lg:relative lg:top-auto`}
                 >
-                  <span className="text-5xl font-semibold text-[#234f2c] leading-none">{item.num}</span>
-                  <h3 className="mt-4 text-base md:text-lg font-semibold text-[#203020]">{item.title}</h3>
-                  <div className="mt-3 w-8 h-[2px] bg-[#5b8c51]" />
-                  <p className="mt-3 text-sm text-[#203020]/70 leading-relaxed font-medium">
-                    {item.desc}
-                  </p>
-                </div>
+                  <div
+                    className="bg-[#f7f4ec] border border-[rgba(35,79,44,0.08)] rounded-[20px] p-6 shadow-[0_10px_25px_rgba(35,79,44,0.03)] transition-all duration-300 hover:shadow-[0_15px_35px_rgba(35,79,44,0.06)]"
+                  >
+                    <span className="text-5xl font-semibold text-[#234f2c] leading-none">{item.num}</span>
+                    <h3 className="mt-4 text-base md:text-lg font-semibold text-[#203020]">{item.title}</h3>
+                    <div className="mt-3 w-8 h-[2px] bg-[#5b8c51]" />
+                    <p className="mt-3 text-sm text-[#203020]/70 leading-relaxed font-medium">
+                      {item.desc}
+                    </p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>

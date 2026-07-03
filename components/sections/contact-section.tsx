@@ -1,7 +1,16 @@
 "use client"
 
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { Reveal } from "@/components/ui/reveal"
+
+const Map = dynamic(() => import("@/components/map-component"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[250px] bg-[#f0eee4] animate-pulse rounded-[18px] flex items-center justify-center text-xs text-[#203020]/40 font-semibold">
+      Loading maps...
+    </div>
+  ),
+})
 
 export function ContactSection() {
   return (
@@ -11,15 +20,8 @@ export function ContactSection() {
           <span className="premium-chip">Contact Spizespices</span>
           <h2 className="h-display mt-5 text-4xl text-[var(--color-primary)] sm:text-5xl">Get in Touch</h2>
           <p className="mt-4 text-foreground/80">Questions about wholesale, exports, or retail orders? We’re here to help.</p>
-          <div className="mt-6 relative h-64 overflow-hidden rounded-[18px] bg-[var(--color-background)]">
-            <Image
-              src="/images/contact-idukki-map.png"
-              alt="Idukki, Kerala"
-              fill
-              className="object-contain p-3"
-              loading="lazy"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
+          <div className="mt-6 relative h-64 overflow-hidden rounded-[18px] bg-[var(--color-background)] border border-[rgba(35,79,44,0.06)] shadow-inner">
+            <Map />
           </div>
           <ul className="mt-5 space-y-1 text-sm text-foreground/85">
             <li>

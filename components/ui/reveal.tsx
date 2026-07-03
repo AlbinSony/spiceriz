@@ -9,22 +9,25 @@ type RevealProps = {
   className?: string
   delay?: number
   y?: number
+  as?: "div" | "span"
 }
 
-export function Reveal({ children, className, delay = 0, y = 32 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, y = 32, as = "div" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.2 })
 
+  const Component = as === "span" ? motion.span : motion.div
+
   return (
-    <motion.div
-      ref={ref}
+    <Component
+      ref={ref as any}
       className={className}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
     >
       {children}
-    </motion.div>
+    </Component>
   )
 }
 

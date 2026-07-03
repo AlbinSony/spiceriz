@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { CldImage } from "next-cloudinary"
 import { Sun, Check } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 // Custom SVG Icons matching the image design
 const SourcingIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -374,24 +375,26 @@ export function ProcessingTimeline() {
 
             {/* Grid layout with vertical spacing (gap-y-56 = 224px) for premium Apple/Aesop style whitespace */}
             <div className="grid grid-cols-3 gap-x-12 gap-y-56 w-full">
-              {steps.map((step) => (
-                <div key={step.num} className="flex flex-col items-center text-center h-[200px]">
-                  {/* Circle Container */}
-                  <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-[#f0f4e3] border border-[#9cb075] text-[#234f2c] z-10 shadow-[0_2px_8px_rgba(35,79,44,0.04)] hover:scale-105 transition-transform duration-300">
-                    <step.icon className="w-8 h-8 text-[#234f2c]" />
-                  </div>
+              {steps.map((step, index) => (
+                <Reveal key={step.num} delay={index * 0.08} y={20}>
+                  <div className="flex flex-col items-center text-center h-[200px]">
+                    {/* Circle Container */}
+                    <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-[#f0f4e3] border border-[#9cb075] text-[#234f2c] z-10 shadow-[0_2px_8px_rgba(35,79,44,0.04)] hover:scale-105 transition-transform duration-300">
+                      <step.icon className="w-8 h-8 text-[#234f2c]" />
+                    </div>
 
-                  {/* Step Info */}
-                  <span className="mt-5 text-sm font-semibold tracking-wider text-[#5b8c51]">
-                    {step.num}
-                  </span>
-                  <h3 className="mt-1 font-serif text-lg font-bold text-[#14281c]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-[#203020]/75 leading-relaxed max-w-[240px]">
-                    {step.desc}
-                  </p>
-                </div>
+                    {/* Step Info */}
+                    <span className="mt-5 text-sm font-semibold tracking-wider text-[#5b8c51]">
+                      {step.num}
+                    </span>
+                    <h3 className="mt-1 font-serif text-lg font-bold text-[#14281c]">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-[#203020]/75 leading-relaxed max-w-[240px]">
+                      {step.desc}
+                    </p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
