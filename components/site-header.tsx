@@ -4,12 +4,18 @@ import Link from "next/link"
 import { CldImage } from "next-cloudinary"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { Phone, Menu, X, Facebook, Instagram, Youtube } from "lucide-react"
+import { Phone, Menu, X, Facebook, Instagram, Youtube, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+
+const aboutSubLinks = [
+  { href: "/about#about-us", label: "About Us" },
+  { href: "/about#mission-vision", label: "Our Mission & Vision" },
+  { href: "/about#our-team", label: "Our Team" },
+]
 
 const nav = [
   { href: "/#hero", label: "Home" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About", hasDropdown: true },
   { href: "/#products", label: "Products" },
   { href: "/#processing", label: "Quality" },
   { href: "/#contact", label: "Contact" },
@@ -19,6 +25,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeHash, setActiveHash] = useState("")
+  const [aboutAccordionOpen, setAboutAccordionOpen] = useState(false)
 
   useEffect(() => {
     const updateScroll = () => setScrolled(window.scrollY > 20)
@@ -90,15 +97,34 @@ export function SiteHeader() {
 
         <nav className="hidden justify-center md:flex">
           <div className="flex items-center gap-1 rounded-full border border-[rgba(35,79,44,0.1)] bg-[rgba(251,248,242,0.42)] px-2 py-2 backdrop-blur-md">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-[var(--color-primary)] transition-all duration-300 hover:bg-[rgba(35,79,44,0.08)]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) =>
+              item.hasDropdown ? (
+                <div key={item.href} className="nav-dropdown-wrapper">
+                  <Link
+                    href={item.href}
+                    className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-[var(--color-primary)] transition-all duration-300 hover:bg-[rgba(35,79,44,0.08)]"
+                  >
+                    {item.label}
+                    <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                  </Link>
+                  <div className="nav-dropdown">
+                    {aboutSubLinks.map((sub) => (
+                      <Link key={sub.href} href={sub.href}>
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-[var(--color-primary)] transition-all duration-300 hover:bg-[rgba(35,79,44,0.08)]"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
           </div>
         </nav>
 
@@ -169,6 +195,45 @@ export function SiteHeader() {
               <div className="flex flex-col gap-2">
                 {nav.map((item, index) => {
                   const isActive = activeHash ? item.href.endsWith(activeHash) : index === 0
+
+                  if (item.hasDropdown) {
+                    return (
+                      <div key={item.href}>
+                        <button
+                          onClick={() => setAboutAccordionOpen((v) => !v)}
+                          className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${
+                            aboutAccordionOpen
+                              ? "bg-white/10 text-white"
+                              : "text-white/80 hover:text-white hover:bg-white/5"
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform duration-300 ${
+                              aboutAccordionOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        <div
+                          className={`mobile-accordion-content ${aboutAccordionOpen ? "open" : ""}`}
+                        >
+                          <div className="flex flex-col gap-1 pl-4 pt-1">
+                            {aboutSubLinks.map((sub) => (
+                              <Link
+                                key={sub.href}
+                                href={sub.href}
+                                onClick={() => setOpen(false)}
+                                className="rounded-lg px-4 py-2.5 text-sm font-medium text-white/70 transition-colors hover:text-white hover:bg-white/5"
+                              >
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
+
                   return (
                     <Link
                       key={item.href}
@@ -181,7 +246,7 @@ export function SiteHeader() {
                       }`}
                     >
                       <span>{item.label}</span>
-                      {(item.label === "About" || item.label === "Products" || item.label === "Quality") && (
+                      {(item.label === "Products" || item.label === "Quality") && (
                         <span className="text-white/60 text-lg font-light leading-none">+</span>
                       )}
                     </Link>
@@ -244,4 +309,3 @@ export function SiteHeader() {
     </header>
   )
 }
-

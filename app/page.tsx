@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { FloatingActions } from "@/components/floating-actions"
 import { Hero } from "@/components/sections/hero"
+import { HomeAbout } from "@/components/sections/home-about"
 import { WhyChooseUs } from "@/components/sections/why-choose-us"
 import { ProcessingTimeline } from "@/components/sections/processing-timeline"
 import { ProductGrid } from "@/components/sections/product-grid"
@@ -17,6 +18,7 @@ export default function HomePage() {
 
       <Hero />
 
+      <HomeAbout />
       <WhyChooseUs />
       <ProcessingTimeline />
       <ProductGrid />
@@ -29,3 +31,4 @@ export default function HomePage() {
     </main>
   )
 }
+

@@ -32,7 +32,7 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section id="about" className="font-general-sans bg-[#fbf8f2] py-16 md:py-24 lg:py-28 overflow-hidden">
+    <section className="font-general-sans bg-[#fbf8f2] py-16 md:py-24 lg:py-28 overflow-hidden">
       <div className="container max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16 items-start">
           {/* Left Column: Text Content and Features Grid */}
