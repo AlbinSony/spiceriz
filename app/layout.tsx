@@ -29,6 +29,16 @@ export const metadata: Metadata = {
     "cardamom wholesale",
     "Kerala spice export",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "Spizespices Pvt Ltd | Pure Indian Spices",
     description:
@@ -40,7 +50,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://spizespices.example.com" },
-    generator: 'v0.app'
+  generator: 'v0.app'
 }
 
 export default function RootLayout({

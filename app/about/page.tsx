@@ -1,63 +1,370 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import { useInView } from "framer-motion"
-import { Linkedin } from "lucide-react"
+import {
+  Linkedin,
+  Sprout,
+  Globe,
+  ShieldCheck,
+  Target,
+  Eye,
+} from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { FloatingActions } from "@/components/floating-actions"
 import { Reveal } from "@/components/ui/reveal"
 import Link from "next/link"
 
-/* ── Animated Counter ── */
-function Counter({ target, suffix = "+" }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.5 })
-  const [count, setCount] = useState(0)
+/* ── Google Fonts Loader Hook ── */
+function useGoogleFonts() {
+  useEffect(() => {
+    const id = "spizespices-fonts"
+    if (document.getElementById(id)) return
+    const link = document.createElement("link")
+    link.id = id
+    link.rel = "stylesheet"
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap"
+    document.head.appendChild(link)
+  }, [])
+}
+
+/* ── Geometric Math Utilities ── */
+function polar(cx: number, cy: number, r: number, angleDeg: number) {
+  const a = ((angleDeg - 90) * Math.PI) / 180
+  const x = cx + r * Math.cos(a)
+  const y = cy + r * Math.sin(a)
+  return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000]
+}
+
+function petalPath(cx: number, cy: number, a0: number, a1: number, rO: number, rI: number) {
+  const [x1, y1] = polar(cx, cy, rO, a0)
+  const [x2, y2] = polar(cx, cy, rO, a1)
+  const [x3, y3] = polar(cx, cy, rI, a1)
+  const [x4, y4] = polar(cx, cy, rI, a0)
+  const largeArc = a1 - a0 > 180 ? 1 : 0
+  return `M ${x1} ${y1} A ${rO} ${rO} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${rI} ${rI} 0 ${largeArc} 0 ${x4} ${y4} Z`
+}
+
+/* ── Core SVG Icons ── */
+const ICONS = {
+  shield: "M0,-11 L9,-6 V3 C9,9 4,12 0,14 C-4,12 -9,9 -9,3 V-6 Z",
+  drop: "M0,-11 C6,-3 8,2 8,6 A8,8 0 1 1 -8,6 C-8,2 -6,-3 0,-11 Z",
+  link: "M-5,-5 A4,4 0 1 1 3,3 M5,5 A4,4 0 1 1 -3,-3 M-1,-1 L1,1",
+  leaf: "M-9,9 C-9,-4 4,-9 9,-9 C9,-4 4,9 -9,9 Z M-9,9 C-4,4 2,-2 9,-9",
+  star: "M0,-11 L2.8,-3.6 L10.5,-3.4 L4.3,1.6 L6.5,9 L0,4.6 L-6.5,9 L-4.3,1.6 L-10.5,-3.4 L-2.8,-3.6 Z",
+  people:
+    "M-6,3 A4,4 0 1 1 -6,-5 A4,4 0 0 1 -6,3 Z M6,3 A4,4 0 1 1 6,-5 A4,4 0 0 1 6,3 Z M-11,13 C-11,7 -2,7 -2,13 M2,13 C2,7 11,7 11,13",
+  tool: "M-8,8 L2,-2 M-2,-9 L9,2 L2,9 L-9,-2 Z M4,-4 L8,-8",
+}
+
+/* ── Compass Values Definition ── */
+const COMPASS_VALUES = [
+  { label: ["Integrity"], color: "#173021", dark: false, icon: "shield" },
+  { label: ["Purity"], color: "#1E3A2B", dark: false, icon: "drop" },
+  { label: ["Trust &", "Respect"], color: "#3C5C40", dark: false, icon: "link" },
+  { label: ["Sustainability"], color: "#5F7F55", dark: false, icon: "leaf" },
+  { label: ["Excellence"], color: "#C1622D", dark: false, icon: "star" },
+  { label: ["Community"], color: "#8DA77E", dark: true, icon: "people" },
+  { label: ["Craftsmanship"], color: "#B7C7A3", dark: true, icon: "tool" },
+]
+
+/* ── ValuesCompass Component ── */
+function ValuesCompass() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isIntersecting = useInView(ref, { once: true, amount: 0.15 })
+  const [prefersReduced, setPrefersReduced] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    if (!inView) return
-    let frame: number
-    const duration = 2000
-    const start = performance.now()
-    const step = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.round(eased * target))
-      if (progress < 1) frame = requestAnimationFrame(step)
-    }
-    frame = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(frame)
-  }, [inView, target])
+    setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    setMounted(true)
+  }, [])
+
+  const visible = mounted ? (prefersReduced ? true : isIntersecting) : false
+
+  const cx = 300
+  const cy = 300
+  const rOuter = 268
+  const rInner = 128
+  const gapDeg = 3.2
+  const n = COMPASS_VALUES.length
+  const sweep = 360 / n
+  const startAngle = -90 - sweep / 2
+
+  const petals = useMemo(
+    () =>
+      COMPASS_VALUES.map((v, i) => {
+        const a0 = startAngle + i * sweep + gapDeg / 2
+        const a1 = startAngle + (i + 1) * sweep - gapDeg / 2
+        const mid = (a0 + a1) / 2
+        const d = petalPath(cx, cy, a0, a1, rOuter, rInner)
+        const [ix, iy] = polar(cx, cy, (rOuter + rInner) / 2 - 34, mid)
+        const [lx, ly] = polar(cx, cy, (rOuter + rInner) / 2 + 30, mid)
+        return { ...v, d, ix, iy, lx, ly, mid, index: i }
+      }),
+    []
+  )
 
   return (
-    <span ref={ref}>
-      {count}
-      {suffix}
-    </span>
+    <div
+      ref={ref}
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: 560,
+      }}
+    >
+      <svg
+        viewBox="0 0 600 600"
+        style={{ width: "100%", maxWidth: 560, height: "auto", overflow: "visible" }}
+      >
+        {petals.map((p) => (
+          <g
+            key={p.label.join(" ")}
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible
+                ? "scale(1) rotate(0deg)"
+                : `scale(0.85) rotate(${p.mid > 0 ? 6 : -6}deg)`,
+              transformOrigin: "300px 300px",
+              transitionProperty: "opacity, transform",
+              transitionDuration: "0.6s",
+              transitionTimingFunction: "cubic-bezier(.22,.61,.36,1)",
+              transitionDelay: `${140 + p.index * 90}ms`,
+            }}
+          >
+            <path d={p.d} fill={p.color} />
+            <g
+              transform={`translate(${p.ix},${p.iy}) scale(1.15)`}
+              stroke={p.dark ? "#1E3A2B" : "#F5F1E6"}
+              fill="none"
+              strokeWidth="2.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d={ICONS[p.icon as keyof typeof ICONS]} />
+            </g>
+            <text
+              x={p.lx}
+              y={p.ly - (p.label.length - 1) * 7}
+              textAnchor="middle"
+              fontSize="13.5"
+              fontWeight="700"
+              fill={p.dark ? "#1E3A2B" : "#F5F1E6"}
+              fontFamily="var(--font-sans), sans-serif"
+            >
+              {p.label.map((line, li) => (
+                <tspan key={li} x={p.lx} dy={li === 0 ? 0 : 15}>
+                  {line}
+                </tspan>
+              ))}
+            </text>
+          </g>
+        ))}
+
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rInner - 6}
+          fill="#F5F1E6"
+          stroke="rgba(30,58,43,0.18)"
+          strokeWidth="1.5"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "scale(1)" : "scale(0.7)",
+            transformOrigin: "300px 300px",
+            transition: "opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s",
+          }}
+        />
+        <g
+          transform={`translate(${cx},${cy - 28}) scale(1.6)`}
+          stroke="#5F7F55"
+          fill="none"
+          strokeWidth="2.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.4s" }}
+        >
+          <path d={ICONS.leaf} />
+        </g>
+        <text
+          x={cx}
+          y={cy + 8}
+          textAnchor="middle"
+          fontSize="19"
+          fontWeight="600"
+          fill="#1E3A2B"
+          fontFamily="var(--font-serif), serif"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.45s" }}
+        >
+          Spizespices
+        </text>
+        <text
+          x={cx}
+          y={cy + 24}
+          textAnchor="middle"
+          fontSize="9.5"
+          letterSpacing="0.5"
+          fill="#4B5348"
+          fontFamily="var(--font-sans), sans-serif"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.5s" }}
+        >
+          AGRIBUSINESS SOLUTIONS
+        </text>
+      </svg>
+    </div>
   )
 }
 
-/* ── Stats Data ── */
-const stats = [
-  { target: 10, label: "Years of Experience" },
-  { target: 500, label: "Happy Customers" },
-  { target: 15, label: "Professional Awards" },
-]
+/* ── Hydration-Safe Asymmetric IconMark Badge ── */
+function IconMark({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isIntersecting = useInView(ref, { once: true, amount: 0.3 })
+  const [mounted, setMounted] = useState(false)
+  const [prefersReduced, setPrefersReduced] = useState(false)
 
-/* ── Values Data ── */
-const values = [
+  useEffect(() => {
+    setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    setMounted(true)
+  }, [])
+
+  const visible = mounted ? (prefersReduced ? true : isIntersecting) : false
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        width: 64,
+        height: 60,
+        borderRadius: "58% 42% 46% 54% / 50% 46% 54% 50%",
+        background: "#E4E0CC",
+        border: "1px solid rgba(30, 58, 43, 0.14)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 22,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "scale(1) rotate(0deg)" : "scale(0.6) rotate(-6deg)",
+        transition: `opacity 0.5s cubic-bezier(.3,1.2,.6,1) ${delay}ms, transform 0.5s cubic-bezier(.3,1.2,.6,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ── Custom Mission & Vision SVG Icons ── */
+function MissionIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path
+        d="M5 13.5 C5 13.5 4.4 21 14 21 C23.6 21 23 13.5 23 13.5"
+        stroke="#14261C"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <ellipse cx="14" cy="13.3" rx="9" ry="2.4" stroke="#14261C" strokeWidth="1.7" />
+      <line x1="20.5" y1="4" x2="14.8" y2="13" stroke="#14261C" strokeWidth="2.6" strokeLinecap="round" />
+      <circle cx="21.3" cy="3.2" r="1.9" fill="#C1622D" />
+      <circle cx="11" cy="16.3" r="0.9" fill="#6C8F68" />
+      <circle cx="14.2" cy="17.6" r="0.9" fill="#6C8F68" />
+      <circle cx="17.1" cy="16.1" r="0.9" fill="#6C8F68" />
+    </svg>
+  )
+}
+
+function VisionIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path d="M5 9.5 A5.5 5.5 0 0 1 16 9.5" stroke="#C1622D" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M4 9.5 H2.3 M17 9.5 H18.7 M10.5 3 V1.3 M6.6 4.6 L5.4 3.4 M14.4 4.6 L15.6 3.4" stroke="#C1622D" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M1.5 21 C4.5 16.5 7 19 9.5 16 C12 13 14.5 17.5 17 15 C19.5 12.5 22 16.5 26.5 13.5" stroke="#14261C" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M1.5 21 H26.5" stroke="#14261C" strokeWidth="1.7" strokeLinecap="round" opacity="0.35" />
+    </svg>
+  )
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" width="14" height="14">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+/* ── Custom Why Choose Us SVG Icons ── */
+function ConceptIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path d="M14 15 C11.5 10.5 12 4.5 14 1.5 C16 4.5 16.5 10.5 14 15 Z" fill="#6C8F68" opacity="0.9" />
+      <path d="M14 15 C9.5 12 6.5 7.5 6 4 C10 4.8 13 9 14 15 Z" fill="#8DA77E" opacity="0.9" />
+      <path d="M14 15 C18.5 12 21.5 7.5 22 4 C18 4.8 15 9 14 15 Z" fill="#8DA77E" opacity="0.9" />
+      <path d="M14 15 V25 M14 20 C11.5 20 10.5 21.5 10.5 23" stroke="#14261C" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+    </svg>
+  )
+}
+
+function PhilosophyIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="2" fill="#C1622D" />
+      <circle cx="14" cy="14" r="6.2" stroke="#14261C" strokeWidth="1.5" opacity="0.85" />
+      <circle cx="14" cy="14" r="10.4" stroke="#14261C" strokeWidth="1.4" opacity="0.5" />
+      <circle cx="14" cy="14" r="13.4" stroke="#14261C" strokeWidth="1.3" opacity="0.22" />
+    </svg>
+  )
+}
+
+function ValuesIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <path
+        d="M8 19.5 L5.5 26 L9.8 24.3 L11.6 27.5 L14 21.2"
+        stroke="#14261C"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        fill="none"
+        transform="translate(0,-4)"
+      />
+      <path
+        d="M20 19.5 L22.5 26 L18.2 24.3 L16.4 27.5 L14 21.2"
+        stroke="#14261C"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        fill="none"
+        transform="translate(0,-4)"
+      />
+      <circle cx="14" cy="11" r="8.4" fill="#EFEADB" stroke="#14261C" strokeWidth="1.6" />
+      <path d="M10.2 11.2 L12.8 13.8 L18 8.2" stroke="#C1622D" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  )
+}
+
+/* ── Why Choose Us Reasons Data ── */
+const REASONS = [
   {
+    numeral: "I.",
     title: "Our Concept",
-    desc: "The sprouting spice seedling symbolizes new life and is the manifestation of all growth, innovation, and prosperity. It represents farming and the farmer — the foundation for all our activities, from sourcing premium spices to delivering them worldwide. The seedling grows in all directions in pursuit of excellence, embodying Spizespices — always fresh, innovating, and inspiring.",
+    Icon: ConceptIcon,
+    text: "The emerging bud is our own symbol — new life, growth, and the farmer at the root of everything we do, whether that's distributing agro inputs, trading spices, or running auctions. It opens in every direction, in pursuit of the same thing: staying fresh, inventive, and always reaching further.",
   },
   {
+    numeral: "II.",
     title: "Our Philosophy",
-    desc: "Our core philosophy is to bring the purest Kerala spices to the world through sustainable sourcing and fair trade practices. We enhance farming returns by improving farm productivity, product quality, market reach, and brand value — delivering maximum value to agriculture in a sustainable manner.",
+    Icon: PhilosophyIcon,
+    text: "Our core philosophy is to enhance farming returns through agribusiness solutions that improve farm productivity, quality, product reach, and marketability — fetching optimal prices and delivering maximum value to agriculture, sustainably.",
   },
   {
+    numeral: "III.",
     title: "Our Values",
-    desc: "We offer valuable products and services that build a trusted brand name. Honesty and integrity are woven into every trade we make with our clients. We ensure stage-wise growth and development of our team, our farmers, and the communities we work with.",
+    Icon: ValuesIcon,
+    text: "Every trade carries our name, so honesty and integrity come first. We build valuable services and products around that trust, while investing in the stage-wise growth and development of the people who work with us.",
   },
 ]
 
@@ -85,6 +392,9 @@ const directors = [
 
 export default function AboutPage() {
   /* Smooth-scroll on load if hash is present */
+  useGoogleFonts()
+
+  /* Smooth-scroll on load if hash is present */
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {
@@ -95,7 +405,7 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <main>
+    <main className="bg-[#fbf8f2]">
       <SiteHeader />
 
       {/* ── Hero Banner ── */}
@@ -119,156 +429,303 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── About Us Section ── */}
-      <section id="about-us" className="section-shell">
-        <div className="container">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 items-center">
-            <Reveal>
-              <span className="premium-chip">Who We Are</span>
-              <h2 className="h-display mt-5 text-3xl text-[var(--color-primary)] sm:text-4xl md:text-5xl">
-                About Our Company
+      {/* ── SECTION 1: About Spizespices ── */}
+      <section
+        id="about-us"
+        style={{
+          position: "relative",
+          padding: "100px 0 110px",
+          background:
+            "radial-gradient(circle at 8% 12%, rgba(30,58,43,0.05), transparent 40%), #F5F1E6",
+          fontFamily: "'Manrope', sans-serif",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(rgba(30,58,43,0.05) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            opacity: 0.5,
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          className="container max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-16 items-center relative z-10 spz-wrap"
+        >
+          <div>
+            <Reveal delay={0}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "#9F4E22",
+                  marginBottom: 22,
+                }}
+              >
+                <span style={{ width: 26, height: 2, background: "#C1622D", display: "inline-block" }} />
+                About Spizespices
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <h2
+                style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontWeight: 560,
+                  fontSize: "clamp(38px, 4.4vw, 56px)",
+                  lineHeight: 1.04,
+                  letterSpacing: "-0.01em",
+                  color: "#14261C",
+                  margin: "0 0 22px",
+                }}
+              >
+                Growing trust,<br />
+                <em style={{ fontStyle: "italic", color: "#6C8F68", fontWeight: 500 }}>
+                  from the ground up.
+                </em>
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-[var(--color-foreground)]/80 sm:text-lg">
-                <strong className="text-[var(--color-primary)]">Spizespices Pvt Ltd</strong> focuses
-                on delivering the finest Kerala spices to global markets. Rooted in the lush hills of
-                Idukki, we believe that agriculture is the backbone of livelihood in India — hence
-                farming and allied activities are propelled through our solutions in agribusiness.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-foreground)]/80 sm:text-lg">
-                With the right channels of marketing, demand, and trusted buyers, we ensure a steady
-                outflow of farm returns with an unwavering focus on enhancing farm productivity and
-                quality. From hand-picked cardamom to export-ready pepper and turmeric, every spice
-                carries the promise of purity.
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <p style={{ fontSize: 18, fontWeight: 600, color: "#22281F", margin: "0 0 18px", lineHeight: 1.5 }}>
+                Enhancing farm productivity &amp; quality — for the growers, and everyone downstream.
               </p>
             </Reveal>
 
-            {/* Decorative card with accent */}
-            <Reveal delay={0.15}>
-              <div className="relative">
-                <div className="about-image-card">
-                  <div className="flex flex-col items-center justify-center gap-4 text-center">
-                    <div
-                      className="inline-flex h-20 w-20 items-center justify-center rounded-full text-3xl font-bold"
+            <Reveal delay={0.22}>
+              <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", maxWidth: 480, margin: "0 0 34px" }}>
+                Agriculture is the root of livelihood across India, so we built our agribusiness
+                solutions around it. By connecting farms to the right markets, demand, and buyers,
+                we keep farm returns steady while pushing productivity and quality forward, season
+                after season.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.28}>
+              <div style={{ display: "flex", gap: 34, marginBottom: 38 }}>
+                {[
+                  ["7", "Core Values"],
+                  ["360°", "Farm-to-Buyer Chain"],
+                  ["1st", "Priority: Quality"],
+                ].map(([num, label]) => (
+                  <div key={label} style={{ borderLeft: "2px solid rgba(30,58,43,0.16)", paddingLeft: 14 }}>
+                    <b
                       style={{
-                        backgroundColor: "var(--color-secondary)",
-                        color: "var(--color-primary-foreground)",
+                        display: "block",
+                        fontFamily: "'Fraunces', serif",
+                        fontSize: 26,
+                        fontWeight: 600,
+                        color: "#14261C",
+                        lineHeight: 1,
+                        marginBottom: 4,
                       }}
                     >
-                      SS
-                    </div>
-                    <h3 className="font-serif text-2xl font-semibold text-[var(--color-primary)]">
-                      Spizespices Pvt Ltd
-                    </h3>
-                    <p className="text-sm font-medium text-[var(--color-muted-foreground)]">
-                      Premium Kerala Spices · Established with Passion
-                    </p>
-                    <div className="mt-2 h-px w-16 bg-[var(--color-secondary)]/30" />
-                    <p className="max-w-xs text-sm leading-relaxed text-[var(--color-foreground)]/70">
-                      Today, Spizespices is a well-established and professionally managed company
-                      committed to quality, sustainability, and global excellence in the spice trade.
-                    </p>
+                      {num}
+                    </b>
+                    <span style={{ fontSize: 11.5, color: "#4B5348", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                      {label}
+                    </span>
                   </div>
-                </div>
-                {/* Decorative background blob */}
-                <div className="about-blob" />
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.34}>
+              <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
+                <a
+                  href="#mission-vision"
+                  style={{
+                    background: "#14261C",
+                    color: "#F5F1E6",
+                    border: "none",
+                    fontFamily: "'Manrope', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 14,
+                    letterSpacing: "0.02em",
+                    padding: "15px 26px",
+                    borderRadius: 3,
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  Explore Our Values
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" width="14" height="14">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+                <Link
+                  href="/#processing"
+                  style={{
+                    fontSize: 13.5,
+                    fontWeight: 700,
+                    color: "#14261C",
+                    textDecoration: "none",
+                    borderBottom: "1.5px solid #A9C29B",
+                    paddingBottom: 2,
+                  }}
+                >
+                  Our Sourcing Story
+                </Link>
               </div>
             </Reveal>
           </div>
+
+          <ValuesCompass />
         </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .spz-wrap { grid-template-columns: 1fr !important; gap: 48px !important; }
+          }
+        `}</style>
       </section>
 
-      {/* ── Stats Counter ── */}
-      <section className="py-12 md:py-16">
-        <div className="container">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {stats.map((s, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="stat-card">
-                  <span className="stat-number">
-                    <Counter target={s.target} />
+      {/* ── SECTION 2: Mission & Vision ── */}
+      <section
+        id="mission-vision"
+        style={{
+          position: "relative",
+          padding: "104px 0 96px",
+          background: "rgba(91,140,81,0.06)",
+          borderTop: "1px solid rgba(35,79,44,0.08)",
+          borderBottom: "1px solid rgba(35,79,44,0.08)",
+          fontFamily: "'Manrope', sans-serif",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(rgba(30,58,43,0.05) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            opacity: 0.5,
+            pointerEvents: "none",
+          }}
+        />
+
+        <div style={{ position: "relative", zIndex: 1 }} className="container max-w-5xl mx-auto px-6 lg:px-8">
+          {/* kicker */}
+          <Reveal delay={0}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+              <span style={{ width: 34, height: 1, background: "#C1622D", display: "inline-block" }} />
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "#6C8F68",
+                }}
+              >
+                Why Spizespices exists
+              </span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <h2
+              style={{
+                fontFamily: "'Fraunces', serif",
+                fontWeight: 560,
+                fontSize: "clamp(34px, 4.6vw, 54px)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.01em",
+                color: "#14261C",
+                margin: "0 0 60px",
+                maxWidth: 620,
+              }}
+            >
+              What we're working<br />
+              toward<span style={{ color: "#C1622D" }}>,</span> and why<span style={{ color: "#C1622D" }}>.</span>
+            </h2>
+          </Reveal>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 64,
+              borderTop: "1px solid rgba(30,58,43,0.14)",
+              paddingTop: 48,
+            }}
+            className="mv-grid"
+          >
+            <Reveal delay={0.14}>
+              <div>
+                <IconMark delay={220}>
+                  <MissionIcon />
+                </IconMark>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
+                  <span
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontStyle: "italic",
+                      fontSize: 17,
+                      color: "#C1622D",
+                    }}
+                  >
+                    I.
                   </span>
-                  <span className="stat-label">{s.label}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Concept / Philosophy / Values ── */}
-      <section className="section-shell">
-        <div className="container">
-          <Reveal className="section-intro">
-            <span className="premium-chip">Our Foundation</span>
-            <h2 className="h-display mt-5 text-3xl text-[var(--color-primary)] sm:text-4xl md:text-5xl">
-              Why Choose Us
-            </h2>
-          </Reveal>
-
-          <div className="mx-auto mt-12 grid max-w-[1200px] grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 sm:mt-16">
-            {values.map((v, i) => (
-              <Reveal key={i} delay={i * 0.12}>
-                <div className="card hover-lift flex h-full flex-col bg-[rgba(247,244,236,0.95)] px-7 py-8 sm:px-8 sm:py-10">
-                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-secondary)]/10 text-[var(--color-secondary)]">
-                    <span className="text-lg font-bold">{String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                  <h3 className="font-serif text-xl font-semibold text-[var(--color-primary)] sm:text-2xl">
-                    {v.title}
+                  <h3
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontWeight: 600,
+                      fontSize: 23,
+                      color: "#14261C",
+                      margin: 0,
+                    }}
+                  >
+                    Our Mission
                   </h3>
-                  <div className="mt-3 h-[2px] w-8 bg-[var(--color-secondary)]" />
-                  <p className="mt-4 flex-1 text-[15px] leading-relaxed text-[var(--color-foreground)]/80">
-                    {v.desc}
-                  </p>
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Mission & Vision ── */}
-      <section id="mission-vision" className="section-shell bg-[rgba(247,244,236,0.5)]">
-        <div className="container">
-          <Reveal className="section-intro">
-            <span className="premium-chip">Our Purpose</span>
-            <h2 className="h-display mt-5 text-3xl text-[var(--color-primary)] sm:text-4xl md:text-5xl">
-              Mission &amp; Vision
-            </h2>
-          </Reveal>
-
-          <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 sm:mt-16">
-            <Reveal delay={0}>
-              <div className="mission-card">
-                <div className="mission-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="6" />
-                    <circle cx="12" cy="12" r="2" />
-                  </svg>
-                </div>
-                <h3 className="mt-5 font-serif text-2xl font-semibold text-[var(--color-primary)]">
-                  Our Mission
-                </h3>
-                <p className="mt-4 text-[15px] leading-relaxed text-[var(--color-foreground)]/80">
+                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", margin: 0, maxWidth: 420 }}>
                   To source, process, and deliver the purest Kerala spices to homes and businesses
-                  worldwide — empowering local farmers with fair returns while maintaining uncompromising
-                  quality at every step from farm to fork.
+                  worldwide — empowering local farmers with fair returns while maintaining
+                  uncompromising quality at every step from farm to fork.
                 </p>
               </div>
             </Reveal>
 
-            <Reveal delay={0.12}>
-              <div className="mission-card">
-                <div className="mission-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
+            <Reveal delay={0.20}>
+              <div>
+                <IconMark delay={280}>
+                  <VisionIcon />
+                </IconMark>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
+                  <span
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontStyle: "italic",
+                      fontSize: 17,
+                      color: "#C1622D",
+                    }}
+                  >
+                    II.
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontWeight: 600,
+                      fontSize: 23,
+                      color: "#14261C",
+                      margin: 0,
+                    }}
+                  >
+                    Our Vision
+                  </h3>
                 </div>
-                <h3 className="mt-5 font-serif text-2xl font-semibold text-[var(--color-primary)]">
-                  Our Vision
-                </h3>
-                <p className="mt-4 text-[15px] leading-relaxed text-[var(--color-foreground)]/80">
+                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", margin: 0, maxWidth: 420 }}>
                   To become the most trusted name in Indian spice exports — recognized globally for
                   authenticity, sustainability, and premium quality. We envision a future where every
                   kitchen in the world has access to the finest spices grown in the hills of Kerala.
@@ -276,18 +733,163 @@ export default function AboutPage() {
               </div>
             </Reveal>
           </div>
+
+          <Reveal delay={0.34}>
+            <div style={{ marginTop: 56 }}>
+              <a
+                href="#contact"
+                style={{
+                  background: "#14261C",
+                  color: "#F5F1E6",
+                  border: "none",
+                  fontFamily: "'Manrope', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  letterSpacing: "0.02em",
+                  padding: "15px 26px",
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+              >
+                Get in Touch
+                <ArrowIcon />
+              </a>
+            </div>
+          </Reveal>
         </div>
+
+        <style>{`
+          @media (max-width: 760px) {
+            .mv-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          }
+        `}</style>
       </section>
 
-      {/* ── Our Team ── */}
-      <section id="our-team" className="section-shell">
-        <div className="container">
+      {/* ── SECTION 3: Why Choose Us ── */}
+      <section
+        id="why-choose-us"
+        style={{
+          position: "relative",
+          padding: "96px 0 104px",
+          background: "#F5F1E6",
+          fontFamily: "'Manrope', sans-serif",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(rgba(30,58,43,0.05) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            opacity: 0.5,
+            pointerEvents: "none",
+          }}
+        />
+
+        <div style={{ position: "relative", zIndex: 1 }} className="container max-w-7xl mx-auto px-6 lg:px-8">
+          <Reveal delay={0}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+              <span style={{ width: 34, height: 1, background: "#C1622D", display: "inline-block" }} />
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "#6C8F68",
+                }}
+              >
+                What sets us apart
+              </span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <h2
+              style={{
+                fontFamily: "'Fraunces', serif",
+                fontWeight: 560,
+                fontSize: "clamp(34px, 4.6vw, 54px)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.01em",
+                color: "#14261C",
+                margin: "0 0 60px",
+                maxWidth: 640,
+              }}
+            >
+              Why choose <span style={{ color: "#6C8F68", fontStyle: "italic" }}>us.</span>
+            </h2>
+          </Reveal>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 56,
+              borderTop: "1px solid rgba(30,58,43,0.14)",
+              paddingTop: 48,
+            }}
+            className="wcu-grid"
+          >
+            {REASONS.map((r, i) => (
+              <Reveal key={r.title} delay={0.14 + i * 0.07}>
+                <div>
+                  <IconMark delay={220 + i * 70}>
+                    <r.Icon />
+                  </IconMark>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
+                    <span
+                      style={{
+                        fontFamily: "'Fraunces', serif",
+                        fontStyle: "italic",
+                        fontSize: 17,
+                        color: "#C1622D",
+                      }}
+                    >
+                      {r.numeral}
+                    </span>
+                    <h3
+                      style={{
+                        fontFamily: "'Fraunces', serif",
+                        fontWeight: 600,
+                        fontSize: 22,
+                        color: "#14261C",
+                        margin: 0,
+                      }}
+                    >
+                      {r.title}
+                    </h3>
+                  </div>
+                  <p style={{ fontSize: 15, lineHeight: 1.75, color: "#4B5348", margin: 0 }}>{r.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .wcu-grid { grid-template-columns: 1fr !important; gap: 44px !important; }
+          }
+        `}</style>
+      </section>
+
+
+
+      {/* ── SECTION 5: Meet Our Directors ── */}
+      {/* Background: Soft cream card color */}
+      <section id="our-team" className="bg-[var(--color-card)] py-20 md:py-24 border-t border-[rgba(35,79,44,0.08)]">
+        <div className="container max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="section-intro">
             <span className="premium-chip">Leadership</span>
             <h2 className="h-display mt-5 text-3xl text-[var(--color-primary)] sm:text-4xl md:text-5xl">
               Meet Our Directors
             </h2>
-            <p className="mt-4 text-base text-[var(--color-foreground)]/70 sm:text-lg">
+            <p className="mt-4 text-base text-[var(--color-foreground)]/70 sm:text-lg font-medium">
               Our Management Team
             </p>
           </Reveal>
@@ -295,7 +897,7 @@ export default function AboutPage() {
           <div className="mx-auto mt-12 grid max-w-[1000px] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 sm:mt-16">
             {directors.map((d, i) => (
               <Reveal key={i} delay={i * 0.12}>
-                <div className="team-card">
+                <div className="team-card bg-[#fbf8f2] border border-[var(--color-border)] shadow-[0_10px_35px_rgba(35,79,44,0.04)] hover:shadow-[0_20px_50px_rgba(35,79,44,0.12)]">
                   {/* Avatar */}
                   <div className="team-avatar">
                     <span>{d.initials}</span>

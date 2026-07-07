@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { CldImage } from "next-cloudinary"
+import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { Phone, Menu, X, Facebook, Instagram, Youtube, ChevronDown } from "lucide-react"
@@ -53,11 +53,11 @@ export function SiteHeader() {
   const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     const isHomePage = window.location.pathname === "/"
     const isAnchor = href.startsWith("/#") || href.startsWith("#")
-    
+
     if (isHomePage && isAnchor) {
       e.preventDefault()
       setOpen(false)
-      
+
       const hash = href.split("#")[1]
       if (hash) {
         setTimeout(() => {
@@ -76,22 +76,21 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 h-16 md:h-20 transition-all duration-500 ${
-        scrolled
+      className={`sticky top-0 z-50 h-16 md:h-20 transition-all duration-500 ${scrolled
           ? "border-b border-[rgba(35,79,44,0.08)] bg-[rgba(247,244,236,0.95)] shadow-[0_10px_30px_rgba(35,79,44,0.05)] backdrop-blur-xl"
           : "border-b border-transparent bg-transparent backdrop-blur-0"
-      }`}
+        }`}
     >
       <div className="container flex h-full items-center justify-between gap-3 md:grid md:grid-cols-[auto_1fr_auto] md:justify-start">
         <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="Spizespices Home">
-          <CldImage
-            src="spizespiceslogo_nficgo"
+          <Image
+            src="/images/spizespiceslogo.png"
             alt="Spizespices"
-            width={166}
-            height={48}
+            width={220}
+            height={64}
             priority
-            className="h-9 w-auto shrink-0 object-contain sm:h-10 md:h-12"
-            sizes="(max-width: 768px) 128px, 166px"
+            className="h-12 w-auto shrink-0 object-contain sm:h-13 md:h-16"
+            sizes="(max-width: 768px) 160px, 220px"
           />
         </Link>
 
@@ -168,13 +167,13 @@ export function SiteHeader() {
             >
               <div className="flex items-center justify-between">
                 <div className="bg-white/95 rounded-xl p-2 px-3 inline-flex items-center justify-center">
-                  <CldImage
-                    src="spizespiceslogo_nficgo"
+                  <Image
+                    src="/images/spizespiceslogo.png"
                     alt="Spizespices"
-                    width={130}
-                    height={36}
-                    className="h-7 w-auto object-contain"
-                    sizes="130px"
+                    width={220}
+                    height={64}
+                    className="h-12 w-auto object-contain"
+                    sizes="220px"
                   />
                 </div>
                 <button
@@ -201,17 +200,15 @@ export function SiteHeader() {
                       <div key={item.href}>
                         <button
                           onClick={() => setAboutAccordionOpen((v) => !v)}
-                          className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${
-                            aboutAccordionOpen
+                          className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${aboutAccordionOpen
                               ? "bg-white/10 text-white"
                               : "text-white/80 hover:text-white hover:bg-white/5"
-                          }`}
+                            }`}
                         >
                           <span>{item.label}</span>
                           <ChevronDown
-                            className={`h-4 w-4 transition-transform duration-300 ${
-                              aboutAccordionOpen ? "rotate-180" : ""
-                            }`}
+                            className={`h-4 w-4 transition-transform duration-300 ${aboutAccordionOpen ? "rotate-180" : ""
+                              }`}
                           />
                         </button>
                         <div
@@ -239,11 +236,10 @@ export function SiteHeader() {
                       key={item.href}
                       href={item.href}
                       onClick={(e) => handleNavLinkClick(e, item.href)}
-                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${
-                        isActive
+                      className={`flex items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-all duration-200 ${isActive
                           ? "bg-white/10 text-white"
                           : "text-white/80 hover:text-white hover:bg-white/5"
-                      }`}
+                        }`}
                     >
                       <span>{item.label}</span>
                       {(item.label === "Products" || item.label === "Quality") && (
