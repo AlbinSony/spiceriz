@@ -369,26 +369,155 @@ const REASONS = [
 ]
 
 /* ── Team Data ── */
-const directors = [
-  {
-    name: "Lijish Joshy",
-    role: "Director",
-    initials: "LJ",
-    linkedin: "#",
-  },
-  {
-    name: "Dani J Joseph",
-    role: "Director",
-    initials: "DJ",
-    linkedin: "#",
-  },
-  {
-    name: "Jubin Reji",
-    role: "Director",
-    initials: "JR",
-    linkedin: "#",
-  },
+const DIRECTORS = [
+  { name: "Lijish Joshy", role: "Director", initials: "LJ", photo: null },
+  { name: "Dani J Joseph", role: "Director", initials: "DJ", photo: null },
+  { name: "Jubin Reji", role: "Director", initials: "JR", photo: null },
 ]
+
+/* ── ConnectIcon for Linkedin/Find Online ── */
+function ConnectIcon({ hovered }: { hovered: boolean }) {
+  const stroke = hovered ? "#F5F1E6" : "#14261C"
+  return (
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+      <circle cx="5" cy="15" r="2.1" stroke={stroke} strokeWidth="1.4" />
+      <circle cx="15" cy="15" r="2.1" stroke={stroke} strokeWidth="1.4" />
+      <circle cx="10" cy="5.5" r="2.1" stroke={stroke} strokeWidth="1.4" />
+      <path d="M6.6 13.3 L8.7 7.4 M13.4 13.3 L11.3 7.4" stroke={stroke} strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+/* ── BudWatermark background stamp ── */
+function BudWatermark() {
+  return (
+    <svg width="72" height="72" viewBox="0 0 28 28" fill="none" style={{ opacity: 0.16 }}>
+      <path d="M14 15 C11.5 10.5 12 4.5 14 1.5 C16 4.5 16.5 10.5 14 15 Z" fill="#F5F1E6" />
+      <path d="M14 15 C9.5 12 6.5 7.5 6 4 C10 4.8 13 9 14 15 Z" fill="#F5F1E6" />
+      <path d="M14 15 C18.5 12 21.5 7.5 22 4 C18 4.8 15 9 14 15 Z" fill="#F5F1E6" />
+    </svg>
+  )
+}
+
+/* ── Portrait placeholder/photo frame ── */
+function Portrait({ initials, photo }: { initials: string; photo?: string | null }) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        aspectRatio: "4 / 5",
+        overflow: "hidden",
+        background: "linear-gradient(160deg, #3C5C40 0%, #1B3324 100%)",
+      }}
+    >
+      {photo ? (
+        <img src={photo} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      ) : (
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <BudWatermark />
+          <span
+            style={{
+              position: "relative",
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 600,
+              fontSize: 34,
+              color: "#F5F1E6",
+              letterSpacing: "0.02em",
+            }}
+          >
+            {initials}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── DirectorCard component (Hydration Safe) ── */
+function DirectorCard({ name, role, initials, photo, delay }: { name: string; role: string; initials: string; photo?: string | null; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isIntersecting = useInView(ref, { once: true, amount: 0.2 })
+  const [mounted, setMounted] = useState(false)
+  const [prefersReduced, setPrefersReduced] = useState(false)
+  const [hovered, setHovered] = useState(false)
+
+  useEffect(() => {
+    setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    setMounted(true)
+  }, [])
+
+  const visible = mounted ? (prefersReduced ? true : isIntersecting) : false
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: "#EFEADB",
+        borderRadius: 6,
+        overflow: "hidden",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.65s cubic-bezier(.22,.61,.36,1) ${delay}ms, transform 0.65s cubic-bezier(.22,.61,.36,1) ${delay}ms, box-shadow 0.3s ease, translate 0.3s ease`,
+        boxShadow: hovered
+          ? "0 26px 46px rgba(20,38,28,0.16), 0 4px 10px rgba(20,38,28,0.08)"
+          : "0 14px 30px rgba(20,38,28,0.08)",
+        translate: hovered ? "0 -5px" : "0 0",
+      }}
+    >
+      <Portrait initials={initials} photo={photo} />
+
+      <div style={{ padding: "26px 28px 28px" }}>
+        <h3
+          style={{
+            fontFamily: "'Fraunces', serif",
+            fontWeight: 600,
+            fontSize: 21,
+            color: "#14261C",
+            margin: "0 0 6px",
+          }}
+        >
+          {name}
+        </h3>
+        <p
+          style={{
+            fontSize: 12.5,
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "#C1622D",
+            margin: "0 0 22px",
+          }}
+        >
+          {role}
+        </p>
+
+        <div style={{ height: 1, background: "rgba(30,58,43,0.14)", marginBottom: 20 }} />
+
+        <a
+          href="#"
+          aria-label={`Connect with ${name}`}
+          style={{
+            width: 38,
+            height: 38,
+            borderRadius: "50%",
+            border: `1px solid ${hovered ? "#14261C" : "rgba(30,58,43,0.24)"}`,
+            background: hovered ? "#14261C" : "transparent",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textDecoration: "none",
+            transition: "background 0.25s ease, border-color 0.25s ease",
+          }}
+        >
+          <ConnectIcon hovered={hovered} />
+        </a>
+      </div>
+    </div>
+  )
+}
 
 export default function AboutPage() {
   /* Smooth-scroll on load if hash is present */
@@ -596,9 +725,9 @@ export default function AboutPage() {
         style={{
           position: "relative",
           padding: "104px 0 96px",
-          background: "rgba(91,140,81,0.06)",
-          borderTop: "1px solid rgba(35,79,44,0.08)",
-          borderBottom: "1px solid rgba(35,79,44,0.08)",
+          background: "#1E3A2B",
+          borderTop: "1px solid rgba(245,241,230,0.08)",
+          borderBottom: "1px solid rgba(245,241,230,0.08)",
           fontFamily: "'Manrope', sans-serif",
           overflow: "hidden",
         }}
@@ -607,7 +736,7 @@ export default function AboutPage() {
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "radial-gradient(rgba(30,58,43,0.05) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(245,241,230,0.05) 1px, transparent 1px)",
             backgroundSize: "22px 22px",
             opacity: 0.5,
             pointerEvents: "none",
@@ -625,7 +754,7 @@ export default function AboutPage() {
                   fontWeight: 700,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "#6C8F68",
+                  color: "#B7C7A3",
                 }}
               >
                 Why Spizespices exists
@@ -641,7 +770,7 @@ export default function AboutPage() {
                 fontSize: "clamp(34px, 4.6vw, 54px)",
                 lineHeight: 1.08,
                 letterSpacing: "-0.01em",
-                color: "#14261C",
+                color: "#F5F1E6",
                 margin: "0 0 60px",
                 maxWidth: 620,
               }}
@@ -656,7 +785,7 @@ export default function AboutPage() {
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: 64,
-              borderTop: "1px solid rgba(30,58,43,0.14)",
+              borderTop: "1px solid rgba(245,241,230,0.14)",
               paddingTop: 48,
             }}
             className="mv-grid"
@@ -682,14 +811,14 @@ export default function AboutPage() {
                       fontFamily: "'Fraunces', serif",
                       fontWeight: 600,
                       fontSize: 23,
-                      color: "#14261C",
+                      color: "#F5F1E6",
                       margin: 0,
                     }}
                   >
                     Our Mission
                   </h3>
                 </div>
-                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", margin: 0, maxWidth: 420 }}>
+                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "rgba(245,241,230,0.8)", margin: 0, maxWidth: 420 }}>
                   To source, process, and deliver the purest Kerala spices to homes and businesses
                   worldwide — empowering local farmers with fair returns while maintaining
                   uncompromising quality at every step from farm to fork.
@@ -718,14 +847,14 @@ export default function AboutPage() {
                       fontFamily: "'Fraunces', serif",
                       fontWeight: 600,
                       fontSize: 23,
-                      color: "#14261C",
+                      color: "#F5F1E6",
                       margin: 0,
                     }}
                   >
                     Our Vision
                   </h3>
                 </div>
-                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", margin: 0, maxWidth: 420 }}>
+                <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "rgba(245,241,230,0.8)", margin: 0, maxWidth: 420 }}>
                   To become the most trusted name in Indian spice exports — recognized globally for
                   authenticity, sustainability, and premium quality. We envision a future where every
                   kitchen in the world has access to the finest spices grown in the hills of Kerala.
@@ -739,8 +868,8 @@ export default function AboutPage() {
               <a
                 href="#contact"
                 style={{
-                  background: "#14261C",
-                  color: "#F5F1E6",
+                  background: "#F5F1E6",
+                  color: "#1E3A2B",
                   border: "none",
                   fontFamily: "'Manrope', sans-serif",
                   fontWeight: 700,
@@ -752,7 +881,9 @@ export default function AboutPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 10,
+                  transition: "background-color 0.2s ease, opacity 0.2s ease",
                 }}
+                className="mv-cta-btn"
               >
                 Get in Touch
                 <ArrowIcon />
@@ -762,6 +893,7 @@ export default function AboutPage() {
         </div>
 
         <style>{`
+          .mv-cta-btn:hover { background-color: #E4E0CC !important; }
           @media (max-width: 760px) {
             .mv-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           }
@@ -881,51 +1013,103 @@ export default function AboutPage() {
 
 
       {/* ── SECTION 5: Meet Our Directors ── */}
-      {/* Background: Soft cream card color */}
-      <section id="our-team" className="bg-[var(--color-card)] py-20 md:py-24 border-t border-[rgba(35,79,44,0.08)]">
-        <div className="container max-w-7xl mx-auto px-6 lg:px-8">
-          <Reveal className="section-intro">
-            <span className="premium-chip">Leadership</span>
-            <h2 className="h-display mt-5 text-3xl text-[var(--color-primary)] sm:text-4xl md:text-5xl">
-              Meet Our Directors
-            </h2>
-            <p className="mt-4 text-base text-[var(--color-foreground)]/70 sm:text-lg font-medium">
-              Our Management Team
-            </p>
-          </Reveal>
+      <section
+        id="our-team"
+        style={{
+          position: "relative",
+          padding: "100px 0 112px",
+          background: "#F5F1E6",
+          fontFamily: "'Manrope', sans-serif",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(rgba(30,58,43,0.05) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            opacity: 0.5,
+            pointerEvents: "none",
+          }}
+        />
 
-          <div className="mx-auto mt-12 grid max-w-[1000px] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 sm:mt-16">
-            {directors.map((d, i) => (
-              <Reveal key={i} delay={i * 0.12}>
-                <div className="team-card bg-[#fbf8f2] border border-[var(--color-border)] shadow-[0_10px_35px_rgba(35,79,44,0.04)] hover:shadow-[0_20px_50px_rgba(35,79,44,0.12)]">
-                  {/* Avatar */}
-                  <div className="team-avatar">
-                    <span>{d.initials}</span>
-                  </div>
-
-                  {/* Info */}
-                  <h3 className="mt-5 font-serif text-xl font-semibold text-[var(--color-primary)]">
-                    {d.name}
-                  </h3>
-                  <p className="mt-1 text-sm font-medium text-[var(--color-muted-foreground)]">
-                    {d.role}
-                  </p>
-
-                  {/* LinkedIn */}
-                  <a
-                    href={d.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="team-linkedin"
-                    aria-label={`${d.name} LinkedIn`}
+        <div style={{ position: "relative", zIndex: 1 }} className="container max-w-7xl mx-auto px-6 lg:px-8">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              gap: 40,
+              marginBottom: 56,
+              flexWrap: "wrap",
+            }}
+          >
+            <div>
+              <Reveal delay={0}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+                  <span style={{ width: 34, height: 1, background: "#C1622D", display: "inline-block" }} />
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: "#6C8F68",
+                    }}
                   >
-                    <Linkedin className="h-4 w-4" />
-                  </a>
+                    Leadership
+                  </span>
                 </div>
               </Reveal>
+
+              <Reveal delay={0.08}>
+                <h2
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontWeight: 560,
+                    fontSize: "clamp(34px, 4.4vw, 52px)",
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.01em",
+                    color: "#14261C",
+                    margin: 0,
+                    maxWidth: 560,
+                  }}
+                >
+                  The people <span style={{ color: "#6C8F68", fontStyle: "italic" }}>steering</span> Spizespices.
+                </h2>
+              </Reveal>
+            </div>
+
+            <Reveal delay={0.14}>
+              <p style={{ fontSize: 15, color: "#4B5348", margin: 0, maxWidth: 260, textAlign: "right" }} className="mgmt-tagline">
+                Our management team, and the decisions they carry.
+              </p>
+            </Reveal>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 32,
+            }}
+            className="directors-grid"
+          >
+            {DIRECTORS.map((d, i) => (
+              <DirectorCard key={d.name} {...d} delay={180 + i * 90} />
             ))}
           </div>
         </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .directors-grid { grid-template-columns: 1fr !important; }
+          }
+          @media (max-width: 700px) {
+            .mgmt-tagline { display: none; }
+          }
+        `}</style>
       </section>
 
       <SiteFooter />
