@@ -78,8 +78,8 @@ export function WhyChooseUs() {
               alt="Assorted spices on a dark slate background"
               fill
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              quality={75}
+              sizes="(max-width: 480px) 100vw, 420px"
+              quality={65}
               format="auto"
               loading="lazy"
             />

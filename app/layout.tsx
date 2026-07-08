@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Playfair_Display, Lato } from "next/font/google"
+import { Playfair_Display, Lato, Outfit, Manrope, Fraunces } from "next/font/google"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -15,6 +15,27 @@ const lato = Lato({
   display: "swap",
   variable: "--font-lato",
   weight: ["400", "700"],
+})
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-outfit",
+  weight: ["300", "400", "500", "600", "700", "800"],
+})
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700", "800"],
+})
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+  weight: ["400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
@@ -58,17 +79,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable} scroll-smooth overflow-x-hidden`}>
+    <html lang="en" className={`${playfair.variable} ${lato.variable} ${outfit.variable} ${manrope.variable} ${fraunces.variable} scroll-smooth overflow-x-hidden`}>
       <head>
         {/* Preconnect to critical third-party origins to reduce connection latency */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://a.tile.openstreetmap.org" />
-        <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
-        <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
-        <link rel="preconnect" href="https://a.tile.openstreetmap.org" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://b.tile.openstreetmap.org" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://c.tile.openstreetmap.org" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700,800&display=swap" />
       </head>
       <body className="font-sans bg-background text-foreground antialiased overflow-x-hidden">{children}</body>
     </html>

@@ -16,19 +16,6 @@ import { FloatingActions } from "@/components/floating-actions"
 import { Reveal } from "@/components/ui/reveal"
 import Link from "next/link"
 
-/* ── Google Fonts Loader Hook ── */
-function useGoogleFonts() {
-  useEffect(() => {
-    const id = "spizespices-fonts"
-    if (document.getElementById(id)) return
-    const link = document.createElement("link")
-    link.id = id
-    link.rel = "stylesheet"
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap"
-    document.head.appendChild(link)
-  }, [])
-}
 
 /* ── Geometric Math Utilities ── */
 function polar(cx: number, cy: number, r: number, angleDeg: number) {
@@ -419,7 +406,7 @@ function Portrait({ initials, photo }: { initials: string; photo?: string | null
           <span
             style={{
               position: "relative",
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "var(--font-fraunces), serif",
               fontWeight: 600,
               fontSize: 34,
               color: "#F5F1E6",
@@ -472,7 +459,7 @@ function DirectorCard({ name, role, initials, photo, delay }: { name: string; ro
       <div style={{ padding: "26px 28px 28px" }}>
         <h3
           style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "var(--font-fraunces), serif",
             fontWeight: 600,
             fontSize: 21,
             color: "#14261C",
@@ -521,7 +508,7 @@ function DirectorCard({ name, role, initials, photo, delay }: { name: string; ro
 
 export default function AboutPage() {
   /* Smooth-scroll on load if hash is present */
-  useGoogleFonts()
+  // Fonts loaded via Next.js Layout
 
   /* Smooth-scroll on load if hash is present */
   useEffect(() => {
@@ -566,7 +553,7 @@ export default function AboutPage() {
           padding: "100px 0 110px",
           background:
             "radial-gradient(circle at 8% 12%, rgba(30,58,43,0.05), transparent 40%), #F5F1E6",
-          fontFamily: "'Manrope', sans-serif",
+          fontFamily: "var(--font-manrope), sans-serif",
           overflow: "hidden",
         }}
       >
@@ -607,7 +594,7 @@ export default function AboutPage() {
             <Reveal delay={0.08}>
               <h2
                 style={{
-                  fontFamily: "'Fraunces', serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   fontWeight: 560,
                   fontSize: "clamp(38px, 4.4vw, 56px)",
                   lineHeight: 1.04,
@@ -649,7 +636,7 @@ export default function AboutPage() {
                     <b
                       style={{
                         display: "block",
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         fontSize: 26,
                         fontWeight: 600,
                         color: "#14261C",
@@ -675,7 +662,7 @@ export default function AboutPage() {
                     background: "#14261C",
                     color: "#F5F1E6",
                     border: "none",
-                    fontFamily: "'Manrope', sans-serif",
+                    fontFamily: "var(--font-manrope), sans-serif",
                     fontWeight: 700,
                     fontSize: 14,
                     letterSpacing: "0.02em",
@@ -728,7 +715,7 @@ export default function AboutPage() {
           background: "#1E3A2B",
           borderTop: "1px solid rgba(245,241,230,0.08)",
           borderBottom: "1px solid rgba(245,241,230,0.08)",
-          fontFamily: "'Manrope', sans-serif",
+          fontFamily: "var(--font-manrope), sans-serif",
           overflow: "hidden",
         }}
       >
@@ -765,7 +752,7 @@ export default function AboutPage() {
           <Reveal delay={0.08}>
             <h2
               style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontWeight: 560,
                 fontSize: "clamp(34px, 4.6vw, 54px)",
                 lineHeight: 1.08,
@@ -798,7 +785,7 @@ export default function AboutPage() {
                 <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
                   <span
                     style={{
-                      fontFamily: "'Fraunces', serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontStyle: "italic",
                       fontSize: 17,
                       color: "#C1622D",
@@ -808,7 +795,7 @@ export default function AboutPage() {
                   </span>
                   <h3
                     style={{
-                      fontFamily: "'Fraunces', serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontWeight: 600,
                       fontSize: 23,
                       color: "#F5F1E6",
@@ -834,7 +821,7 @@ export default function AboutPage() {
                 <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
                   <span
                     style={{
-                      fontFamily: "'Fraunces', serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontStyle: "italic",
                       fontSize: 17,
                       color: "#C1622D",
@@ -844,7 +831,7 @@ export default function AboutPage() {
                   </span>
                   <h3
                     style={{
-                      fontFamily: "'Fraunces', serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontWeight: 600,
                       fontSize: 23,
                       color: "#F5F1E6",
@@ -871,7 +858,7 @@ export default function AboutPage() {
                   background: "#F5F1E6",
                   color: "#1E3A2B",
                   border: "none",
-                  fontFamily: "'Manrope', sans-serif",
+                  fontFamily: "var(--font-manrope), sans-serif",
                   fontWeight: 700,
                   fontSize: 14,
                   letterSpacing: "0.02em",
@@ -907,7 +894,7 @@ export default function AboutPage() {
           position: "relative",
           padding: "96px 0 104px",
           background: "#F5F1E6",
-          fontFamily: "'Manrope', sans-serif",
+          fontFamily: "var(--font-manrope), sans-serif",
           overflow: "hidden",
         }}
       >
@@ -943,7 +930,7 @@ export default function AboutPage() {
           <Reveal delay={0.08}>
             <h2
               style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontWeight: 560,
                 fontSize: "clamp(34px, 4.6vw, 54px)",
                 lineHeight: 1.08,
@@ -976,7 +963,7 @@ export default function AboutPage() {
                   <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14 }}>
                     <span
                       style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         fontStyle: "italic",
                         fontSize: 17,
                         color: "#C1622D",
@@ -986,7 +973,7 @@ export default function AboutPage() {
                     </span>
                     <h3
                       style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         fontWeight: 600,
                         fontSize: 22,
                         color: "#14261C",
@@ -1019,7 +1006,7 @@ export default function AboutPage() {
           position: "relative",
           padding: "100px 0 112px",
           background: "#F5F1E6",
-          fontFamily: "'Manrope', sans-serif",
+          fontFamily: "var(--font-manrope), sans-serif",
           overflow: "hidden",
         }}
       >
@@ -1066,7 +1053,7 @@ export default function AboutPage() {
               <Reveal delay={0.08}>
                 <h2
                   style={{
-                    fontFamily: "'Fraunces', serif",
+                    fontFamily: "var(--font-fraunces), serif",
                     fontWeight: 560,
                     fontSize: "clamp(34px, 4.4vw, 52px)",
                     lineHeight: 1.08,

@@ -293,7 +293,7 @@ function MobileNavItem({ item, active, setMobileOpen }: { item: any; active: boo
         >
           <span
             style={{
-              fontFamily: "'Manrope', sans-serif",
+              fontFamily: "var(--font-manrope), sans-serif",
               fontWeight: 700,
               fontSize: 16,
               color: active ? "#F5F1E6" : "rgba(245,241,230,0.92)",
@@ -340,7 +340,7 @@ function MobileNavItem({ item, active, setMobileOpen }: { item: any; active: boo
       >
         <span
           style={{
-            fontFamily: "'Manrope', sans-serif",
+            fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 700,
             fontSize: 16,
             color: active ? "#F5F1E6" : "rgba(245,241,230,0.92)",
@@ -418,7 +418,7 @@ export function SiteHeader() {
         background: scrolled ? "rgba(245, 241, 230, 0.95)" : "#F5F1E6",
         borderBottom: "1px solid rgba(30,58,43,0.12)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
-        fontFamily: "'Manrope', sans-serif",
+        fontFamily: "var(--font-manrope), sans-serif",
         transition: "background 0.3s ease, backdrop-filter 0.3s ease",
       }}
     >
@@ -601,7 +601,7 @@ export function SiteHeader() {
 
                 <p style={{ fontSize: 14, lineHeight: 1.65, color: "rgba(245,241,230,0.8)", margin: "0 0 22px", maxWidth: 280 }}>
                   Premium Idukki cardamom and{" "}
-                  <span style={{ color: "#C9DABE", fontStyle: "italic", fontFamily: "'Fraunces', serif" }}>Kerala spices</span>. From
+                  <span style={{ color: "#C9DABE", fontStyle: "italic", fontFamily: "var(--font-fraunces), serif" }}>Kerala spices</span>. From
                   our farms to your home and business.
                 </p>
 

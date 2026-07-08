@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useLayoutEffect } from "react"
+import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -30,7 +30,7 @@ export default function ScrollRevealText({
   const paragraphRef = useRef<HTMLParagraphElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Skip animation if user prefers reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (prefersReduced) return
@@ -100,7 +100,7 @@ export default function ScrollRevealText({
     <section
       ref={sectionRef}
       className={`flex h-screen flex-col items-center pt-[10vh] px-6 lg:px-8 ${className ?? ""}`}
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      style={{ fontFamily: "var(--font-outfit), sans-serif" }}
     >
       {/* Heading — always visible, uses site serif font */}
       {heading && (

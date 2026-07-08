@@ -21,7 +21,7 @@ export function Hero() {
             fetchPriority="high"
             className="object-cover object-[58%_50%]"
             sizes="100vw"
-            quality={75}
+            quality={70}
             format="auto"
           />
         </div>
@@ -35,7 +35,7 @@ export function Hero() {
             fetchPriority="high"
             className="object-cover object-[62%_50%]"
             sizes="100vw"
-            quality={75}
+            quality={70}
             format="auto"
           />
         </div>

@@ -209,16 +209,30 @@ export function ProcessingTimeline() {
     let animationFrameId: number
     let isIntersecting = false
     let currentProgress = 0
+    let containerTop = 0
+    let containerHeight = 0
+
+    const updateDimensions = () => {
+      if (container) {
+        const rect = container.getBoundingClientRect()
+        containerTop = rect.top + window.scrollY
+        containerHeight = rect.height
+      }
+    }
+
+    // Measure container dimension once and on resize to avoid reading inside scroll loop
+    updateDimensions()
+    window.addEventListener("resize", updateDimensions, { passive: true })
 
     const handleScroll = () => {
-      if (!isIntersecting || !container) return
+      if (!isIntersecting || containerHeight === 0) return
 
-      const rect = container.getBoundingClientRect()
+      const scrollPosition = window.scrollY
       const viewportHeight = window.innerHeight
-      const triggerY = viewportHeight * 0.6
+      const triggerY = scrollPosition + viewportHeight * 0.6
 
-      const lineStart = rect.top + 32
-      const lineLength = rect.height - 64
+      const lineStart = containerTop + 32
+      const lineLength = containerHeight - 64
 
       const scrolled = triggerY - lineStart
       let targetProgress = scrolled / lineLength
@@ -231,39 +245,10 @@ export function ProcessingTimeline() {
         progressLineRef.current.style.transform = `scaleY(${currentProgress})`
       }
 
-      // Check node triggers
-      let newActiveIndex = -1
-      let changed = false
-      const nextRevealed = [...revealedRef.current]
-
-      itemRefs.current.forEach((item, index) => {
-        if (!item) return
-        const itemRect = item.getBoundingClientRect()
-        const circleCenterY = itemRect.top + 32
-
-        if (circleCenterY <= triggerY) {
-          newActiveIndex = index
-          if (!nextRevealed[index]) {
-            nextRevealed[index] = true
-            changed = true
-          }
-        }
-      })
-
-      if (newActiveIndex !== activeIndexRef.current) {
-        activeIndexRef.current = newActiveIndex
-        setActiveIndex(newActiveIndex)
-      }
-
-      if (changed) {
-        revealedRef.current = nextRevealed
-        setRevealed(nextRevealed)
-      }
-
       animationFrameId = requestAnimationFrame(handleScroll)
     }
 
-    const observer = new IntersectionObserver(
+    const scrollObserver = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
         isIntersecting = entry.isIntersecting
@@ -273,13 +258,41 @@ export function ProcessingTimeline() {
           cancelAnimationFrame(animationFrameId)
         }
       },
-      { threshold: 0.05 }
+      { threshold: 0.01 }
     )
 
-    observer.observe(container)
+    scrollObserver.observe(container)
+
+    // Node observers to mark nodes active/revealed without querying geometric props on scroll
+    const nodeObservers: IntersectionObserver[] = []
+    itemRefs.current.forEach((item, index) => {
+      if (!item) return
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setRevealed((prev) => {
+                const next = [...prev]
+                next[index] = true
+                return next
+              })
+              setActiveIndex(index)
+            }
+          })
+        },
+        {
+          rootMargin: "0px 0px -40% 0px",
+          threshold: 0.05,
+        }
+      )
+      observer.observe(item)
+      nodeObservers.push(observer)
+    })
 
     return () => {
-      observer.disconnect()
+      window.removeEventListener("resize", updateDimensions)
+      scrollObserver.disconnect()
+      nodeObservers.forEach((obs) => obs.disconnect())
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
@@ -332,7 +345,8 @@ export function ProcessingTimeline() {
         width={260}
         height={260}
         className="pointer-events-none absolute -left-6 bottom-0 z-0 w-[120px] object-contain opacity-75 sm:left-0 sm:w-[170px] sm:opacity-100 lg:w-[260px]"
-        quality={70}
+        sizes="(max-width: 640px) 120px, (max-width: 1024px) 170px, 260px"
+        quality={60}
         format="auto"
         loading="lazy"
       />
@@ -342,7 +356,8 @@ export function ProcessingTimeline() {
         width={260}
         height={260}
         className="pointer-events-none absolute -right-5 top-8 z-0 w-[110px] object-contain opacity-75 sm:right-0 sm:top-12 sm:w-[150px] sm:opacity-100 lg:w-[250px]"
-        quality={70}
+        sizes="(max-width: 640px) 110px, (max-width: 1024px) 150px, 250px"
+        quality={60}
         format="auto"
         loading="lazy"
       />
