@@ -442,13 +442,13 @@ export function SiteHeader() {
           <Image
             src="/images/spizespiceslogo.png"
             alt="Spizespices"
-            width={220}
-            height={64}
+            width={320}
+            height={96}
             priority
             className={`w-auto shrink-0 object-contain transition-all duration-300 ${
-              scrolled ? "h-12 sm:h-13 md:h-16" : "h-14 sm:h-16 md:h-20"
+              scrolled ? "h-[60px] sm:h-[60px] md:h-[76px]" : "h-[76px] sm:h-[76px] md:h-[96px]"
             }`}
-            sizes="(max-width: 768px) 160px, 220px"
+            sizes="(max-width: 768px) 240px, 320px"
           />
         </Link>
 
@@ -566,22 +566,17 @@ export function SiteHeader() {
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 22 }}>
                   <div
                     style={{
-                      background: "rgba(245,241,230,0.95)",
-                      borderRadius: 10,
-                      padding: "8px 12px",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-                      border: "1px solid rgba(255,255,255,0.15)",
                     }}
                   >
                     <Image
                       src="/images/spizespiceslogo.png"
                       alt="Spizespices"
-                      width={140}
-                      height={40}
-                      className="h-8 w-auto object-contain"
+                      width={160}
+                      height={44}
+                      className="h-[44px] w-auto object-contain"
                     />
                   </div>
                   <button

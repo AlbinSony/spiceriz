@@ -85,7 +85,7 @@ export function SiteFooter() {
 
       <div className="border-t border-[var(--color-border)]">
         <div className="container py-4 text-center text-xs text-foreground/70">
-          © 2026https://res.cloudinary.com/xug0w0py/image/upload/v1783056250/right-leaf_br1adr.png Spizespices Pvt Ltd. All Rights Reserved.
+          © 2026 Spizespices Pvt Ltd. All Rights Reserved.
         </div>
       </div>
     </footer>
