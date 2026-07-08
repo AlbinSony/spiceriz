@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Playfair_Display, Lato } from "next/font/google"
-import "leaflet/dist/leaflet.css"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -43,13 +42,13 @@ export const metadata: Metadata = {
     title: "Spizespices Pvt Ltd | Pure Indian Spices",
     description:
       "Premium Idukki cardamom and Kerala spices for B2B & B2C. Export-ready, certified quality from Kerala.",
-    url: "https://spizespices.example.com",
+    url: "https://www.spizespices.com",
     siteName: "Spizespices Pvt Ltd",
     images: [{ url: "/idukki-cardamom-farms.png" }],
     locale: "en_IN",
     type: "website",
   },
-  alternates: { canonical: "https://spizespices.example.com" },
+  alternates: { canonical: "https://www.spizespices.com" },
   generator: 'v0.app'
 }
 
@@ -60,6 +59,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${playfair.variable} ${lato.variable} scroll-smooth overflow-x-hidden`}>
+      <head>
+        {/* Preconnect to critical third-party origins to reduce connection latency */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://a.tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
+        <link rel="preconnect" href="https://a.tile.openstreetmap.org" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://b.tile.openstreetmap.org" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://c.tile.openstreetmap.org" crossOrigin="anonymous" />
+      </head>
       <body className="font-sans bg-background text-foreground antialiased overflow-x-hidden">{children}</body>
     </html>
   )

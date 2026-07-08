@@ -440,15 +440,15 @@ export function SiteHeader() {
           style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}
         >
           <Image
-            src="/images/spizespiceslogo.png"
+            src="/images/spizespiceslogo.webp"
             alt="Spizespices"
             width={320}
-            height={96}
+            height={320}
             priority
             className={`w-auto shrink-0 object-contain transition-all duration-300 ${
               scrolled ? "h-[60px] sm:h-[60px] md:h-[64px]" : "h-[76px] sm:h-[76px] md:h-[80px]"
             }`}
-            sizes="(max-width: 768px) 240px, 320px"
+            sizes="(max-width: 768px) 160px, 240px"
           />
         </Link>
 
@@ -572,10 +572,10 @@ export function SiteHeader() {
                     }}
                   >
                     <Image
-                      src="/images/spizespiceslogo.png"
+                      src="/images/spizespiceslogo.webp"
                       alt="Spizespices"
                       width={160}
-                      height={44}
+                      height={160}
                       className="h-[44px] w-auto object-contain"
                     />
                   </div>

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { CldImage } from "next-cloudinary"
 import { ArrowRight, Leaf, Sparkles, ShieldCheck } from "lucide-react"
-import { Parallax, Reveal } from "@/components/ui/reveal"
+import { Reveal } from "@/components/ui/reveal"
 
 export function Hero() {
   return (
@@ -11,28 +11,35 @@ export function Hero() {
       id="hero"
       className="relative isolate min-h-[calc(100vh-4rem)] overflow-hidden bg-[#fbf8f2] sm:min-h-[650px] md:min-h-[560px] lg:min-h-[610px] xl:min-h-[660px]"
     >
-      <Parallax className="absolute -inset-x-0 -inset-y-8" strength={22}>
+      {/* Desktop hero image – hidden on mobile, so NOT the LCP candidate */}
         <div className="absolute inset-0 hidden md:block">
           <CldImage
             src="herobgdesktop_h8rng6"
             alt="Premium Indian spices presentation"
             fill
             priority
+            fetchPriority="high"
             className="object-cover object-[58%_50%]"
             sizes="100vw"
+            quality={75}
+            format="auto"
           />
         </div>
+        {/* Mobile hero image – THIS is the LCP element on mobile */}
         <div className="absolute inset-0 md:hidden">
           <CldImage
             src="herobgmobile_ttalhc"
             alt="Premium Indian spices presentation"
             fill
             priority
+            fetchPriority="high"
             className="object-cover object-[62%_50%]"
             sizes="100vw"
+            quality={75}
+            format="auto"
           />
         </div>
-      </Parallax>
+
 
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(251,248,242,0.94)_0%,rgba(251,248,242,0.78)_31%,rgba(251,248,242,0.2)_58%,rgba(251,248,242,0)_100%)] md:bg-[linear-gradient(90deg,rgba(251,248,242,0.92)_0%,rgba(251,248,242,0.7)_31%,rgba(251,248,242,0.12)_55%,rgba(251,248,242,0)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_47%,rgba(251,248,242,0.86)_0%,rgba(251,248,242,0.5)_24%,rgba(251,248,242,0)_52%)]" />

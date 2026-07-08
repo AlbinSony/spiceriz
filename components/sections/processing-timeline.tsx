@@ -332,6 +332,9 @@ export function ProcessingTimeline() {
         width={260}
         height={260}
         className="pointer-events-none absolute -left-6 bottom-0 z-0 w-[120px] object-contain opacity-75 sm:left-0 sm:w-[170px] sm:opacity-100 lg:w-[260px]"
+        quality={70}
+        format="auto"
+        loading="lazy"
       />
       <CldImage
         src="right-leaf_br1adr"
@@ -339,6 +342,9 @@ export function ProcessingTimeline() {
         width={260}
         height={260}
         className="pointer-events-none absolute -right-5 top-8 z-0 w-[110px] object-contain opacity-75 sm:right-0 sm:top-12 sm:w-[150px] sm:opacity-100 lg:w-[250px]"
+        quality={70}
+        format="auto"
+        loading="lazy"
       />
 
       <div className="container relative z-10">
