@@ -534,7 +534,7 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <main className="bg-[#fbf8f2]">
+    <main className="bg-[#fbf8f2] overflow-x-hidden">
       <SiteHeader />
 
       {/* ── Hero Banner ── */}

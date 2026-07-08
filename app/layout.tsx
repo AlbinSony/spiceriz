@@ -59,8 +59,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable} scroll-smooth`}>
-      <body className="font-sans bg-background text-foreground antialiased">{children}</body>
+    <html lang="en" className={`${playfair.variable} ${lato.variable} scroll-smooth overflow-x-hidden`}>
+      <body className="font-sans bg-background text-foreground antialiased overflow-x-hidden">{children}</body>
     </html>
   )
 }

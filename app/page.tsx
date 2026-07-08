@@ -13,7 +13,7 @@ import { ContactSection } from "@/components/sections/contact-section"
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="overflow-x-hidden">
       <SiteHeader />
 
       <Hero />

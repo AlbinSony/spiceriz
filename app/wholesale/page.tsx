@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function WholesalePage() {
   return (
-    <main>
+    <main className="overflow-x-hidden">
       <SiteHeader />
       <section className="section-shell pb-12 pt-12">
         <div className="container">
