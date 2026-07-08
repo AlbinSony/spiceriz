@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 
 export default function FloatingWhatsApp() {
   // TODO: Replace the phone number below with your business WhatsApp number
-  const whatsappNumber = "919999999999" // e.g., 91XXXXXXXXXX
+  const whatsappNumber = "918606771827" // e.g., 91XXXXXXXXXX
   const waUrl = `https://wa.me/${whatsappNumber}`
 
   return (

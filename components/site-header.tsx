@@ -446,7 +446,7 @@ export function SiteHeader() {
             height={96}
             priority
             className={`w-auto shrink-0 object-contain transition-all duration-300 ${
-              scrolled ? "h-[60px] sm:h-[60px] md:h-[76px]" : "h-[76px] sm:h-[76px] md:h-[96px]"
+              scrolled ? "h-[60px] sm:h-[60px] md:h-[64px]" : "h-[76px] sm:h-[76px] md:h-[80px]"
             }`}
             sizes="(max-width: 768px) 240px, 320px"
           />
@@ -662,10 +662,13 @@ export function SiteHeader() {
                   <MailIcon />
                   <span style={{ fontSize: 13.5, color: "rgba(245,241,230,0.85)" }}>hello@spizespicespvtltd.com</span>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 17 }}>
+                <a
+                  href="tel:+918606771827"
+                  style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 17, textDecoration: "none" }}
+                >
                   <PhoneGreenIcon />
-                  <span style={{ fontSize: 15.5, fontWeight: 700, color: "#F5F1E6", letterSpacing: "0.01em" }}>+91 12345 67890</span>
-                </div>
+                  <span style={{ fontSize: 15.5, fontWeight: 700, color: "#F5F1E6", letterSpacing: "0.01em" }}>+91 86067 71827</span>
+                </a>
                 <div style={{ display: "flex", gap: 10 }}>
                   {[FacebookIcon, InstagramIcon, YoutubeIcon].map((Icon, i) => (
                     <a

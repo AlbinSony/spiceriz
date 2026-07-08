@@ -55,7 +55,7 @@ export function SiteFooter() {
           <h3 className="font-serif text-lg font-semibold text-[var(--color-primary)]">Contact</h3>
           <ul className="mt-3 space-y-2 text-sm">
             <li className="flex items-center gap-2 text-foreground/85">
-              <Phone className="h-4 w-4" /> <a href="tel:+911234567890">+91 12345 67890</a>
+              <Phone className="h-4 w-4" /> <a href="tel:+918606771827">+91 86067 71827</a>
             </li>
             <li className="flex items-center gap-2 text-foreground/85">
               <Mail className="h-4 w-4" /> <a href="mailto:hello@spizespicespvtltd.com">hello@spizespicespvtltd.com</a>

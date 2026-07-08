@@ -59,7 +59,7 @@ const SieveIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-const MortarIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ColorSortingIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -69,16 +69,15 @@ const MortarIcon = (props: React.SVGProps<SVGSVGElement>) => (
     strokeLinejoin="round"
     {...props}
   >
-    {/* Bowl base */}
-    <path d="M6 10h12a1 1 0 0 1 1 1c0 3.3-2.7 6-6 6s-6-2.7-6-6a1 1 0 0 1 1-1z" />
-    {/* Rim line */}
-    <path d="M5 10h14" />
-    {/* Foot/stand */}
-    <path d="M9 17h6" />
-    <path d="M10 17l-1 2.5A0.5 0.5 0 0 0 9.5 20h5a0.5 0.5 0 0 0 .5-.5L14 17" />
-    {/* Pestle */}
-    <path d="M16.5 4.5l-6 6" strokeWidth="2.2" />
-    <path d="M15 3l3.5 3.5" />
+    {/* Lens Target scope ring */}
+    <circle cx="12" cy="12" r="8" />
+    {/* Crosshairs */}
+    <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
+    {/* Selected bold seed */}
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+    {/* Out of spec seed sorted away */}
+    <circle cx="17" cy="7" r="1" />
+    <circle cx="6" cy="17" r="1.2" />
   </svg>
 )
 
@@ -132,32 +131,32 @@ const steps = [
   },
   {
     num: "02",
-    title: "Sun Drying",
-    desc: "Natural sun drying locks in aroma, color and nutrients.",
+    title: "Drying",
+    desc: "Natural drying locks in rich aroma, color, and essential oils.",
     icon: Sun,
   },
   {
     num: "03",
-    title: "Cleaning & Sorting",
-    desc: "Carefully cleaned and sorted to ensure pure, premium quality.",
+    title: "Grading",
+    desc: "Graded based on size to select the boldest pods and uniform consistency.",
     icon: SieveIcon,
   },
   {
     num: "04",
-    title: "Grinding",
-    desc: "Ground to perfection in modern facilities to retain natural oils.",
-    icon: MortarIcon,
+    title: "Color Sorting",
+    desc: "Advanced color sorting selects seeds for a better premium visual presence.",
+    icon: ColorSortingIcon,
   },
   {
     num: "05",
     title: "Packaging",
-    desc: "Hygienically packed to preserve freshness and extend shelf life.",
+    desc: "Packed in custom food-grade bags based on client requirements.",
     icon: PackagingIcon,
   },
   {
     num: "06",
     title: "Delivery",
-    desc: "Delivered worldwide with care, on time, every time.",
+    desc: "Delivered safely across the globe with care, on time, every time.",
     icon: DeliveryIcon,
   },
 ]

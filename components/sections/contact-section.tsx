@@ -26,8 +26,8 @@ export function ContactSection() {
           <ul className="mt-5 space-y-1 text-sm text-foreground/85">
             <li>
               Phone:{" "}
-              <a className="underline" href="tel:+911234567890">
-                +91 12345 67890
+              <a className="underline" href="tel:+918606771827">
+                +91 86067 71827
               </a>
             </li>
             <li>
