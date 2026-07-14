@@ -130,7 +130,16 @@ const NAV = [
       { label: "Leadership", href: "/about#our-team" },
     ],
   },
-  { label: "Products", href: "/#products" },
+  {
+    label: "Products",
+    href: "/products",
+    dropdown: [
+      { label: "Our Spice Portfolio", href: "/products" },
+      { label: "Green Cardamom", href: "/products/cardamom" },
+      { label: "Black Pepper", href: "/products/black-pepper" },
+    ],
+  },
+  { label: "Blog", href: "/blog" },
   { label: "Quality", href: "/#processing" },
   { label: "Contact", href: "/#contact" },
 ]
@@ -150,15 +159,15 @@ const MOBILE_NAV = [
   },
   {
     label: "Products",
-    href: "/#products",
+    href: "/products",
     type: "plus",
     children: [
-      { label: "Cardamom", href: "/#products" },
-      { label: "Pepper", href: "/#products" },
-      { label: "Cloves", href: "/#products" },
-      { label: "Nutmeg", href: "/#products" },
+      { label: "Our Spice Portfolio", href: "/products" },
+      { label: "Green Cardamom", href: "/products/cardamom" },
+      { label: "Black Pepper", href: "/products/black-pepper" },
     ],
   },
+  { label: "Blog", href: "/blog" },
   {
     label: "Quality",
     href: "/#processing",

@@ -39,7 +39,11 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: "Spizespices Pvt Ltd | Pure Indian Spices",
+  metadataBase: new URL("https://www.spizespices.com"),
+  title: {
+    default: "Spizespices Pvt Ltd | Pure Indian Spices",
+    template: "%s | Spizespices Pvt Ltd",
+  },
   description:
     "Premium Idukki cardamom and Kerala spices. Direct from farms. Export-ready with certifications. Wholesale (B2B) and retail (B2C).",
   keywords: [
@@ -63,14 +67,19 @@ export const metadata: Metadata = {
     title: "Spizespices Pvt Ltd | Pure Indian Spices",
     description:
       "Premium Idukki cardamom and Kerala spices for B2B & B2C. Export-ready, certified quality from Kerala.",
-    url: "https://www.spizespices.com",
+    url: "/",
     siteName: "Spizespices Pvt Ltd",
-    images: [{ url: "/idukki-cardamom-farms.png" }],
+    images: [{ url: "/og-image.jpg" }],
     locale: "en_IN",
     type: "website",
   },
-  alternates: { canonical: "https://www.spizespices.com" },
-  generator: 'v0.app'
+  alternates: { canonical: "/" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Spizespices Pvt Ltd | Pure Indian Spices",
+    description: "Premium Idukki cardamom and Kerala spices. Direct from farms. Export-ready with certifications.",
+    images: ["/og-image.jpg"],
+  }
 }
 
 export default function RootLayout({
@@ -86,6 +95,67 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700,800&display=swap" />
+
+        {/* Global Structured Data (JSON-LD) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Spizespices Pvt Ltd",
+              "alternateName": "Spizespices",
+              "url": "https://www.spizespices.com",
+              "logo": "https://www.spizespices.com/images/spizespiceslogo.webp",
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "+91-86067-71827",
+                "contactType": "sales",
+                "areaServed": ["IN", "AE", "US", "GB", "DE"],
+                "availableLanguage": ["English", "Malayalam"]
+              }],
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Idukki",
+                "addressRegion": "Kerala",
+                "addressCountry": "IN"
+              },
+              "email": "hello@spizespicespvtltd.com"
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "Spizespices Pvt Ltd",
+              "image": "https://www.spizespices.com/og-image.jpg",
+              "telephone": "+91-86067-71827",
+              "email": "hello@spizespicespvtltd.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Idukki",
+                "addressRegion": "Kerala",
+                "addressCountry": "IN"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 9.8499,
+                "longitude": 77.0997
+              },
+              "url": "https://www.spizespices.com",
+              "priceRange": "INR",
+              "openingHoursSpecification": [{
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+                "opens": "09:00",
+                "closes": "18:00"
+              }]
+            })
+          }}
+        />
       </head>
       <body className="font-sans bg-background text-foreground antialiased overflow-x-hidden">{children}</body>
     </html>

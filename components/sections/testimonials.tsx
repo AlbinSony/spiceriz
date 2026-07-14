@@ -5,19 +5,19 @@ import { Reveal } from "@/components/ui/reveal"
 const testimonials = [
   {
     quote:
-      "As a cardamom exporter, I rely on Spiceriz for sourcing high-quality cardamom. Their commitment to delivering premium products is unmatched. The cardamom I purchase from them consistently meets international standards and exceeds the expectations of my clients.",
+      "As a cardamom exporter, I rely on Spize Spices for sourcing high-quality cardamom. Their commitment to delivering premium products is unmatched. The cardamom I purchase from them consistently meets international standards and exceeds the expectations of my clients.",
     name: "Thomas A.",
     role: "Cardamom Exporter, Tamil Nadu",
   },
   {
     quote:
-      "Spiceriz has been an invaluable partner in my agribusiness journey. Their agri-inputs have significantly improved the productivity and quality of my crops. The products are of top-notch quality, and I have witnessed remarkable results since incorporating them into my farming practices.",
+      "Spize Spices has been an invaluable partner in my agribusiness journey. Their agri-inputs have significantly improved the productivity and quality of my crops. The products are of top-notch quality, and I have witnessed remarkable results since incorporating them into my farming practices.",
     name: "Suresh D.",
     role: "Farmer, Karnataka",
   },
   {
     quote:
-      "Spiceriz's agribusiness solutions have truly transformed my farming operations. Their cutting-edge technology and expertise have helped me optimize my crop management practices, resulting in higher yields and improved profitability.",
+      "Spize Spices' agribusiness solutions have truly transformed my farming operations. Their cutting-edge technology and expertise have helped me optimize my crop management practices, resulting in higher yields and improved profitability.",
     name: "Rajesh M.",
     role: "Farmer, Kerala",
   },

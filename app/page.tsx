@@ -24,6 +24,7 @@ export default function HomePage() {
       <ProductGrid />
       <B2BExport />
       <Testimonials />
+      <BlogSection />
       <ContactSection />
 
       <SiteFooter />

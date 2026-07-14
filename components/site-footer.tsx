@@ -39,12 +39,12 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link href="/exports" className="text-foreground/80 transition-colors hover:text-[var(--color-primary)]">
-                Exports
+              <Link href="/wholesale" className="text-foreground/80 transition-colors hover:text-[var(--color-primary)]">
+                Wholesale & Exports
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-foreground/80 transition-colors hover:text-[var(--color-primary)]">
+              <Link href="/#contact" className="text-foreground/80 transition-colors hover:text-[var(--color-primary)]">
                 Contact
               </Link>
             </li>
