@@ -119,9 +119,9 @@ export default function ProductsPage() {
       <section className="border-b border-neutral-100 pb-4">
         <div className="container max-w-6xl mx-auto px-4">
           
-          {/* Desktop controls */}
-          <div className="hidden sm:flex items-center justify-between">
-            <div className="flex items-center gap-6 overflow-x-auto scrollbar-none py-1">
+          {/* Desktop controls (Single Horizontal Line) */}
+          <div className="hidden sm:flex items-center justify-center py-2">
+            <div className="flex items-center gap-6">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
@@ -136,79 +136,45 @@ export default function ProductsPage() {
                 </button>
               ))}
             </div>
-
-            <div className="relative">
-              <button 
-                onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
-                className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 hover:bg-neutral-50 transition-colors"
-              >
-                Filters <ChevronDown className="w-4 h-4 text-neutral-400" />
-              </button>
-
-              {filterDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => {
-                        setActiveTab(cat)
-                        setFilterDropdownOpen(false)
-                      }}
-                      className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-neutral-50 ${
-                        activeTab === cat ? "text-neutral-950 bg-neutral-50/50" : "text-neutral-600"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
 
-          {/* Mobile controls */}
-          <div className="sm:hidden flex gap-3">
-            <div className="relative flex-1">
-              <button 
-                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                className="w-full inline-flex items-center justify-between px-4 py-3 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 bg-white"
-              >
-                <span>Sort by: {sortBy === "default" ? "Featured" : sortBy === "name-asc" ? "Name A-Z" : "Name Z-A"}</span>
-                <ChevronDown className="w-4 h-4 text-neutral-400" />
-              </button>
-              {sortDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30">
-                  <button onClick={() => { setSortBy("default"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Featured</button>
-                  <button onClick={() => { setSortBy("name-asc"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Name A-Z</button>
-                  <button onClick={() => { setSortBy("name-desc"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Name Z-A</button>
-                </div>
-              )}
+          {/* Mobile controls (Clean, properly ordered 2-line layout) */}
+          <div className="sm:hidden flex flex-col gap-3 py-2 w-full text-center">
+            {/* 1st Line: All Spices, Cardamom, Pepper, Cloves */}
+            <div className="grid grid-cols-4 gap-1.5">
+              {["All Spices", "Cardamom", "Pepper", "Cloves"].map((cat) => {
+                const mapCat = cat === "All Spices" ? "All Spices" : cat === "Pepper" ? "Pepper" : cat
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveTab(mapCat)}
+                    className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${
+                      activeTab === mapCat
+                        ? "bg-neutral-900 border-neutral-900 text-white"
+                        : "bg-white border-neutral-200 text-neutral-500"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                )
+              })}
             </div>
 
-            <div className="relative flex-1">
-              <button 
-                onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
-                className="w-full inline-flex items-center justify-between px-4 py-3 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 bg-white"
-              >
-                <span>Filters: {activeTab === "All Spices" ? "All" : activeTab}</span>
-                <ChevronDown className="w-4 h-4 text-neutral-400" />
-              </button>
-              {filterDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30 max-h-60 overflow-y-auto">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => {
-                        setActiveTab(cat)
-                        setFilterDropdownOpen(false)
-                      }}
-                      className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50"
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              )}
+            {/* 2nd Line: Cinnamon, Nutmeg, Spice Blends */}
+            <div className="grid grid-cols-3 gap-1.5 max-w-[90%] mx-auto w-full">
+              {["Cinnamon", "Nutmeg", "Spice Blends"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveTab(cat)}
+                  className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${
+                    activeTab === cat
+                      ? "bg-neutral-900 border-neutral-900 text-white"
+                      : "bg-white border-neutral-200 text-neutral-500"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -254,8 +220,8 @@ export default function ProductsPage() {
                           onClick={(e) => handleAddToCart(e, prod.slug, prod.name)}
                           className={`inline-flex items-center gap-1.5 h-8 px-4 rounded-[6px] text-[11px] font-bold tracking-wide uppercase transition-all shadow-sm ${
                             isAdded
-                              ? "bg-green-600 text-white hover:bg-green-700"
-                              : "bg-neutral-900 text-white hover:bg-neutral-800"
+                              ? "bg-[#5b8c2f] text-white hover:bg-[#4a7325]"
+                              : "bg-[#123d26] text-[#fff8ec] hover:bg-[#5b8c2f]"
                           }`}
                         >
                           {isAdded ? (
