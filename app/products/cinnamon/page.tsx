@@ -6,12 +6,12 @@ import { SiteFooter } from "@/components/site-footer"
 import { ChevronRight, ArrowLeft } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Premium Green Cardamom Exporter | Idukki Kerala Cardamom | Spize Spices",
-  description: "Source high-quality green cardamom from Idukki, Kerala. Graded from 7mm to 9mm with high essential oil content. Enquire for bulk wholesale B2B pricing.",
-  alternates: { canonical: "/products/cardamom" },
+  title: "Premium Ceylon & Cassia Cinnamon Exporter | Wholesale Cinnamon | Spize Spices",
+  description: "Buy wholesale cinnamon quills and powder sourced from Kerala, India. Premium organic Cassia and sweet Ceylon quills. Contact us for wholesale prices.",
+  alternates: { canonical: "/products/cinnamon" },
 }
 
-export default function CardamomProductPage() {
+export default function CinnamonProductPage() {
   return (
     <main className="overflow-x-hidden bg-white min-h-screen flex flex-col justify-between">
       {/* Product Schema */}
@@ -21,9 +21,9 @@ export default function CardamomProductPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Premium Green Cardamom",
-            "image": "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l",
-            "description": "Vibrant bold green cardamom pods graded from 7mm to 9mm, grown under forest shade in Idukki, Kerala, India.",
+            "name": "Ceylon and Cassia Cinnamon",
+            "image": "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
+            "description": "Fragrant sweet-woody cinnamon rolls and fine ground powder sourced from selected plantations.",
             "brand": {
               "@type": "Brand",
               "name": "Spize Spices"
@@ -31,9 +31,9 @@ export default function CardamomProductPage() {
             "offers": {
               "@type": "AggregateOffer",
               "priceCurrency": "INR",
-              "lowPrice": "1500",
-              "highPrice": "3500",
-              "offerCount": "5"
+              "lowPrice": "400",
+              "highPrice": "950",
+              "offerCount": "3"
             }
           })
         }}
@@ -54,7 +54,7 @@ export default function CardamomProductPage() {
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-neutral-800 font-normal">
-              Green Cardamom
+              Cinnamon
             </span>
           </nav>
 
@@ -67,13 +67,13 @@ export default function CardamomProductPage() {
           </Link>
 
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-950 mb-4">
-            Premium Green Cardamom
+            Ceylon & Cassia Cinnamon
           </h1>
 
           <div className="relative aspect-[1.8] w-full overflow-hidden rounded-[8px] bg-neutral-50 border border-neutral-100 mb-8">
             <Image
-              src="https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l"
-              alt="Premium Green Cardamom"
+              src="https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3"
+              alt="Premium Cinnamon rolls"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 800px"
@@ -83,29 +83,25 @@ export default function CardamomProductPage() {
 
           <div className="prose prose-neutral max-w-none text-neutral-800 leading-[1.8]">
             <p>
-              Grown in the high-altitude, mist-covered hills of the Western Ghats in Idukki, Kerala, our green cardamom represents the premium benchmark of quality. Hand-picked at exact maturity flushes and cured carefully in custom chambers, it preserves a vibrant green hue and high essential oil concentration.
+              Prized for its warm sweet-woody fragrance, our cinnamon is harvested from the inner bark of selected trees. We cure and roll the bark into uniform quills to preserve freshness and minimize broken layers.
             </p>
 
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-neutral-950 mt-8 mb-4">
-              Available Millimeter Grades & Ordering Links
+              Available Cinnamon Types & Ordering Links
             </h2>
             <p className="mb-6">
-              Below are the primary export-quality green cardamom sizing variants. Select a grade to enquire or place a bulk order:
+              We process Ceylon (true cinnamon) and Cassia rolls. Select a type to enquire:
             </p>
-            
+
             <div className="space-y-4 my-6">
               {[
-                { size: "8.5mm+ Grade", name: "Emperor Bold", desc: "Super bold premium pods with deep forest green skin, optimal seed density, and intense aroma.", waMsg: "Hi, I am interested in acquiring Emperor Bold Cardamom (8.5mm+)." },
-                { size: "8.0mm Grade", name: "Empire Bold", desc: "Our flagship bold export grade. Uniform plump pods preferred by premium retail brands.", waMsg: "Hi, I am interested in acquiring Empire Bold Cardamom (8.0mm)." },
-                { size: "7.5mm Grade", name: "Premium Bold", desc: "High-quality green pods, excellent value for bulk tea and culinary blending.", waMsg: "Hi, I am interested in acquiring Premium Bold Cardamom (7.5mm)." },
-                { size: "7.0mm Grade", name: "Medium Bold", desc: "Standard retail pack pods, sun-cured and clean.", waMsg: "Hi, I am interested in acquiring Medium Bold Cardamom (7.0mm)." }
+                { type: "Ceylon Cinnamon Quills", desc: "Sweet, soft quills with multiple thin layers. Low coumarin content, suitable for luxury desserts and health products.", waMsg: "Hi, I am interested in Ceylon Cinnamon Quills." },
+                { type: "Cassia Cinnamon Quills", desc: "Thick hard rolls with a strong, spicy aroma and dark reddish hue. Preferred for commercial spice powders.", waMsg: "Hi, I am interested in Cassia Cinnamon Quills." },
+                { type: "Pure Cinnamon Powder", desc: "Freshly ground bark powder, sifted and sorted to preserve volatile oils.", waMsg: "Hi, I am interested in Cinnamon Powder." }
               ].map((variant) => (
-                <div key={variant.size} className="border border-neutral-200 rounded-[12px] p-4 bg-white hover:border-neutral-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div key={variant.type} className="border border-neutral-200 rounded-[12px] p-4 bg-white hover:border-neutral-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase bg-neutral-100 text-neutral-800 px-2 py-0.5 rounded-full mb-1">
-                      {variant.size}
-                    </span>
-                    <h3 className="text-base font-bold text-neutral-900">{variant.name}</h3>
+                    <h3 className="text-base font-bold text-neutral-900">{variant.type}</h3>
                     <p className="text-xs text-neutral-500 mt-1 max-w-lg leading-relaxed">{variant.desc}</p>
                   </div>
                   <div className="flex gap-2 sm:flex-col justify-end">
@@ -127,13 +123,6 @@ export default function CardamomProductPage() {
                 </div>
               ))}
             </div>
-
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-neutral-950 mt-8 mb-4">
-              Packaging & Custom Sourcing
-            </h2>
-            <p>
-              We ship worldwide in moisture-resistant bulk bags, custom vacuum pouches (highly recommended to maintain flavor and volatile oils), and client-brand private label packaging.
-            </p>
           </div>
 
           {/* Sourcing CTA Box */}

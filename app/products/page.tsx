@@ -1,86 +1,334 @@
-import type { Metadata } from "next"
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { ChevronDown, Check, ShoppingCart, Filter, ArrowRight, X } from "lucide-react"
 
-export const metadata: Metadata = {
-  title: "Premium Spice Collection | Cardamom & Black Pepper Wholesale",
-  description: "Explore the premium spice collection of Spize Spices sourced from Idukki, Kerala. Green cardamom, black pepper, cloves, and cinnamon wholesale exports.",
-  alternates: { canonical: "/products" },
-}
+const CATEGORIES = ["All Spices", "Cardamom", "Pepper", "Cloves", "Cinnamon", "Nutmeg", "Spice Blends"]
 
 const PRODUCTS = [
   {
     name: "Premium Green Cardamom",
     slug: "cardamom",
-    description: "Vibrant bold green cardamom graded from 7mm to 9mm, grown under forest shade in Idukki, Kerala.",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l",
+    category: "Cardamom",
+    description: "7mm - 9mm Bold, Idukki Kerala",
+    price: "Rs. 1,600/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
   },
   {
     name: "Bold Malabar Black Pepper",
     slug: "black-pepper",
-    description: "Sun-dried high-density black pepper with a hot, pungent aroma, sourced directly from Kerala growers.",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l",
+    category: "Pepper",
+    description: "High-density garbled whole pepper",
+    price: "Rs. 620/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
+  },
+  {
+    name: "Handpicked Cloves",
+    slug: "cloves",
+    category: "Cloves",
+    description: "Premium selection, high volatile oil",
+    price: "Rs. 850/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
+  },
+  {
+    name: "Ceylon Cinnamon Quills",
+    slug: "cinnamon",
+    category: "Cinnamon",
+    description: "Fragrant sweet cinnamon quills",
+    price: "Rs. 720/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
+  },
+  {
+    name: "Whole Nutmeg & Mace",
+    slug: "nutmeg",
+    category: "Nutmeg",
+    description: "Bold nutmeg seeds with red aril mace",
+    price: "Rs. 950/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
+  },
+  {
+    name: "Artisanal Spice Blends",
+    slug: "spice-blends",
+    category: "Spice Blends",
+    description: "Perfect ratios of traditional blends",
+    price: "Rs. 450/box",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
   }
 ]
 
 export default function ProductsPage() {
+  const [activeTab, setActiveTab] = useState("All Spices")
+  const [cart, setCart] = useState<Record<string, boolean>>({})
+  const [showModal, setShowModal] = useState(false)
+  const [lastAddedProduct, setLastAddedProduct] = useState("")
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false)
+  const [filterDropdownOpen, setFilterDropdownOpen] = useState(false)
+  const [sortBy, setSortBy] = useState("default")
+
+  const handleAddToCart = (e: React.MouseEvent, slug: string, name: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setCart(prev => ({
+      ...prev,
+      [slug]: !prev[slug]
+    }))
+    if (!cart[slug]) {
+      setLastAddedProduct(name)
+      setShowModal(true)
+    }
+  }
+
+  // Filter products based on active tab
+  const filteredProducts = PRODUCTS.filter(prod => {
+    if (activeTab === "All Spices") return true
+    return prod.category === activeTab
+  })
+
+  // Sort products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortBy === "name-asc") return a.name.localeCompare(b.name)
+    if (sortBy === "name-desc") return b.name.localeCompare(a.name)
+    return 0 // default
+  })
+
+  const activeCartCount = Object.values(cart).filter(Boolean).length
+
   return (
     <main className="overflow-x-hidden bg-white min-h-screen flex flex-col justify-between">
       <SiteHeader />
-      
-      <section className="py-12 md:py-16">
-        <div className="container max-w-4xl mx-auto px-6">
-          <span className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-3 block">
-            Pure Sourcing
-          </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-bold leading-tight text-neutral-950">
-            Our Spice Portfolio
-          </h1>
-          <p className="mt-4 text-neutral-600 leading-relaxed font-normal max-w-2xl">
-            Sourced directly from the high-altitude plantations of Idukki, Kerala. Graded and packed to preserve authentic essential oils.
-          </p>
-        </div>
-      </section>
 
-      <section className="pb-24">
-        <div className="container max-w-4xl mx-auto px-6">
-          <div className="grid gap-8 sm:grid-cols-2">
-            {PRODUCTS.map((prod) => (
-              <div key={prod.slug} className="border border-neutral-200 rounded-[12px] p-5 flex flex-col justify-between group">
-                <div>
-                  <div className="relative aspect-[1.5] w-full overflow-hidden rounded-[8px] bg-neutral-50 border border-neutral-100 mb-5">
-                    <Image
-                      src={prod.image}
-                      alt={prod.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 400px"
-                    />
-                  </div>
-                  <h2 className="font-serif text-xl font-bold text-neutral-950 group-hover:underline">
-                    <Link href={`/products/${prod.slug}`}>
-                      {prod.name}
-                    </Link>
-                  </h2>
-                  <p className="mt-3 text-sm text-neutral-600 leading-relaxed">
-                    {prod.description}
-                  </p>
-                </div>
-                <div className="pt-6">
-                  <Link
-                    href={`/products/${prod.slug}`}
-                    className="inline-flex h-9 items-center justify-center rounded-[6px] bg-neutral-950 px-4 text-xs font-bold text-white transition-all hover:bg-neutral-800"
-                  >
-                    View Specifications
-                  </Link>
-                </div>
-              </div>
-            ))}
+      {/* Top Banner Section */}
+      <section className="py-6 sm:py-8 bg-white">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="bg-[#F5F1E6] rounded-[24px] py-14 px-6 sm:py-20 sm:px-12 text-center">
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-900 leading-[1.15] max-w-2xl mx-auto font-sans">
+              Shop premium handpicked Kerala spices
+            </h1>
+            <p className="mt-4 text-xs sm:text-sm text-neutral-500 max-w-md mx-auto font-sans font-medium leading-relaxed">
+              Sourced directly from the high-altitude plantations of Idukki, Kerala. Graded and packed to preserve authentic essential oils.
+            </p>
           </div>
         </div>
       </section>
+
+      {/* Category Tabs & Filter Controls */}
+      <section className="border-b border-neutral-100 pb-4">
+        <div className="container max-w-6xl mx-auto px-4">
+          
+          {/* Desktop controls */}
+          <div className="hidden sm:flex items-center justify-between">
+            <div className="flex items-center gap-6 overflow-x-auto scrollbar-none py-1">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveTab(cat)}
+                  className={`text-[15px] font-semibold transition-all pb-1.5 border-b-2 whitespace-nowrap ${
+                    activeTab === cat
+                      ? "border-neutral-900 text-neutral-950"
+                      : "border-transparent text-neutral-400 hover:text-neutral-600"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative">
+              <button 
+                onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
+                className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 hover:bg-neutral-50 transition-colors"
+              >
+                Filters <ChevronDown className="w-4 h-4 text-neutral-400" />
+              </button>
+
+              {filterDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveTab(cat)
+                        setFilterDropdownOpen(false)
+                      }}
+                      className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-neutral-50 ${
+                        activeTab === cat ? "text-neutral-950 bg-neutral-50/50" : "text-neutral-600"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile controls */}
+          <div className="sm:hidden flex gap-3">
+            <div className="relative flex-1">
+              <button 
+                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                className="w-full inline-flex items-center justify-between px-4 py-3 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 bg-white"
+              >
+                <span>Sort by: {sortBy === "default" ? "Featured" : sortBy === "name-asc" ? "Name A-Z" : "Name Z-A"}</span>
+                <ChevronDown className="w-4 h-4 text-neutral-400" />
+              </button>
+              {sortDropdownOpen && (
+                <div className="absolute left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30">
+                  <button onClick={() => { setSortBy("default"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Featured</button>
+                  <button onClick={() => { setSortBy("name-asc"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Name A-Z</button>
+                  <button onClick={() => { setSortBy("name-desc"); setSortDropdownOpen(false) }} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50">Name Z-A</button>
+                </div>
+              )}
+            </div>
+
+            <div className="relative flex-1">
+              <button 
+                onClick={() => setFilterDropdownOpen(!filterDropdownOpen)}
+                className="w-full inline-flex items-center justify-between px-4 py-3 border border-neutral-200 rounded-[8px] text-[13px] font-semibold text-neutral-700 bg-white"
+              >
+                <span>Filters: {activeTab === "All Spices" ? "All" : activeTab}</span>
+                <ChevronDown className="w-4 h-4 text-neutral-400" />
+              </button>
+              {filterDropdownOpen && (
+                <div className="absolute left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-[8px] shadow-lg py-1 z-30 max-h-60 overflow-y-auto">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveTab(cat)
+                        setFilterDropdownOpen(false)
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50"
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Grid of Product Cards */}
+      <section className="py-12 sm:py-16 flex-1">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+            {sortedProducts.map((prod) => {
+              const isAdded = !!cart[prod.slug]
+              return (
+                <Link 
+                  href={`/products/${prod.slug}`} 
+                  key={prod.slug}
+                  className="group block flex flex-col justify-between h-full"
+                >
+                  <div>
+                    {/* Image Box Frame (Square & Full Fill) */}
+                    <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-[#f5f5f5] border border-neutral-100">
+                      <Image
+                        src={prod.image}
+                        alt={prod.name}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 330px"
+                      />
+                    </div>
+
+                    {/* Bottom Meta Content */}
+                    <div className="mt-4 flex items-center justify-between px-1">
+                      <div className="flex-1">
+                        <h2 className="text-base font-bold text-neutral-900 leading-tight group-hover:underline">
+                          {prod.name}
+                        </h2>
+                        <p className="mt-1 text-xs text-neutral-400 font-medium">
+                          {prod.description}
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0 ml-4">
+                        <button
+                          onClick={(e) => handleAddToCart(e, prod.slug, prod.name)}
+                          className={`inline-flex items-center gap-1.5 h-8 px-4 rounded-[6px] text-[11px] font-bold tracking-wide uppercase transition-all shadow-sm ${
+                            isAdded
+                              ? "bg-green-600 text-white hover:bg-green-700"
+                              : "bg-neutral-900 text-white hover:bg-neutral-800"
+                          }`}
+                        >
+                          {isAdded ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" /> Selected
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingCart className="w-3.5 h-3.5 text-neutral-200" /> Buy Now
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Floating Inquiry summary */}
+      {activeCartCount > 0 && (
+        <div className="fixed bottom-6 right-6 z-40 bg-neutral-950 text-white rounded-full px-5 py-3.5 shadow-2xl flex items-center gap-4 border border-neutral-800">
+          <span className="text-xs font-bold uppercase tracking-wider">
+            {activeCartCount} Item{activeCartCount > 1 ? "s" : ""} selected
+          </span>
+          <Link
+            href="/wholesale"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-white px-4 text-xs font-bold text-neutral-950 hover:bg-neutral-100 transition-colors"
+          >
+            Review Sourcing Quote <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+          </Link>
+        </div>
+      )}
+
+      {/* Notification Toast Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-[16px] max-w-md w-full p-6 shadow-2xl border border-neutral-100 relative">
+            <button 
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+                <Check className="w-5 h-5" />
+              </div>
+              <h3 className="font-serif text-lg font-bold text-neutral-950">Added to Sourcing List</h3>
+            </div>
+            <p className="text-xs text-neutral-600 leading-relaxed font-medium">
+              We have added <strong>{lastAddedProduct}</strong> to your B2B sourcing list. Let us know if you want to request a wholesale quotation now or continue browsing.
+            </p>
+            <div className="mt-6 flex gap-3">
+              <button
+                onClick={() => setShowModal(false)}
+                className="flex-1 h-10 border border-neutral-200 rounded-[8px] text-[13px] font-bold text-neutral-700 hover:bg-neutral-50"
+              >
+                Keep Browsing
+              </button>
+              <Link
+                href="/wholesale"
+                className="flex-1 h-10 bg-neutral-950 text-white rounded-[8px] text-[13px] font-bold flex items-center justify-center hover:bg-neutral-800"
+              >
+                Inquire Wholesale
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       <SiteFooter />
     </main>

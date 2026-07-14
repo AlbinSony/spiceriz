@@ -6,12 +6,12 @@ import { SiteFooter } from "@/components/site-footer"
 import { ChevronRight, ArrowLeft } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Premium Green Cardamom Exporter | Idukki Kerala Cardamom | Spize Spices",
-  description: "Source high-quality green cardamom from Idukki, Kerala. Graded from 7mm to 9mm with high essential oil content. Enquire for bulk wholesale B2B pricing.",
-  alternates: { canonical: "/products/cardamom" },
+  title: "Artisanal Spice Blends Wholesale Exporter | Spize Spices",
+  description: "Buy wholesale traditional Kerala masala blends and spice mixtures. Hand-crafted, ground at low temperatures, and packed fresh. Order custom B2B spice blends.",
+  alternates: { canonical: "/products/spice-blends" },
 }
 
-export default function CardamomProductPage() {
+export default function SpiceBlendsProductPage() {
   return (
     <main className="overflow-x-hidden bg-white min-h-screen flex flex-col justify-between">
       {/* Product Schema */}
@@ -21,9 +21,9 @@ export default function CardamomProductPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            "name": "Premium Green Cardamom",
-            "image": "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l",
-            "description": "Vibrant bold green cardamom pods graded from 7mm to 9mm, grown under forest shade in Idukki, Kerala, India.",
+            "name": "Artisanal Spice Blends",
+            "image": "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
+            "description": "Perfect ratios of traditional whole spices ground to lock in freshness and aroma.",
             "brand": {
               "@type": "Brand",
               "name": "Spize Spices"
@@ -31,9 +31,9 @@ export default function CardamomProductPage() {
             "offers": {
               "@type": "AggregateOffer",
               "priceCurrency": "INR",
-              "lowPrice": "1500",
-              "highPrice": "3500",
-              "offerCount": "5"
+              "lowPrice": "300",
+              "highPrice": "800",
+              "offerCount": "3"
             }
           })
         }}
@@ -54,7 +54,7 @@ export default function CardamomProductPage() {
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-neutral-800 font-normal">
-              Green Cardamom
+              Spice Blends
             </span>
           </nav>
 
@@ -67,13 +67,13 @@ export default function CardamomProductPage() {
           </Link>
 
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-950 mb-4">
-            Premium Green Cardamom
+            Artisanal Spice Blends
           </h1>
 
           <div className="relative aspect-[1.8] w-full overflow-hidden rounded-[8px] bg-neutral-50 border border-neutral-100 mb-8">
             <Image
-              src="https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/why-choose-us_lzix4l"
-              alt="Premium Green Cardamom"
+              src="https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4"
+              alt="Artisanal Spice Blends"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 800px"
@@ -83,29 +83,25 @@ export default function CardamomProductPage() {
 
           <div className="prose prose-neutral max-w-none text-neutral-800 leading-[1.8]">
             <p>
-              Grown in the high-altitude, mist-covered hills of the Western Ghats in Idukki, Kerala, our green cardamom represents the premium benchmark of quality. Hand-picked at exact maturity flushes and cured carefully in custom chambers, it preserves a vibrant green hue and high essential oil concentration.
+              Our spice mixtures are crafted from ancestral formulas, blending the finest whole green cardamom, black pepper, cloves, and cinnamon. Ground slowly in cool temperature mills, we prevent high friction heat from evaporating volatile oils, ensuring intense flavor in every pinch.
             </p>
 
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-neutral-950 mt-8 mb-4">
-              Available Millimeter Grades & Ordering Links
+              Available Spice Blend Types
             </h2>
             <p className="mb-6">
-              Below are the primary export-quality green cardamom sizing variants. Select a grade to enquire or place a bulk order:
+              We offer both traditional regional recipes and custom formulations. Select a type to enquire:
             </p>
-            
+
             <div className="space-y-4 my-6">
               {[
-                { size: "8.5mm+ Grade", name: "Emperor Bold", desc: "Super bold premium pods with deep forest green skin, optimal seed density, and intense aroma.", waMsg: "Hi, I am interested in acquiring Emperor Bold Cardamom (8.5mm+)." },
-                { size: "8.0mm Grade", name: "Empire Bold", desc: "Our flagship bold export grade. Uniform plump pods preferred by premium retail brands.", waMsg: "Hi, I am interested in acquiring Empire Bold Cardamom (8.0mm)." },
-                { size: "7.5mm Grade", name: "Premium Bold", desc: "High-quality green pods, excellent value for bulk tea and culinary blending.", waMsg: "Hi, I am interested in acquiring Premium Bold Cardamom (7.5mm)." },
-                { size: "7.0mm Grade", name: "Medium Bold", desc: "Standard retail pack pods, sun-cured and clean.", waMsg: "Hi, I am interested in acquiring Medium Bold Cardamom (7.0mm)." }
+                { type: "Garam Masala Blend", desc: "A classic warm blend featuring Idukki green cardamom, cloves, cinnamon, and black pepper. Sweetly aromatic with zero filler powders.", waMsg: "Hi, I am interested in Garam Masala Blend." },
+                { type: "Kerala Curry Masala", desc: "A robust blend with turmeric, coriander, fennel, and black pepper. Ideal for traditional curries.", waMsg: "Hi, I am interested in Kerala Curry Masala." },
+                { type: "Custom Private Formulations", desc: "We formulate custom spice mixtures tailored to your brand's specifications, sensory profiles, and package sizes.", waMsg: "Hi, I am interested in Custom Private Formulations." }
               ].map((variant) => (
-                <div key={variant.size} className="border border-neutral-200 rounded-[12px] p-4 bg-white hover:border-neutral-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div key={variant.type} className="border border-neutral-200 rounded-[12px] p-4 bg-white hover:border-neutral-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase bg-neutral-100 text-neutral-800 px-2 py-0.5 rounded-full mb-1">
-                      {variant.size}
-                    </span>
-                    <h3 className="text-base font-bold text-neutral-900">{variant.name}</h3>
+                    <h3 className="text-base font-bold text-neutral-900">{variant.type}</h3>
                     <p className="text-xs text-neutral-500 mt-1 max-w-lg leading-relaxed">{variant.desc}</p>
                   </div>
                   <div className="flex gap-2 sm:flex-col justify-end">
@@ -127,13 +123,6 @@ export default function CardamomProductPage() {
                 </div>
               ))}
             </div>
-
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-neutral-950 mt-8 mb-4">
-              Packaging & Custom Sourcing
-            </h2>
-            <p>
-              We ship worldwide in moisture-resistant bulk bags, custom vacuum pouches (highly recommended to maintain flavor and volatile oils), and client-brand private label packaging.
-            </p>
           </div>
 
           {/* Sourcing CTA Box */}

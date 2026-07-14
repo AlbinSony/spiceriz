@@ -87,26 +87,42 @@ export default function BlackPepperProductPage() {
             </p>
 
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-neutral-950 mt-8 mb-4">
-              Specifications & Packing
+              Available Pepper Types & Ordering Links
             </h2>
-            <p>
-              We sort and supply standard grade specifications including:
+            <p className="mb-6">
+              Below are our standard export-quality black pepper varieties. Select a type to enquire or place a bulk order:
             </p>
             
-            <ul className="space-y-2.5 my-6">
-              <li className="flex items-start gap-2.5">
-                <span className="text-neutral-400 mt-1.5 flex-shrink-0 text-xs">•</span>
-                <span><strong>Garbled Black Pepper:</strong> Double-cleaned whole berries, free from pinheads or dust.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <span className="text-neutral-400 mt-1.5 flex-shrink-0 text-xs">•</span>
-                <span><strong>Ungarbled:</strong> Standard commercial grade for extractors and milling processors.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <span className="text-neutral-400 mt-1.5 flex-shrink-0 text-xs">•</span>
-                <span><strong>Bulk Packing:</strong> Packed in 25kg or 50kg multi-layer paper or PP bags.</span>
-              </li>
-            </ul>
+            <div className="space-y-4 my-6">
+              {[
+                { type: "Garbled Black Pepper", desc: "Double-cleaned whole pepper berries, free from pinheads or dust. Highest quality visual grade.", waMsg: "Hi, I am interested in purchasing Garbled Black Pepper wholesales." },
+                { type: "Ungarbled Pepper", desc: "Standard commercial whole pepper berries, ideal for extractors and large-scale industrial milling.", waMsg: "Hi, I am interested in purchasing Ungarbled Pepper wholesales." },
+                { type: "Coarse Ground & Powder", desc: "Freshly milled black pepper powder, processed under strict temperature controls to preserve piperine kick.", waMsg: "Hi, I am interested in purchasing Black Pepper Powder wholesales." }
+              ].map((variant) => (
+                <div key={variant.type} className="border border-neutral-200 rounded-[12px] p-4 bg-white hover:border-neutral-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-base font-bold text-neutral-900">{variant.type}</h3>
+                    <p className="text-xs text-neutral-500 mt-1 max-w-lg leading-relaxed">{variant.desc}</p>
+                  </div>
+                  <div className="flex gap-2 sm:flex-col justify-end">
+                    <a
+                      href={`https://wa.me/918606771827?text=${encodeURIComponent(variant.waMsg)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-8 items-center justify-center rounded-[6px] bg-neutral-900 px-3.5 text-xs font-bold text-white transition-all hover:bg-neutral-800 text-center whitespace-nowrap"
+                    >
+                      Buy via WhatsApp
+                    </a>
+                    <Link
+                      href="/wholesale"
+                      className="inline-flex h-8 items-center justify-center rounded-[6px] border border-neutral-300 bg-white px-3.5 text-xs font-bold text-neutral-800 transition-all hover:bg-neutral-50 text-center whitespace-nowrap"
+                    >
+                      B2B Quote
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Sourcing CTA Box */}
