@@ -134,13 +134,15 @@ const NAV = [
     label: "Products",
     href: "/products",
     dropdown: [
-      { label: "Our Spice Portfolio", href: "/products" },
-      { label: "Green Cardamom", href: "/products/cardamom" },
-      { label: "Black Pepper", href: "/products/black-pepper" },
+      { label: "Cardamom", href: "/products?cat=Cardamom" },
+      { label: "Pepper", href: "/products?cat=Pepper" },
+      { label: "Cloves", href: "/products?cat=Cloves" },
+      { label: "Cinnamon", href: "/products?cat=Cinnamon" },
+      { label: "Nutmeg", href: "/products?cat=Nutmeg" },
+      { label: "Spice Blends", href: "/products?cat=Spice+Blends" },
     ],
   },
   { label: "Blog", href: "/blog" },
-  { label: "Quality", href: "/#processing" },
   { label: "Contact", href: "/#contact" },
 ]
 
@@ -160,24 +162,17 @@ const MOBILE_NAV = [
   {
     label: "Products",
     href: "/products",
-    type: "plus",
+    type: "chevron",
     children: [
-      { label: "Our Spice Portfolio", href: "/products" },
-      { label: "Green Cardamom", href: "/products/cardamom" },
-      { label: "Black Pepper", href: "/products/black-pepper" },
+      { label: "Cardamom", href: "/products?cat=Cardamom" },
+      { label: "Pepper", href: "/products?cat=Pepper" },
+      { label: "Cloves", href: "/products?cat=Cloves" },
+      { label: "Cinnamon", href: "/products?cat=Cinnamon" },
+      { label: "Nutmeg", href: "/products?cat=Nutmeg" },
+      { label: "Spice Blends", href: "/products?cat=Spice+Blends" },
     ],
   },
   { label: "Blog", href: "/blog" },
-  {
-    label: "Quality",
-    href: "/#processing",
-    type: "plus",
-    children: [
-      { label: "Certifications", href: "/#processing" },
-      { label: "Sourcing", href: "/#processing" },
-      { label: "Lab Testing", href: "/#processing" },
-    ],
-  },
   { label: "Contact", href: "/#contact" },
 ]
 
@@ -331,8 +326,7 @@ function MobileNavItem({ item, active, setMobileOpen }: { item: any; active: boo
           }}
         />
       )}
-      <button
-        onClick={() => setOpen((v) => !v)}
+      <div
         className="nav-item-btn"
         style={{
           width: "100%",
@@ -340,27 +334,42 @@ function MobileNavItem({ item, active, setMobileOpen }: { item: any; active: boo
           alignItems: "center",
           justifyContent: "space-between",
           background: active ? "rgba(169,194,155,0.16)" : "transparent",
-          border: "none",
           borderRadius: 10,
           padding: "14px 16px 14px 20px",
-          cursor: "pointer",
-          textAlign: "left",
         }}
       >
-        <span
+        <Link
+          href={item.href}
+          onClick={() => setMobileOpen(false)}
           style={{
+            flex: 1,
+            textDecoration: "none",
             fontFamily: "var(--font-manrope), sans-serif",
             fontWeight: 700,
             fontSize: 16,
             color: active ? "#F5F1E6" : "rgba(245,241,230,0.92)",
             letterSpacing: "0.01em",
+            textAlign: "left",
           }}
         >
           {item.label}
-        </span>
-        {item.type === "chevron" && <ChevronIcon open={open} color={iconColor} />}
-        {item.type === "plus" && <PlusIcon open={open} color={iconColor} />}
-      </button>
+        </Link>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "4px 8px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {item.type === "chevron" && <ChevronIcon open={open} color={iconColor} />}
+          {item.type === "plus" && <PlusIcon open={open} color={iconColor} />}
+        </button>
+      </div>
 
       {expandable && (
         <div

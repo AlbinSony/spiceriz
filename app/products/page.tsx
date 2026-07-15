@@ -1,105 +1,207 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { ChevronDown, Check, ShoppingCart, Filter, ArrowRight, X } from "lucide-react"
+import { ShoppingCart } from "lucide-react"
 
-const CATEGORIES = ["All Spices", "Cardamom", "Pepper", "Cloves", "Cinnamon", "Nutmeg", "Spice Blends"]
+const CATEGORIES = ["Cardamom", "Pepper", "Cloves", "Cinnamon", "Nutmeg", "Spice Blends"]
 
 const PRODUCTS = [
+  // Cardamom Varieties
   {
-    name: "Premium Green Cardamom",
-    slug: "cardamom",
+    name: "Emperor Bold (8.5mm+)",
+    slug: "cardamom-emperor",
     category: "Cardamom",
-    description: "7mm - 9mm Bold, Idukki Kerala",
+    description: "Super bold premium green pods, peak essential oils",
+    price: "Rs. 2,200/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
+  },
+  {
+    name: "Empire Bold (8.0mm)",
+    slug: "cardamom-empire",
+    category: "Cardamom",
+    description: "Flagship export grade, uniform plump pods",
+    price: "Rs. 1,800/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
+  },
+  {
+    name: "Premium Bold (7.5mm)",
+    slug: "cardamom-premium",
+    category: "Cardamom",
+    description: "Excellent color and value for bulk blending",
     price: "Rs. 1,600/kg",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
   },
   {
-    name: "Bold Malabar Black Pepper",
-    slug: "black-pepper",
+    name: "Medium Bold (7.0mm)",
+    slug: "cardamom-medium",
+    category: "Cardamom",
+    description: "Standard retail pack pods, sun-cured & clean",
+    price: "Rs. 1,400/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
+  },
+
+  // Pepper Varieties
+  {
+    name: "Garbled Black Pepper",
+    slug: "pepper-garbled",
     category: "Pepper",
-    description: "High-density garbled whole pepper",
+    description: "Double-cleaned whole berries, dust-free Malabar grade",
+    price: "Rs. 680/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
+  },
+  {
+    name: "Ungarbled Pepper",
+    slug: "pepper-ungarbled",
+    category: "Pepper",
+    description: "Standard commercial berries for extractors and milling",
     price: "Rs. 620/kg",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
   },
   {
-    name: "Handpicked Cloves",
-    slug: "cloves",
+    name: "Coarse Ground Pepper",
+    slug: "pepper-ground",
+    category: "Pepper",
+    description: "Freshly milled black pepper powder, high piperine kick",
+    price: "Rs. 580/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
+  },
+
+  // Cloves Varieties
+  {
+    name: "Handpicked Prime Cloves",
+    slug: "cloves-prime",
     category: "Cloves",
-    description: "Premium selection, high volatile oil",
+    description: "Select bold buds, high head presence and volatile oil",
+    price: "Rs. 950/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
+  },
+  {
+    name: "Standard Cleaned Cloves",
+    slug: "cloves-standard",
+    category: "Cloves",
+    description: "Cleaned commercial grade cloves, sorted and sieved",
     price: "Rs. 850/kg",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
   },
   {
+    name: "Fine Clove Powder",
+    slug: "cloves-powder",
+    category: "Cloves",
+    description: "100% pure cool-ground clove powder, intense flavor",
+    price: "Rs. 780/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
+  },
+
+  // Cinnamon Varieties
+  {
     name: "Ceylon Cinnamon Quills",
-    slug: "cinnamon",
+    slug: "cinnamon-ceylon",
     category: "Cinnamon",
-    description: "Fragrant sweet cinnamon quills",
+    description: "Sweet, soft quills with multiple thin layers",
+    price: "Rs. 820/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
+  },
+  {
+    name: "Cassia Cinnamon Quills",
+    slug: "cinnamon-cassia",
+    category: "Cinnamon",
+    description: "Thick hard rolls with strong spicy aroma and red hue",
     price: "Rs. 720/kg",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
   },
   {
-    name: "Whole Nutmeg & Mace",
-    slug: "nutmeg",
+    name: "Pure Cinnamon Powder",
+    slug: "cinnamon-powder",
+    category: "Cinnamon",
+    description: "Freshly ground bark powder, sifted and sorted",
+    price: "Rs. 650/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
+  },
+
+  // Nutmeg Varieties
+  {
+    name: "Whole Nutmeg (No Shell)",
+    slug: "nutmeg-no-shell",
     category: "Nutmeg",
-    description: "Bold nutmeg seeds with red aril mace",
+    description: "Hand-graded whole nutmeg seeds, high volatile oil density",
+    price: "Rs. 1,150/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
+  },
+  {
+    name: "Whole Nutmeg (With Shell)",
+    slug: "nutmeg-shell",
+    category: "Nutmeg",
+    description: "Natural shell-on nutmeg seeds, extended freshness",
     price: "Rs. 950/kg",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
   },
   {
-    name: "Artisanal Spice Blends",
-    slug: "spice-blends",
+    name: "Premium Red Mace (Javitri)",
+    slug: "nutmeg-mace",
+    category: "Nutmeg",
+    description: "Vibrant red-orange dried arils, sweet fragrant scent",
+    price: "Rs. 1,850/kg",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
+  },
+
+  // Spice Blends Varieties
+  {
+    name: "Garam Masala Blend",
+    slug: "blends-garam",
     category: "Spice Blends",
-    description: "Perfect ratios of traditional blends",
+    description: "Classic warm blend with green cardamom, pepper, cloves",
+    price: "Rs. 550/box",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
+  },
+  {
+    name: "Kerala Curry Masala",
+    slug: "blends-curry",
+    category: "Spice Blends",
+    description: "Robust blend with turmeric, coriander, fennel, pepper",
     price: "Rs. 450/box",
+    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
+  },
+  {
+    name: "Custom Formulations",
+    slug: "blends-custom",
+    category: "Spice Blends",
+    description: "Private label spice mixtures tailored to your sensory profile",
+    price: "Rs. 650/box",
     image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
   }
 ]
 
-export default function ProductsPage() {
-  const [activeTab, setActiveTab] = useState("All Spices")
-  const [cart, setCart] = useState<Record<string, boolean>>({})
-  const [showModal, setShowModal] = useState(false)
-  const [lastAddedProduct, setLastAddedProduct] = useState("")
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false)
-  const [filterDropdownOpen, setFilterDropdownOpen] = useState(false)
-  const [sortBy, setSortBy] = useState("default")
+function CatParamObserver({ onCatChange }: { onCatChange: (cat: string) => void }) {
+  const searchParams = useSearchParams()
+  const cat = searchParams.get("cat")
 
-  const handleAddToCart = (e: React.MouseEvent, slug: string, name: string) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setCart(prev => ({
-      ...prev,
-      [slug]: !prev[slug]
-    }))
-    if (!cart[slug]) {
-      setLastAddedProduct(name)
-      setShowModal(true)
+  useEffect(() => {
+    if (cat && CATEGORIES.includes(cat)) {
+      onCatChange(cat)
     }
-  }
+  }, [cat, onCatChange])
+
+  return null
+}
+
+export default function ProductsPage() {
+  const [activeTab, setActiveTab] = useState("Cardamom")
 
   // Filter products based on active tab
-  const filteredProducts = PRODUCTS.filter(prod => {
-    if (activeTab === "All Spices") return true
-    return prod.category === activeTab
-  })
-
-  // Sort products
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortBy === "name-asc") return a.name.localeCompare(b.name)
-    if (sortBy === "name-desc") return b.name.localeCompare(a.name)
-    return 0 // default
-  })
-
-  const activeCartCount = Object.values(cart).filter(Boolean).length
+  const filteredProducts = PRODUCTS.filter(prod => prod.category === activeTab)
 
   return (
     <main className="overflow-x-hidden bg-white min-h-screen flex flex-col justify-between">
       <SiteHeader />
+
+      <Suspense fallback={null}>
+        <CatParamObserver onCatChange={setActiveTab} />
+      </Suspense>
 
       {/* Top Banner Section */}
       <section className="py-6 sm:py-8 bg-white">
@@ -140,10 +242,10 @@ export default function ProductsPage() {
 
           {/* Mobile controls (Clean, properly ordered 2-line layout) */}
           <div className="sm:hidden flex flex-col gap-3 py-2 w-full text-center">
-            {/* 1st Line: All Spices, Cardamom, Pepper, Cloves */}
-            <div className="grid grid-cols-4 gap-1.5">
-              {["All Spices", "Cardamom", "Pepper", "Cloves"].map((cat) => {
-                const mapCat = cat === "All Spices" ? "All Spices" : cat === "Pepper" ? "Pepper" : cat
+            {/* 1st Line: Cardamom, Pepper, Cloves */}
+            <div className="grid grid-cols-3 gap-1.5">
+              {["Cardamom", "Pepper", "Cloves"].map((cat) => {
+                const mapCat = cat === "Pepper" ? "Pepper" : cat
                 return (
                   <button
                     key={cat}
@@ -161,7 +263,7 @@ export default function ProductsPage() {
             </div>
 
             {/* 2nd Line: Cinnamon, Nutmeg, Spice Blends */}
-            <div className="grid grid-cols-3 gap-1.5 max-w-[90%] mx-auto w-full">
+            <div className="grid grid-cols-3 gap-1.5">
               {["Cinnamon", "Nutmeg", "Spice Blends"].map((cat) => (
                 <button
                   key={cat}
@@ -185,13 +287,15 @@ export default function ProductsPage() {
       <section className="py-12 sm:py-16 flex-1">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-            {sortedProducts.map((prod) => {
-              const isAdded = !!cart[prod.slug]
+            {filteredProducts.map((prod) => {
+              const message = encodeURIComponent(`Hi, I am interested in purchasing ${prod.name}.`)
               return (
-                <Link 
-                  href={`/products/${prod.slug}`} 
+                <a 
+                  href={`https://wa.me/918606771827?text=${message}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   key={prod.slug}
-                  className="group block flex flex-col justify-between h-full"
+                  className="group block flex flex-col justify-between h-full cursor-pointer bg-white no-underline hover:no-underline"
                 >
                   <div>
                     {/* Image Box Frame (Square & Full Fill) */}
@@ -207,7 +311,7 @@ export default function ProductsPage() {
 
                     {/* Bottom Meta Content */}
                     <div className="mt-4 flex items-center justify-between px-1">
-                      <div className="flex-1">
+                      <div className="flex-1 text-left">
                         <h2 className="text-base font-bold text-neutral-900 leading-tight group-hover:underline">
                           {prod.name}
                         </h2>
@@ -216,85 +320,20 @@ export default function ProductsPage() {
                         </p>
                       </div>
                       <div className="flex-shrink-0 ml-4">
-                        <button
-                          onClick={(e) => handleAddToCart(e, prod.slug, prod.name)}
-                          className={`inline-flex items-center gap-1.5 h-8 px-4 rounded-[6px] text-[11px] font-bold tracking-wide uppercase transition-all shadow-sm ${
-                            isAdded
-                              ? "bg-[#5b8c2f] text-white hover:bg-[#4a7325]"
-                              : "bg-[#123d26] text-[#fff8ec] hover:bg-[#5b8c2f]"
-                          }`}
+                        <span
+                          className="inline-flex items-center gap-1.5 h-8 px-4 rounded-[6px] text-[11px] font-bold tracking-wide uppercase transition-all shadow-sm bg-[#123d26] text-[#fff8ec] group-hover:bg-[#5b8c2f]"
                         >
-                          {isAdded ? (
-                            <>
-                              <Check className="w-3.5 h-3.5" /> Selected
-                            </>
-                          ) : (
-                            <>
-                              <ShoppingCart className="w-3.5 h-3.5 text-neutral-200" /> Buy Now
-                            </>
-                          )}
-                        </button>
+                          <ShoppingCart className="w-3.5 h-3.5 text-neutral-200" /> Buy Now
+                        </span>
                       </div>
                     </div>
                   </div>
-                </Link>
+                </a>
               )
             })}
           </div>
         </div>
       </section>
-
-      {/* Floating Inquiry summary */}
-      {activeCartCount > 0 && (
-        <div className="fixed bottom-6 right-6 z-40 bg-neutral-950 text-white rounded-full px-5 py-3.5 shadow-2xl flex items-center gap-4 border border-neutral-800">
-          <span className="text-xs font-bold uppercase tracking-wider">
-            {activeCartCount} Item{activeCartCount > 1 ? "s" : ""} selected
-          </span>
-          <Link
-            href="/wholesale"
-            className="inline-flex h-9 items-center justify-center rounded-full bg-white px-4 text-xs font-bold text-neutral-950 hover:bg-neutral-100 transition-colors"
-          >
-            Review Sourcing Quote <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-          </Link>
-        </div>
-      )}
-
-      {/* Notification Toast Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-[16px] max-w-md w-full p-6 shadow-2xl border border-neutral-100 relative">
-            <button 
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
-                <Check className="w-5 h-5" />
-              </div>
-              <h3 className="font-serif text-lg font-bold text-neutral-950">Added to Sourcing List</h3>
-            </div>
-            <p className="text-xs text-neutral-600 leading-relaxed font-medium">
-              We have added <strong>{lastAddedProduct}</strong> to your B2B sourcing list. Let us know if you want to request a wholesale quotation now or continue browsing.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 h-10 border border-neutral-200 rounded-[8px] text-[13px] font-bold text-neutral-700 hover:bg-neutral-50"
-              >
-                Keep Browsing
-              </button>
-              <Link
-                href="/wholesale"
-                className="flex-1 h-10 bg-neutral-950 text-white rounded-[8px] text-[13px] font-bold flex items-center justify-center hover:bg-neutral-800"
-              >
-                Inquire Wholesale
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
 
       <SiteFooter />
     </main>
