@@ -170,6 +170,7 @@ export function ProcessingTimeline() {
   const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false])
   const [activeIndex, setActiveIndex] = useState<number>(-1)
   const [desktopWidth, setDesktopWidth] = useState<number>(1000)
+  const [mobileLineHeight, setMobileLineHeight] = useState<number>(0)
 
   const revealedRef = useRef<boolean[]>([false, false, false, false, false, false])
   const activeIndexRef = useRef<number>(-1)
@@ -217,6 +218,13 @@ export function ProcessingTimeline() {
         const rect = container.getBoundingClientRect()
         containerTop = rect.top + window.scrollY
         containerHeight = rect.height
+
+        // Calculate height from 1st item center (top: 32px) to 6th item top edge (start of round icon)
+        const lastItem = itemRefs.current[5]
+        if (lastItem) {
+          const height = lastItem.offsetTop - 32
+          setMobileLineHeight(height)
+        }
       }
     }
 
@@ -232,7 +240,7 @@ export function ProcessingTimeline() {
       const triggerY = scrollPosition + viewportHeight * 0.6
 
       const lineStart = containerTop + 32
-      const lineLength = containerHeight - 64
+      const lineLength = lastItemTopOffset() - 32
 
       const scrolled = triggerY - lineStart
       let targetProgress = scrolled / lineLength
@@ -246,6 +254,11 @@ export function ProcessingTimeline() {
       }
 
       animationFrameId = requestAnimationFrame(handleScroll)
+    }
+
+    const lastItemTopOffset = () => {
+      const lastItem = itemRefs.current[5]
+      return lastItem ? lastItem.offsetTop : containerHeight - 64
     }
 
     const scrollObserver = new IntersectionObserver(
@@ -420,15 +433,18 @@ export function ProcessingTimeline() {
           </div>
 
           {/* Mobile Scroll-driven Timeline (below md) */}
-          <div ref={mobileContainerRef} className="md:hidden relative pl-4 max-w-[400px] mx-auto">
+          <div ref={mobileContainerRef} className="md:hidden relative max-w-[400px] mx-auto">
             {/* Background static line */}
-            <div className="absolute left-[32px] top-[32px] bottom-[32px] w-[2px] bg-[#D7D7D7] -translate-x-1/2" />
+            <div 
+              style={{ height: mobileLineHeight || "auto" }}
+              className="absolute left-[32px] top-[32px] w-[2px] bg-[#D7D7D7] -translate-x-1/2" 
+            />
             
             {/* Animated scale active line */}
             <div
               ref={progressLineRef}
-              className="absolute left-[32px] top-[32px] bottom-[32px] w-[2px] bg-[#5E8D3A] -translate-x-1/2 origin-top scale-y-0"
-              style={{ willChange: "transform" }}
+              style={{ height: mobileLineHeight || "auto", willChange: "transform" }}
+              className="absolute left-[32px] top-[32px] w-[2px] bg-[#5E8D3A] -translate-x-1/2 origin-top scale-y-0"
             />
 
             <div className="flex flex-col gap-20">

@@ -9,7 +9,7 @@ export function B2BExport() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    
+
     const name = formData.get("name") as string
     const product = formData.get("product") as string
     const country = formData.get("country") as string
@@ -27,7 +27,7 @@ export function B2BExport() {
 
     const encodedMessage = encodeURIComponent(message)
     const whatsappUrl = `https://wa.me/918606771827?text=${encodedMessage}`
-    
+
     // Open WhatsApp link in a new window/tab
     window.open(whatsappUrl, "_blank")
   }
@@ -71,7 +71,7 @@ export function B2BExport() {
                 type="text"
                 required
               />
-              
+
               {/* Product Selection dropdown */}
               <select
                 className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-sm text-foreground/80 focus:outline-none focus:ring-1 focus:ring-[var(--color-secondary)]"
@@ -85,7 +85,7 @@ export function B2BExport() {
                 <option value="Cloves">Cloves</option>
                 <option value="Cinnamon">Cinnamon</option>
                 <option value="Nutmeg">Nutmeg</option>
-                <option value="Spice Blends">Spice Blends</option>
+                <option value="Star Anise">Star Anise</option>
                 <option value="Other">Other Spices</option>
               </select>
 
@@ -110,7 +110,7 @@ export function B2BExport() {
                 placeholder="Email"
                 required
               />
-              
+
               <button type="submit" className="premium-button mt-3 w-fit cursor-pointer">
                 Send Inquiry
               </button>

@@ -139,7 +139,7 @@ const NAV = [
       { label: "Cloves", href: "/products?cat=Cloves" },
       { label: "Cinnamon", href: "/products?cat=Cinnamon" },
       { label: "Nutmeg", href: "/products?cat=Nutmeg" },
-      { label: "Spice Blends", href: "/products?cat=Spice+Blends" },
+      { label: "Star Anise", href: "/products?cat=Star+Anise" },
     ],
   },
   { label: "Blog", href: "/blog" },
@@ -169,7 +169,7 @@ const MOBILE_NAV = [
       { label: "Cloves", href: "/products?cat=Cloves" },
       { label: "Cinnamon", href: "/products?cat=Cinnamon" },
       { label: "Nutmeg", href: "/products?cat=Nutmeg" },
-      { label: "Spice Blends", href: "/products?cat=Spice+Blends" },
+      { label: "Star Anise", href: "/products?cat=Star+Anise" },
     ],
   },
   { label: "Blog", href: "/blog" },
@@ -463,9 +463,8 @@ export function SiteHeader() {
             width={320}
             height={320}
             priority
-            className={`w-auto shrink-0 object-contain transition-all duration-300 ${
-              scrolled ? "h-[60px] sm:h-[60px] md:h-[64px]" : "h-[76px] sm:h-[76px] md:h-[80px]"
-            }`}
+            className={`w-auto shrink-0 object-contain transition-all duration-300 ${scrolled ? "h-[60px] sm:h-[60px] md:h-[64px]" : "h-[76px] sm:h-[76px] md:h-[80px]"
+              }`}
             sizes="(max-width: 768px) 160px, 240px"
           />
         </Link>

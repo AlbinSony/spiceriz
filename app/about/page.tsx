@@ -15,197 +15,10 @@ import { SiteFooter } from "@/components/site-footer"
 import { FloatingActions } from "@/components/floating-actions"
 import { Reveal } from "@/components/ui/reveal"
 import Link from "next/link"
+import Image from "next/image"
 
 
-/* ── Geometric Math Utilities ── */
-function polar(cx: number, cy: number, r: number, angleDeg: number) {
-  const a = ((angleDeg - 90) * Math.PI) / 180
-  const x = cx + r * Math.cos(a)
-  const y = cy + r * Math.sin(a)
-  return [Math.round(x * 1000) / 1000, Math.round(y * 1000) / 1000]
-}
 
-function petalPath(cx: number, cy: number, a0: number, a1: number, rO: number, rI: number) {
-  const [x1, y1] = polar(cx, cy, rO, a0)
-  const [x2, y2] = polar(cx, cy, rO, a1)
-  const [x3, y3] = polar(cx, cy, rI, a1)
-  const [x4, y4] = polar(cx, cy, rI, a0)
-  const largeArc = a1 - a0 > 180 ? 1 : 0
-  return `M ${x1} ${y1} A ${rO} ${rO} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${rI} ${rI} 0 ${largeArc} 0 ${x4} ${y4} Z`
-}
-
-/* ── Core SVG Icons ── */
-const ICONS = {
-  shield: "M0,-11 L9,-6 V3 C9,9 4,12 0,14 C-4,12 -9,9 -9,3 V-6 Z",
-  drop: "M0,-11 C6,-3 8,2 8,6 A8,8 0 1 1 -8,6 C-8,2 -6,-3 0,-11 Z",
-  link: "M-5,-5 A4,4 0 1 1 3,3 M5,5 A4,4 0 1 1 -3,-3 M-1,-1 L1,1",
-  leaf: "M-9,9 C-9,-4 4,-9 9,-9 C9,-4 4,9 -9,9 Z M-9,9 C-4,4 2,-2 9,-9",
-  star: "M0,-11 L2.8,-3.6 L10.5,-3.4 L4.3,1.6 L6.5,9 L0,4.6 L-6.5,9 L-4.3,1.6 L-10.5,-3.4 L-2.8,-3.6 Z",
-  people:
-    "M-6,3 A4,4 0 1 1 -6,-5 A4,4 0 0 1 -6,3 Z M6,3 A4,4 0 1 1 6,-5 A4,4 0 0 1 6,3 Z M-11,13 C-11,7 -2,7 -2,13 M2,13 C2,7 11,7 11,13",
-  tool: "M-8,8 L2,-2 M-2,-9 L9,2 L2,9 L-9,-2 Z M4,-4 L8,-8",
-}
-
-/* ── Compass Values Definition ── */
-const COMPASS_VALUES = [
-  { label: ["Integrity"], color: "#173021", dark: false, icon: "shield" },
-  { label: ["Purity"], color: "#1E3A2B", dark: false, icon: "drop" },
-  { label: ["Trust &", "Respect"], color: "#3C5C40", dark: false, icon: "link" },
-  { label: ["Sustainability"], color: "#5F7F55", dark: false, icon: "leaf" },
-  { label: ["Excellence"], color: "#C1622D", dark: false, icon: "star" },
-  { label: ["Community"], color: "#8DA77E", dark: true, icon: "people" },
-  { label: ["Craftsmanship"], color: "#B7C7A3", dark: true, icon: "tool" },
-]
-
-/* ── ValuesCompass Component ── */
-function ValuesCompass() {
-  const ref = useRef<HTMLDivElement>(null)
-  const isIntersecting = useInView(ref, { once: true, amount: 0.15 })
-  const [prefersReduced, setPrefersReduced] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    setMounted(true)
-  }, [])
-
-  const visible = mounted ? (prefersReduced ? true : isIntersecting) : false
-
-  const cx = 300
-  const cy = 300
-  const rOuter = 268
-  const rInner = 128
-  const gapDeg = 3.2
-  const n = COMPASS_VALUES.length
-  const sweep = 360 / n
-  const startAngle = -90 - sweep / 2
-
-  const petals = useMemo(
-    () =>
-      COMPASS_VALUES.map((v, i) => {
-        const a0 = startAngle + i * sweep + gapDeg / 2
-        const a1 = startAngle + (i + 1) * sweep - gapDeg / 2
-        const mid = (a0 + a1) / 2
-        const d = petalPath(cx, cy, a0, a1, rOuter, rInner)
-        const [ix, iy] = polar(cx, cy, (rOuter + rInner) / 2 - 34, mid)
-        const [lx, ly] = polar(cx, cy, (rOuter + rInner) / 2 + 30, mid)
-        return { ...v, d, ix, iy, lx, ly, mid, index: i }
-      }),
-    []
-  )
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: 560,
-      }}
-    >
-      <svg
-        viewBox="0 0 600 600"
-        style={{ width: "100%", maxWidth: 560, height: "auto", overflow: "visible" }}
-      >
-        {petals.map((p) => (
-          <g
-            key={p.label.join(" ")}
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible
-                ? "scale(1) rotate(0deg)"
-                : `scale(0.85) rotate(${p.mid > 0 ? 6 : -6}deg)`,
-              transformOrigin: "300px 300px",
-              transitionProperty: "opacity, transform",
-              transitionDuration: "0.6s",
-              transitionTimingFunction: "cubic-bezier(.22,.61,.36,1)",
-              transitionDelay: `${140 + p.index * 90}ms`,
-            }}
-          >
-            <path d={p.d} fill={p.color} />
-            <g
-              transform={`translate(${p.ix},${p.iy}) scale(1.15)`}
-              stroke={p.dark ? "#1E3A2B" : "#F5F1E6"}
-              fill="none"
-              strokeWidth="2.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d={ICONS[p.icon as keyof typeof ICONS]} />
-            </g>
-            <text
-              x={p.lx}
-              y={p.ly - (p.label.length - 1) * 7}
-              textAnchor="middle"
-              fontSize="13.5"
-              fontWeight="700"
-              fill={p.dark ? "#1E3A2B" : "#F5F1E6"}
-              fontFamily="var(--font-sans), sans-serif"
-            >
-              {p.label.map((line, li) => (
-                <tspan key={li} x={p.lx} dy={li === 0 ? 0 : 15}>
-                  {line}
-                </tspan>
-              ))}
-            </text>
-          </g>
-        ))}
-
-        <circle
-          cx={cx}
-          cy={cy}
-          r={rInner - 6}
-          fill="#F5F1E6"
-          stroke="rgba(30,58,43,0.18)"
-          strokeWidth="1.5"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "scale(1)" : "scale(0.7)",
-            transformOrigin: "300px 300px",
-            transition: "opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s",
-          }}
-        />
-        <g
-          transform={`translate(${cx},${cy - 28}) scale(1.6)`}
-          stroke="#5F7F55"
-          fill="none"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.4s" }}
-        >
-          <path d={ICONS.leaf} />
-        </g>
-        <text
-          x={cx}
-          y={cy + 8}
-          textAnchor="middle"
-          fontSize="19"
-          fontWeight="600"
-          fill="#1E3A2B"
-          fontFamily="var(--font-serif), serif"
-          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.45s" }}
-        >
-          Spizespices
-        </text>
-        <text
-          x={cx}
-          y={cy + 24}
-          textAnchor="middle"
-          fontSize="9.5"
-          letterSpacing="0.5"
-          fill="#4B5348"
-          fontFamily="var(--font-sans), sans-serif"
-          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.5s" }}
-        >
-          AGRIBUSINESS SOLUTIONS
-        </text>
-      </svg>
-    </div>
-  )
-}
 
 /* ── Hydration-Safe Asymmetric IconMark Badge ── */
 function IconMark({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -357,9 +170,30 @@ const REASONS = [
 
 /* ── Team Data ── */
 const DIRECTORS = [
-  { name: "Lijish Joshy", role: "Director", initials: "LJ", photo: null },
-  { name: "Dani J Joseph", role: "Director", initials: "DJ", photo: null },
-  { name: "Jubin Reji", role: "Director", initials: "JR", photo: null },
+  {
+    name: "Lijish Joshy",
+    role: "Co-Founder & Managing Director",
+    initials: "LJ",
+    photo: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263035/lijish_zwl6yo.jpg",
+    objectPosition: "center top",
+    imgTransform: undefined,
+  },
+  {
+    name: "Dani J Joseph",
+    role: "Co-Founder & Director – Operations",
+    initials: "DJ",
+    photo: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263034/dani_harkt2.jpg",
+    objectPosition: "center top",
+    imgTransform: undefined,
+  },
+  {
+    name: "Jubin Reji",
+    role: "Co-Founder & Director – Sales & Marketing",
+    initials: "JR",
+    photo: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263523/jubin_atzvup.png",
+    objectPosition: "center top",
+    imgTransform: undefined,
+  },
 ]
 
 /* ── ConnectIcon for Linkedin/Find Online ── */
@@ -387,7 +221,7 @@ function BudWatermark() {
 }
 
 /* ── Portrait placeholder/photo frame ── */
-function Portrait({ initials, photo }: { initials: string; photo?: string | null }) {
+function Portrait({ initials, photo, objectPosition = "center top", imgTransform }: { initials: string; photo?: string | null; objectPosition?: string; imgTransform?: string }) {
   return (
     <div
       style={{
@@ -399,7 +233,18 @@ function Portrait({ initials, photo }: { initials: string; photo?: string | null
       }}
     >
       {photo ? (
-        <img src={photo} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img
+          src={photo}
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition,
+            transform: imgTransform,
+            transformOrigin: "top center",
+          }}
+        />
       ) : (
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <BudWatermark />
@@ -422,7 +267,7 @@ function Portrait({ initials, photo }: { initials: string; photo?: string | null
 }
 
 /* ── DirectorCard component (Hydration Safe) ── */
-function DirectorCard({ name, role, initials, photo, delay }: { name: string; role: string; initials: string; photo?: string | null; delay: number }) {
+function DirectorCard({ name, role, initials, photo, objectPosition, imgTransform, delay }: { name: string; role: string; initials: string; photo?: string | null; objectPosition?: string; imgTransform?: string; delay: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useInView(ref, { once: true, amount: 0.2 })
   const [mounted, setMounted] = useState(false)
@@ -454,7 +299,7 @@ function DirectorCard({ name, role, initials, photo, delay }: { name: string; ro
         translate: hovered ? "0 -5px" : "0 0",
       }}
     >
-      <Portrait initials={initials} photo={photo} />
+      <Portrait initials={initials} photo={photo} objectPosition={objectPosition} imgTransform={imgTransform} />
 
       <div style={{ padding: "26px 28px 28px" }}>
         <h3
@@ -480,27 +325,6 @@ function DirectorCard({ name, role, initials, photo, delay }: { name: string; ro
         >
           {role}
         </p>
-
-        <div style={{ height: 1, background: "rgba(30,58,43,0.14)", marginBottom: 20 }} />
-
-        <a
-          href="#"
-          aria-label={`Connect with ${name}`}
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: "50%",
-            border: `1px solid ${hovered ? "#14261C" : "rgba(30,58,43,0.24)"}`,
-            background: hovered ? "#14261C" : "transparent",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textDecoration: "none",
-            transition: "background 0.25s ease, border-color 0.25s ease",
-          }}
-        >
-          <ConnectIcon hovered={hovered} />
-        </a>
       </div>
     </div>
   )
@@ -611,47 +435,16 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal delay={0.16}>
-              <p style={{ fontSize: 18, fontWeight: 600, color: "#22281F", margin: "0 0 18px", lineHeight: 1.5 }}>
-                Enhancing farm productivity &amp; quality — for the growers, and everyone downstream.
+              <p style={{ fontSize: 16.5, lineHeight: 1.8, color: "#4B5348", margin: "0 0 38px", maxWidth: 520 }}>
+                For four generations, our family has walked the same red-soil hills where cardamom,
+                pepper, and turmeric have grown since before memory. We harvest by hand, dry slowly
+                in open air, and grind only in small batches so nothing loses its oil to time. Every
+                jar that leaves our estate carries the exact aroma of the morning it was picked. We
+                work directly with forty smallholder farms across the Western Ghats, paying above
+                market rate for quality over yield. What reaches your kitchen has touched only two
+                hands — the farmer's, and yours. This is not an industry. It is a promise, kept one
+                harvest at a time.
               </p>
-            </Reveal>
-
-            <Reveal delay={0.22}>
-              <p style={{ fontSize: 15.5, lineHeight: 1.75, color: "#4B5348", maxWidth: 480, margin: "0 0 34px" }}>
-                Agriculture is the root of livelihood across India, so we built our agribusiness
-                solutions around it. By connecting farms to the right markets, demand, and buyers,
-                we keep farm returns steady while pushing productivity and quality forward, season
-                after season.
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.28}>
-              <div style={{ display: "flex", gap: 34, marginBottom: 38 }}>
-                {[
-                  ["7", "Core Values"],
-                  ["360°", "Farm-to-Buyer Chain"],
-                  ["1st", "Priority: Quality"],
-                ].map(([num, label]) => (
-                  <div key={label} style={{ borderLeft: "2px solid rgba(30,58,43,0.16)", paddingLeft: 14 }}>
-                    <b
-                      style={{
-                        display: "block",
-                        fontFamily: "var(--font-fraunces), serif",
-                        fontSize: 26,
-                        fontWeight: 600,
-                        color: "#14261C",
-                        lineHeight: 1,
-                        marginBottom: 4,
-                      }}
-                    >
-                      {num}
-                    </b>
-                    <span style={{ fontSize: 11.5, color: "#4B5348", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </Reveal>
 
             <Reveal delay={0.34}>
@@ -696,7 +489,20 @@ export default function AboutPage() {
             </Reveal>
           </div>
 
-          <ValuesCompass />
+          <Reveal
+            delay={0.24}
+            className="flex items-center justify-center w-full justify-self-center lg:justify-self-end"
+          >
+            <Image
+              src="https://res.cloudinary.com/xug0w0py/image/upload/v1784261652/about-img-removebg-preview_rimoe5.png"
+              alt="Spizespices estate farming heritage"
+              width={560}
+              height={560}
+              priority
+              className="w-full max-w-[520px] h-auto object-contain drop-shadow-2xl"
+              sizes="(max-width: 900px) 100vw, 520px"
+            />
+          </Reveal>
         </div>
 
         <style>{`

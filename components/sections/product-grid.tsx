@@ -32,9 +32,10 @@ const products = [
     imgPath: "products-nutmeg_xwntos",
   },
   {
-    name: "Spice Blends",
-    desc: "Our Artisanal Spice Blends are carefully crafted recipes that bring together the perfect ratios of whole spices. Ground to lock in freshness, they deliver a balanced, authentic flavor profile that simplifies premium Indian cooking.",
-    imgPath: "products-blends_uno4c4",
+    name: "Star Anise",
+    desc: "Star Anise is a bold, aromatic spice with a distinctive liquorice-like sweetness. Harvested from the star-shaped fruit of the Illicium verum tree, it brings deep warmth and complex fragrance to biryanis, curries, broths, and spiced teas.",
+    imgPath: null,
+    imgUrl: "https://res.cloudinary.com/xug0w0py/image/upload/v1784264980/star-anise_rlmhwi.png",
   },
 ]
 
@@ -63,17 +64,25 @@ export function ProductGrid() {
           {products.map((p, index) => (
             <Reveal key={p.name} delay={index * 0.06}>
               <div className="card hover-lift bg-white border border-[rgba(35,79,44,0.06)] rounded-[24px] p-5 flex flex-col h-full group">
-                
+
                 {/* Framed Image Container */}
                 <div className="relative aspect-[1.12] w-full overflow-hidden rounded-[20px] bg-[rgba(35,79,44,0.02)] border border-[rgba(35,79,44,0.04)]">
-                  <CldImage
-                    src={p.imgPath}
-                    alt={p.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                    sizes="(max-width: 1024px) 50vw, 30vw"
-                  />
+                  {p.imgUrl ? (
+                    <img
+                      src={p.imgUrl}
+                      alt={p.name}
+                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 p-4"
+                    />
+                  ) : (
+                    <CldImage
+                      src={p.imgPath!}
+                      alt={p.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                      sizes="(max-width: 1024px) 50vw, 30vw"
+                    />
+                  )}
                 </div>
 
                 {/* Info Text Area */}

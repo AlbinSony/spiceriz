@@ -8,172 +8,53 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ShoppingCart } from "lucide-react"
 
-const CATEGORIES = ["Cardamom", "Pepper", "Cloves", "Cinnamon", "Nutmeg", "Spice Blends"]
+const CATEGORIES = ["Cardamom", "Pepper", "Cloves", "Cinnamon", "Nutmeg", "Star Anise"]
+
+const CARDAMOM_IMG = "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj"
+const PEPPER_IMG = "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc"
+const CLOVE_IMG = "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv"
+const NUTMEG_IMG = "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos"
+const BLENDS_IMG = "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4"
 
 const PRODUCTS = [
-  // Cardamom Varieties
-  {
-    name: "Emperor Bold (8.5mm+)",
-    slug: "cardamom-emperor",
-    category: "Cardamom",
-    description: "Super bold premium green pods, peak essential oils",
-    price: "Rs. 2,200/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
-  },
-  {
-    name: "Empire Bold (8.0mm)",
-    slug: "cardamom-empire",
-    category: "Cardamom",
-    description: "Flagship export grade, uniform plump pods",
-    price: "Rs. 1,800/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
-  },
-  {
-    name: "Premium Bold (7.5mm)",
-    slug: "cardamom-premium",
-    category: "Cardamom",
-    description: "Excellent color and value for bulk blending",
-    price: "Rs. 1,600/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
-  },
-  {
-    name: "Medium Bold (7.0mm)",
-    slug: "cardamom-medium",
-    category: "Cardamom",
-    description: "Standard retail pack pods, sun-cured & clean",
-    price: "Rs. 1,400/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cardamom-pods_h4ukyj",
-  },
+  // ── Cardamom ──────────────────────────────────────────
+  { name: "8.5 mm Bold", slug: "cardamom-85-bold", category: "Cardamom", description: "Super premium large pods, peak aroma & essential oils", price: "On Request", image: CARDAMOM_IMG },
+  { name: "8 Bold Rejection", slug: "cardamom-8-rejection", category: "Cardamom", description: "8 mm grade — rejection sorted, suitable for processing", price: "On Request", image: CARDAMOM_IMG },
+  { name: "8 Bold Fruit", slug: "cardamom-8-fruit", category: "Cardamom", description: "8 mm fruit grade, naturally dried full pods", price: "On Request", image: CARDAMOM_IMG },
+  { name: "8 Bold", slug: "cardamom-8-bold", category: "Cardamom", description: "Classic bold 8 mm export grade, uniform plump pods", price: "On Request", image: CARDAMOM_IMG },
+  { name: "8 mm", slug: "cardamom-8mm", category: "Cardamom", description: "Standard 8 mm green cardamom, double cleaned", price: "On Request", image: CARDAMOM_IMG },
+  { name: "7.5–8 mm", slug: "cardamom-75-8mm", category: "Cardamom", description: "Mid-bold range, excellent colour and fragrance", price: "On Request", image: CARDAMOM_IMG },
+  { name: "7–8 mm Rejection", slug: "cardamom-7-8-rejection", category: "Cardamom", description: "7–8 mm rejection grade, ideal for oil extraction", price: "On Request", image: CARDAMOM_IMG },
+  { name: "7–8 mm Fruit", slug: "cardamom-7-8-fruit", category: "Cardamom", description: "7–8 mm fruit grade, naturally sun-dried pods", price: "On Request", image: CARDAMOM_IMG },
+  { name: "7–7.5 mm", slug: "cardamom-7-75mm", category: "Cardamom", description: "Consistent mid-grade pods for retail and blending", price: "On Request", image: CARDAMOM_IMG },
+  { name: "6–7 mm Rejection", slug: "cardamom-6-7-rejection", category: "Cardamom", description: "6–7 mm rejection sort, suitable for powder extraction", price: "On Request", image: CARDAMOM_IMG },
+  { name: "6–7 mm Fruit", slug: "cardamom-6-7-fruit", category: "Cardamom", description: "6–7 mm fruit grade, whole dried pods", price: "On Request", image: CARDAMOM_IMG },
+  { name: "6–7 mm", slug: "cardamom-6-7mm", category: "Cardamom", description: "Standard commercial grade, clean and sieved", price: "On Request", image: CARDAMOM_IMG },
+  { name: "5–6 mm Rejection", slug: "cardamom-5-6-rejection", category: "Cardamom", description: "5–6 mm rejection grade for processing use", price: "On Request", image: CARDAMOM_IMG },
+  { name: "5–6 mm Fruit", slug: "cardamom-5-6-fruit", category: "Cardamom", description: "5–6 mm fruit grade, small whole pods", price: "On Request", image: CARDAMOM_IMG },
+  { name: "5–6 mm", slug: "cardamom-5-6mm", category: "Cardamom", description: "Entry-grade whole pods, clean and sorted", price: "On Request", image: CARDAMOM_IMG },
 
-  // Pepper Varieties
-  {
-    name: "Garbled Black Pepper",
-    slug: "pepper-garbled",
-    category: "Pepper",
-    description: "Double-cleaned whole berries, dust-free Malabar grade",
-    price: "Rs. 680/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
-  },
-  {
-    name: "Ungarbled Pepper",
-    slug: "pepper-ungarbled",
-    category: "Pepper",
-    description: "Standard commercial berries for extractors and milling",
-    price: "Rs. 620/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
-  },
-  {
-    name: "Coarse Ground Pepper",
-    slug: "pepper-ground",
-    category: "Pepper",
-    description: "Freshly milled black pepper powder, high piperine kick",
-    price: "Rs. 580/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-black-pepper_e9ubjc",
-  },
+  // ── Black Pepper ──────────────────────────────────────
+  { name: "Bold", slug: "pepper-bold", category: "Pepper", description: "Premium large whole berries, dust-free Malabar grade", price: "On Request", image: PEPPER_IMG },
+  { name: "Mini Bold", slug: "pepper-mini-bold", category: "Pepper", description: "Smaller bold berries, consistent size, high piperine content", price: "On Request", image: PEPPER_IMG },
+  { name: "Bulk Clean", slug: "pepper-bulk-clean", category: "Pepper", description: "Commercial bulk grade, cleaned and sorted for export", price: "On Request", image: PEPPER_IMG },
 
-  // Cloves Varieties
-  {
-    name: "Handpicked Prime Cloves",
-    slug: "cloves-prime",
-    category: "Cloves",
-    description: "Select bold buds, high head presence and volatile oil",
-    price: "Rs. 950/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
-  },
-  {
-    name: "Standard Cleaned Cloves",
-    slug: "cloves-standard",
-    category: "Cloves",
-    description: "Cleaned commercial grade cloves, sorted and sieved",
-    price: "Rs. 850/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
-  },
-  {
-    name: "Fine Clove Powder",
-    slug: "cloves-powder",
-    category: "Cloves",
-    description: "100% pure cool-ground clove powder, intense flavor",
-    price: "Rs. 780/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-clove_g1oexv",
-  },
+  // ── Cloves ────────────────────────────────────────────
+  { name: "Normal", slug: "cloves-normal", category: "Cloves", description: "Standard cleaned whole cloves, sorted and sieved", price: "On Request", image: CLOVE_IMG },
+  { name: "Export Quality", slug: "cloves-export", category: "Cloves", description: "Select bold buds, high head presence and volatile oil, export certified", price: "On Request", image: CLOVE_IMG },
 
-  // Cinnamon Varieties
-  {
-    name: "Ceylon Cinnamon Quills",
-    slug: "cinnamon-ceylon",
-    category: "Cinnamon",
-    description: "Sweet, soft quills with multiple thin layers",
-    price: "Rs. 820/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
-  },
-  {
-    name: "Cassia Cinnamon Quills",
-    slug: "cinnamon-cassia",
-    category: "Cinnamon",
-    description: "Thick hard rolls with strong spicy aroma and red hue",
-    price: "Rs. 720/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
-  },
-  {
-    name: "Pure Cinnamon Powder",
-    slug: "cinnamon-powder",
-    category: "Cinnamon",
-    description: "Freshly ground bark powder, sifted and sorted",
-    price: "Rs. 650/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-cinnamon_lajfu3",
-  },
+  // ── Cinnamon ──────────────────────────────────────────
+  { name: "Cinnamon Bark", slug: "cinnamon-bark", category: "Cinnamon", description: "Raw dried cinnamon bark pieces, rich and fragrant", price: "On Request", image: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263902/bark-removebg-preview_ozdz3q.png" },
+  { name: "Ceylon Cinnamon", slug: "cinnamon-ceylon", category: "Cinnamon", description: "True cinnamon — sweet, soft quills with thin multiple layers", price: "On Request", image: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263901/ceylon-removebg-preview_qz1prf.png" },
+  { name: "Cassia Cinnamon", slug: "cinnamon-cassia", category: "Cinnamon", description: "Thick hard rolls with strong spicy aroma and deep red hue", price: "On Request", image: "https://res.cloudinary.com/xug0w0py/image/upload/v1784263900/cassia-removebg-preview_oxh2v5.png" },
 
-  // Nutmeg Varieties
-  {
-    name: "Whole Nutmeg (No Shell)",
-    slug: "nutmeg-no-shell",
-    category: "Nutmeg",
-    description: "Hand-graded whole nutmeg seeds, high volatile oil density",
-    price: "Rs. 1,150/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
-  },
-  {
-    name: "Whole Nutmeg (With Shell)",
-    slug: "nutmeg-shell",
-    category: "Nutmeg",
-    description: "Natural shell-on nutmeg seeds, extended freshness",
-    price: "Rs. 950/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
-  },
-  {
-    name: "Premium Red Mace (Javitri)",
-    slug: "nutmeg-mace",
-    category: "Nutmeg",
-    description: "Vibrant red-orange dried arils, sweet fragrant scent",
-    price: "Rs. 1,850/kg",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-nutmeg_xwntos",
-  },
+  // ── Nutmeg ────────────────────────────────────────────
+  { name: "Whole Nutmeg (No Shell)", slug: "nutmeg-no-shell", category: "Nutmeg", description: "Hand-graded whole nutmeg seeds, high volatile oil density", price: "On Request", image: NUTMEG_IMG },
+  { name: "Whole Nutmeg (With Shell)", slug: "nutmeg-shell", category: "Nutmeg", description: "Natural shell-on nutmeg seeds, extended freshness", price: "On Request", image: NUTMEG_IMG },
+  { name: "Premium Red Mace (Javitri)", slug: "nutmeg-mace", category: "Nutmeg", description: "Vibrant red-orange dried arils, sweet fragrant scent", price: "On Request", image: NUTMEG_IMG },
 
-  // Spice Blends Varieties
-  {
-    name: "Garam Masala Blend",
-    slug: "blends-garam",
-    category: "Spice Blends",
-    description: "Classic warm blend with green cardamom, pepper, cloves",
-    price: "Rs. 550/box",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
-  },
-  {
-    name: "Kerala Curry Masala",
-    slug: "blends-curry",
-    category: "Spice Blends",
-    description: "Robust blend with turmeric, coriander, fennel, pepper",
-    price: "Rs. 450/box",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
-  },
-  {
-    name: "Custom Formulations",
-    slug: "blends-custom",
-    category: "Spice Blends",
-    description: "Private label spice mixtures tailored to your sensory profile",
-    price: "Rs. 650/box",
-    image: "https://res.cloudinary.com/xug0w0py/image/upload/f_auto,q_auto/v1/products-blends_uno4c4",
-  }
+  // ── Star Anise ───────────────────────────────────────
+  { name: "Star Anise", slug: "star-anise", category: "Star Anise", description: "Whole dried star-shaped pods, bold liquorice aroma for curries, biryanis & spiced teas", price: "On Request", image: "https://res.cloudinary.com/xug0w0py/image/upload/v1784264980/star-anise_rlmhwi.png" },
 ]
 
 function CatParamObserver({ onCatChange }: { onCatChange: (cat: string) => void }) {
@@ -220,7 +101,7 @@ export default function ProductsPage() {
       {/* Category Tabs & Filter Controls */}
       <section className="border-b border-neutral-100 pb-4">
         <div className="container max-w-6xl mx-auto px-4">
-          
+
           {/* Desktop controls (Single Horizontal Line) */}
           <div className="hidden sm:flex items-center justify-center py-2">
             <div className="flex items-center gap-6">
@@ -228,11 +109,10 @@ export default function ProductsPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveTab(cat)}
-                  className={`text-[15px] font-semibold transition-all pb-1.5 border-b-2 whitespace-nowrap ${
-                    activeTab === cat
+                  className={`text-[15px] font-semibold transition-all pb-1.5 border-b-2 whitespace-nowrap ${activeTab === cat
                       ? "border-neutral-900 text-neutral-950"
                       : "border-transparent text-neutral-400 hover:text-neutral-600"
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -250,11 +130,10 @@ export default function ProductsPage() {
                   <button
                     key={cat}
                     onClick={() => setActiveTab(mapCat)}
-                    className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${
-                      activeTab === mapCat
+                    className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${activeTab === mapCat
                         ? "bg-neutral-900 border-neutral-900 text-white"
                         : "bg-white border-neutral-200 text-neutral-500"
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>
@@ -262,17 +141,16 @@ export default function ProductsPage() {
               })}
             </div>
 
-            {/* 2nd Line: Cinnamon, Nutmeg, Spice Blends */}
+            {/* 2nd Line: Cinnamon, Nutmeg, Star Anise */}
             <div className="grid grid-cols-3 gap-1.5">
-              {["Cinnamon", "Nutmeg", "Spice Blends"].map((cat) => (
+              {["Cinnamon", "Nutmeg", "Star Anise"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveTab(cat)}
-                  className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${
-                    activeTab === cat
+                  className={`text-[12px] font-bold transition-all py-1.5 px-1 border rounded-[6px] text-center truncate ${activeTab === cat
                       ? "bg-neutral-900 border-neutral-900 text-white"
                       : "bg-white border-neutral-200 text-neutral-500"
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -290,7 +168,7 @@ export default function ProductsPage() {
             {filteredProducts.map((prod) => {
               const message = encodeURIComponent(`Hi, I am interested in purchasing ${prod.name}.`)
               return (
-                <a 
+                <a
                   href={`https://wa.me/918606771827?text=${message}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -304,7 +182,7 @@ export default function ProductsPage() {
                         src={prod.image}
                         alt={prod.name}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className={`transition-transform duration-500 group-hover:scale-105 ${(prod.category === "Cinnamon" || prod.category === "Star Anise") ? "object-contain p-4" : "object-cover"}`}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 330px"
                       />
                     </div>
