@@ -15,6 +15,31 @@ export const metadata: Metadata = {
 export default function BlogIndexPage() {
   return (
     <main className="overflow-x-hidden bg-white min-h-screen flex flex-col justify-between">
+      {/* Page Specific Structured Data (BreadcrumbList) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.spizespices.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://www.spizespices.com/blog"
+              }
+            ]
+          })
+        }}
+      />
+
       <SiteHeader />
 
       <section className="section-shell py-12 md:py-16">

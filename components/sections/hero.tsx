@@ -15,7 +15,7 @@ export function Hero() {
         <div className="absolute inset-0 hidden md:block">
           <CldImage
             src="herobgdesktop_h8rng6"
-            alt="Premium Indian spices presentation"
+            alt="Premium Idukki green cardamom and Kerala spices exported worldwide"
             fill
             priority
             fetchPriority="high"
@@ -29,7 +29,7 @@ export function Hero() {
         <div className="absolute inset-0 md:hidden">
           <CldImage
             src="herobgmobile_ttalhc"
-            alt="Premium Indian spices presentation"
+            alt="Premium Idukki green cardamom and Kerala spices exported worldwide"
             fill
             priority
             fetchPriority="high"

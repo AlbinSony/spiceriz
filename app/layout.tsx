@@ -41,11 +41,11 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.spizespices.com"),
   title: {
-    default: "Spizespices Pvt Ltd | Pure Indian Spices",
+    default: "Premium Cardamom & Kerala Spice Exporter | Spizespices Pvt Ltd",
     template: "%s | Spizespices Pvt Ltd",
   },
   description:
-    "Premium Idukki cardamom and Kerala spices. Direct from farms. Export-ready with certifications. Wholesale (B2B) and retail (B2C).",
+    "Buy premium Idukki cardamom, black pepper, cloves, cinnamon and authentic Kerala spices directly from trusted farmers. Export-quality spices for wholesale and retail worldwide.",
   keywords: [
     "Idukki cardamom",
     "Kerala spices",
@@ -64,9 +64,9 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Spizespices Pvt Ltd | Pure Indian Spices",
+    title: "Premium Cardamom & Kerala Spice Exporter | Spizespices Pvt Ltd",
     description:
-      "Premium Idukki cardamom and Kerala spices for B2B & B2C. Export-ready, certified quality from Kerala.",
+      "Buy premium Idukki cardamom, black pepper, cloves, cinnamon and authentic Kerala spices directly from trusted farmers. Export-quality spices for wholesale and retail worldwide.",
     url: "/",
     siteName: "Spizespices Pvt Ltd",
     images: [{ url: "/og-image.jpg" }],
@@ -76,8 +76,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   twitter: {
     card: "summary_large_image",
-    title: "Spizespices Pvt Ltd | Pure Indian Spices",
-    description: "Premium Idukki cardamom and Kerala spices. Direct from farms. Export-ready with certifications.",
+    title: "Premium Cardamom & Kerala Spice Exporter | Spizespices Pvt Ltd",
+    description: "Buy premium Idukki cardamom, black pepper, cloves, cinnamon and authentic Kerala spices directly from trusted farmers.",
     images: ["/og-image.jpg"],
   }
 }

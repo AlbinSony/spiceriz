@@ -313,12 +313,12 @@ export default async function BlogPostPage({ params }: Props) {
                   <h5 className="font-semibold text-neutral-950 mb-3">Product Portfolio</h5>
                   <ul className="space-y-2.5 text-[13px] text-neutral-600 font-medium">
                     <li>
-                      <Link href="/products/cardamom" className="hover:underline hover:text-neutral-950 block">
+                      <Link href="/products?cat=Cardamom" className="hover:underline hover:text-neutral-950 block">
                         Premium Idukki Green Cardamom
                       </Link>
                     </li>
                     <li>
-                      <Link href="/products/black-pepper" className="hover:underline hover:text-neutral-950 block">
+                      <Link href="/products?cat=Pepper" className="hover:underline hover:text-neutral-950 block">
                         Bold Malabar Black Pepper
                       </Link>
                     </li>
@@ -327,6 +327,9 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="mt-6 pt-6 border-t border-neutral-100">
                   <h5 className="font-semibold text-neutral-950 mb-2">Corporate Sourcing</h5>
                   <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs font-semibold text-neutral-500">
+                    <Link href="/" className="hover:underline hover:text-neutral-900">
+                      Homepage
+                    </Link>
                     <Link href="/about" className="hover:underline hover:text-neutral-900">
                       About Spize Spices
                     </Link>
