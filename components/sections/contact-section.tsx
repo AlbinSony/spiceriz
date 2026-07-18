@@ -32,8 +32,8 @@ export function ContactSection() {
             </li>
             <li>
               Email:{" "}
-              <a className="underline" href="mailto:hello@spizespicespvtltd.com">
-                hello@spizespicespvtltd.com
+              <a className="underline" href="mailto:spizespices.ecom@gmail.com">
+                spizespices.ecom@gmail.com
               </a>
             </li>
           </ul>

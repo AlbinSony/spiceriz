@@ -233,7 +233,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         type: "table",
-        headers: ["Grade", "Approximate Size", "Common Uses"],
+        headers: ["Grade", "Used Markets", "Common Uses"],
         rows: [
           ["4–5 mm", "Economy", "Spice powders, tea blends"],
           ["6 mm", "Everyday cooking", "Home retail"],
@@ -300,11 +300,11 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: "list",
         items: [
-          "✅ Uniform green colour with a clean natural surface",
-          "✅ Strong natural floral-citrus aroma when slightly crushed",
-          "✅ Well-filled pods containing dark brown or black seeds",
-          "✅ Minimal broken capsules or yellowed skins",
-          "✅ Clean, moisture-proof packaging with clearly labelled origin"
+          "Uniform green colour with a clean natural surface",
+          "Strong natural floral-citrus aroma when slightly crushed",
+          "Well-filled pods containing dark brown or black seeds",
+          "Minimal broken capsules or yellowed skins",
+          "Clean, moisture-proof packaging with clearly labelled origin"
         ]
       },
       {

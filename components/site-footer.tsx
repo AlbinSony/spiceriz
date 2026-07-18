@@ -58,7 +58,7 @@ export function SiteFooter() {
               <Phone className="h-4 w-4" /> <a href="tel:+918606771827">+91 86067 71827</a>
             </li>
             <li className="flex items-center gap-2 text-foreground/85">
-              <Mail className="h-4 w-4" /> <a href="mailto:hello@spizespicespvtltd.com">hello@spizespicespvtltd.com</a>
+              <Mail className="h-4 w-4" /> <a href="mailto:spizespices.ecom@gmail.com">spizespices.ecom@gmail.com</a>
             </li>
             <li className="flex items-center gap-2 text-foreground/85">
               <MapPin className="h-4 w-4" /> Idukki, Kerala, India

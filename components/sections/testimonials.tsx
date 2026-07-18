@@ -11,15 +11,15 @@ const testimonials = [
   },
   {
     quote:
-      "Spize Spices has been an invaluable partner in my agribusiness journey. Their agri-inputs have significantly improved the productivity and quality of my crops. The products are of top-notch quality, and I have witnessed remarkable results since incorporating them into my farming practices.",
+      "Spize Spices has been an invaluable partner in our spice sourcing journey. Their premium green cardamom and bold black pepper are of top-notch quality, offering unmatched aroma and essential oil content. We have witnessed a remarkable response from our clients since we started sourcing from their estate.",
     name: "Suresh D.",
-    role: "Farmer, Karnataka",
+    role: "Spice Distributor, Karnataka",
   },
   {
     quote:
-      "Spize Spices' agribusiness solutions have truly transformed my farming operations. Their cutting-edge technology and expertise have helped me optimize my crop management practices, resulting in higher yields and improved profitability.",
+      "Spize Spices' premium grading and sorting have truly transformed our wholesale spice operations. Their color sorting and sizing expertise have helped us supply the most uniform, aromatic, and premium spices to our buyers, resulting in improved profitability.",
     name: "Rajesh M.",
-    role: "Farmer, Kerala",
+    role: "Wholesale Buyer, Kerala",
   },
 ]
 

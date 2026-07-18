@@ -120,7 +120,7 @@ export default function RootLayout({
                 "addressRegion": "Kerala",
                 "addressCountry": "IN"
               },
-              "email": "hello@spizespicespvtltd.com"
+              "email": "spizespices.ecom@gmail.com"
             })
           }}
         />
@@ -133,7 +133,7 @@ export default function RootLayout({
               "name": "Spizespices Pvt Ltd",
               "image": "https://www.spizespices.com/og-image.jpg",
               "telephone": "+91-86067-71827",
-              "email": "hello@spizespicespvtltd.com",
+              "email": "spizespices.ecom@gmail.com",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Idukki",

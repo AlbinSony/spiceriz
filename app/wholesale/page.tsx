@@ -52,10 +52,10 @@ export default function WholesalePage() {
               },
               {
                 "@type": "Question",
-                "name": "Do you provide FSSAI and ISO certified spices?",
+                "name": "What certifications are available for your spices?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes, Spizespices Pvt Ltd supplies FSSAI, ISO, and Spices Board India certified spices for export and domestic wholesale."
+                  "text": "Spizespices Pvt Ltd supplies FSSAI and Spices Board India certified spices for export and domestic wholesale."
                 }
               },
               {
@@ -165,7 +165,7 @@ export default function WholesalePage() {
 
             <details className="group border border-[rgba(35,79,44,0.08)] rounded-[16px] bg-[#fbf8f2] p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all duration-300 open:bg-[#f7f4ec]">
               <summary className="flex items-center justify-between font-serif text-[17px] font-semibold text-[#173f23] select-none">
-                <span>Do you provide FSSAI and ISO certified spices?</span>
+                <span>What certifications are available for your spices?</span>
                 <span className="ml-1.5 flex-shrink-0 rounded-full bg-[#FAF8F2] p-1.5 text-[#5b8c51] group-open:rotate-180 transition-transform duration-300">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -173,7 +173,7 @@ export default function WholesalePage() {
                 </span>
               </summary>
               <p className="mt-3 text-sm text-[#203020]/75 leading-relaxed font-medium pl-1">
-                Yes, Spizespices Pvt Ltd supplies FSSAI, ISO, and Spices Board India certified spices for export and domestic wholesale.
+                Spizespices Pvt Ltd supplies FSSAI and Spices Board India certified spices for export and domestic wholesale.
               </p>
             </details>
 

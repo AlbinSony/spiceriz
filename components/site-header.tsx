@@ -677,7 +677,7 @@ export function SiteHeader() {
                 </span>
                 <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 9 }}>
                   <MailIcon />
-                  <span style={{ fontSize: 13.5, color: "rgba(245,241,230,0.85)" }}>hello@spizespicespvtltd.com</span>
+                  <span style={{ fontSize: 13.5, color: "rgba(245,241,230,0.85)" }}>spizespices.ecom@gmail.com</span>
                 </div>
                 <a
                   href="tel:+918606771827"
