@@ -436,7 +436,11 @@ export default function AboutPage() {
 
             <Reveal delay={0.16}>
               <p style={{ fontSize: 16.5, lineHeight: 1.8, color: "#4B5348", margin: "0 0 38px", maxWidth: 520 }}>
-                Our story began in the mist-covered hills of Idukki in the 1960s, when our grandfather arrived with little more than determination and a dream. Through years of perseverance, he transformed untamed land into thriving spice plantations, discovering the true potential of pepper and cardamom. Today, as the third generation, we proudly carry this legacy forward. Alongside the spices grown on our own plantations, we carefully source premium cardamom from trusted local farmers who share our commitment to quality. Every harvest reflects our heritage, every spice tells a story, and every pack brings the authentic taste of Idukki to your kitchen.
+                Our journey starts from the 1960s, in the mist-covered hills of Idukki, where our grandfather arrived with a strong  determination and a mind full of dream. Through years of perseverance, he transformed the untamed land into thriving spice plantations, discovering the true potential of coffee,pepper and cardamom. Today, as the third generation, we proudly carry this legacy forward.
+                <br /><br />
+                Alongside the spices grown on our own
+                <br />
+                plantations, we carefully source premium cardamom from trusted local farmers who possess the same commitment in quality. Every harvest reflects our heritage, every spice tells a story, and every pack brings the authentic taste of Idukki to the kitchens...
               </p>
             </Reveal>
 
